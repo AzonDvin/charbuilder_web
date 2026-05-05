@@ -1,6 +1,6 @@
 # Savage Worlds Star Wars Character Builder
 
-You can use a **desktop wizard** (Tkinter) or a **local web app** (FastAPI) to create **Savage Worlds** Star Wars characters. Game data lives in JSON; exports are written as `.json` (and optional HTML/text sheets).
+You can use a **desktop wizard** (Tkinter) or a **local web app** (FastAPI) to create **Savage Worlds** Star Wars characters. Game data lives in JSON (species, hindrances, edges, gear, **careers**, and so on); exports are written as `.json` (and optional HTML/text sheets).
 
 The web UI is a **single top-down page** (no step-by-step wizard). It is intended for **local use** (default bind `127.0.0.1`) with **no authentication**.
 
@@ -8,7 +8,7 @@ The web UI is a **single top-down page** (no step-by-step wizard). It is intende
 
 The character builder walks through this process in order:
 
-1. **Concept & Species** - Set character name and species.
+1. **Concept, species & career** - Set character name, species, and **career** (from `data/careers.json`). Careers are free at creation; all benefits appear on the exported sheet.
 2. **Hindrances** - Select up to 4 hindrance points (Major = 2, Minor = 1).
 3. **Attributes** - Spend base attribute points plus any converted hindrance points.
 4. **Skills** - Spend base skill points plus any converted hindrance points.
@@ -21,6 +21,7 @@ The character builder walks through this process in order:
 - Desktop: guided multi-step UI flow with Previous/Next navigation.
 - Web: one-page builder with live preview and saves into the `output/` folder on the host machine.
 - Species-aware setup (including Human free-edge handling).
+- **Careers** (web and desktop concept step): optional job packages with described benefits; full benefit text appears in live preview, JSON export, and print/text sheets.
 - Hindrance point tracking across attributes, skills, and edges.
 - Edge requirement checks for rank, attributes, and skills.
 - Equipment shop with buy/sell and live credit recalculation.
@@ -64,6 +65,7 @@ Then open **http://127.0.0.1:8000** in your browser. Use **Save to `output/`** t
 - `data.py` - JSON data loader and data grouping.
 - `data/` - Source game content:
   - `attributes.json`
+  - `careers.json` — career name, description, and benefit list (shown on character sheets)
   - `edges.json`
   - `gear.json`
   - `hindrances.json`
@@ -77,6 +79,7 @@ Most rules content is loaded from JSON files in `data/`. To expand options:
 - Add or edit edges in `data/edges.json`
 - Add or edit hindrances in `data/hindrances.json`
 - Add or edit species in `data/species.json`
+- Add or edit careers in `data/careers.json` (each entry: `desc` string and `benefits` array of `{ "title", "type", "effect" }` objects)
 - Add or edit equipment in `data/gear.json`
 - Update skills/attributes in `data/attributes.json`
 
@@ -84,7 +87,7 @@ Most rules content is loaded from JSON files in `data/`. To expand options:
 
 When the build is complete, the app saves a character JSON that includes:
 
-- Character identity and species data
+- Character identity, species data, and **`career`** (career name; sheets expand full benefits from `careers.json`)
 - Attributes and skills
 - Hindrances and edges
 - Equipment and credits
@@ -110,11 +113,12 @@ After you have a character `.json` file, you can turn it into something easy to 
 
 3. **Browser print to PDF** — Open the generated HTML, use the browser’s **Print** dialog, and choose **Save as PDF** if you want a PDF without extra Python libraries.
 
-4. **Bring your own template** — The JSON is a simple structure (`name`, `species`, `attributes`, `skills`, `edges`, etc.). You can import it into a word processor, Obsidian, or another tool and format it however you like.
+4. **Bring your own template** — The JSON is a simple structure (`name`, `species`, `career`, `attributes`, `skills`, `edges`, etc.). You can import it into a word processor, Obsidian, or another tool and format it however you like.
 
 The logic for the text/HTML sheet lives in `character_sheet.py` (`character_sheet_text`, `character_sheet_html`).
 
 ## Notes
 
+- Web **preview** and **save** require both **species** and **career** to match entries in `data/species.json` and `data/careers.json`. Older exports without `career` need a career selected before validation passes.
 - Existing docs include race balancing guidance in `docs/race_building_rules.md`.
-- `requirements.txt` is informational; the app currently relies on Python standard library modules.
+- `requirements.txt` lists **FastAPI**, **uvicorn**, and **pydantic** for the web UI; the desktop wizard uses the standard library only (plus the same project modules).
