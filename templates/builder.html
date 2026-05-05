@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Savage Worlds Star Wars — Character Builder</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #161b22;
+      --text: #e8eaed;
+      --muted: #9aa0a6;
+      --accent: #4a9eff;
+      --border: #2d323c;
+      --warn: #f0a030;
+      --bad: #e05555;
+      --good: #3ecf8e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 15px;
+    }
+    header {
+      background: linear-gradient(180deg, #1a1a2e 0%, #12141a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.92rem; }
+    .page-wrap {
+      display: grid;
+      grid-template-columns: minmax(17rem, 19rem) minmax(0, 1fr);
+      gap: 1rem 1.25rem;
+      align-items: start;
+      max-width: 92rem;
+      margin: 0 auto;
+      padding: 0 1rem 2.5rem;
+    }
+    @media (max-width: 900px) {
+      .page-wrap {
+        grid-template-columns: 1fr;
+      }
+      #live-panel {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    #live-panel {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      max-height: 100vh;
+      overflow-y: auto;
+      padding: 0.75rem 0 1rem;
+      z-index: 5;
+    }
+    .live-panel-inner {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    #live-panel h2 {
+      margin: 0 0 0.65rem;
+      font-size: 0.95rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    #live-validation {
+      font-size: 0.88rem;
+      line-height: 1.4;
+      margin-bottom: 0.85rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #0d0f14;
+      min-height: 2.5rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    #live-validation.ok {
+      border-color: var(--good);
+      background: #15251c;
+      color: #b8f5d0;
+    }
+    #live-validation.bad {
+      border-color: var(--warn);
+      background: #2a1f18;
+      color: #ffd6a8;
+    }
+    .live-totals { margin: 0; font-size: 0.82rem; }
+    .live-totals .t-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem 0.75rem;
+      padding: 0.28rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .live-totals .t-row:last-child { border-bottom: none; }
+    .live-totals .t-row.t-explain {
+      grid-template-columns: 1fr;
+      padding: 0.4rem 0 0.5rem;
+    }
+    .live-totals .t-explain-text {
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.4;
+    }
+    .live-totals .t-label { color: var(--muted); }
+    .live-totals .t-val { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .live-totals .t-val.neg { color: var(--bad); font-weight: 600; }
+    .live-totals .t-section {
+      margin-top: 0.65rem;
+      padding-top: 0.45rem;
+      border-top: 1px solid var(--accent);
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    main {
+      max-width: 58rem;
+      margin: 0;
+      padding: 1rem 0 3rem;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+    section h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.05rem;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+    label { display: block; margin: 0.35rem 0 0.2rem; color: var(--muted); font-size: 0.88rem; }
+    input[type="text"], select {
+      width: 100%;
+      max-width: 28rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #0d0f14;
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1.25rem; }
+    @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+    .attr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+      gap: 0.5rem 1rem;
+    }
+    .attr-grid label { margin-top: 0; }
+    .scroll-checks {
+      max-height: 14rem;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.65rem;
+      background: #0d0f14;
+    }
+    .scroll-checks label { display: flex; align-items: flex-start; gap: 0.45rem; margin: 0.25rem 0; cursor: pointer; color: var(--text); font-size: 0.9rem; }
+    .scroll-checks input { margin-top: 0.2rem; }
+    #hindrance-checks.hindrance-scroll { max-height: 22rem; }
+    #hindrance-checks label.hindrance-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin: 0.35rem 0;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    #hindrance-checks label.hindrance-entry:last-of-type { border-bottom: none; padding-bottom: 0; }
+    .hindrance-entry .hindrance-text { flex: 1; min-width: 0; }
+    .hindrance-entry .hindrance-title { display: block; font-weight: 600; margin-bottom: 0.15rem; }
+    .hindrance-entry .hindrance-desc {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.38;
+    }
+    #edge-checks.edge-scroll { max-height: 22rem; }
+    #edge-checks label.edge-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin: 0.35rem 0;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    #edge-checks label.edge-entry:last-of-type { border-bottom: none; padding-bottom: 0; }
+    .edge-entry .edge-text { flex: 1; min-width: 0; }
+    .edge-entry .edge-title { display: block; font-weight: 600; margin-bottom: 0.15rem; }
+    .edge-entry .edge-req {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
+      margin-bottom: 0.2rem;
+      font-style: italic;
+    }
+    .edge-entry .edge-desc {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.38;
+    }
+    .human-free-wrap { margin: 0 0 0.75rem; }
+    .human-free-wrap[hidden] { display: none !important; }
+    .muted { color: var(--muted); font-size: 0.88rem; }
+    .species-blurb { margin-top: 0.5rem; font-size: 0.88rem; color: var(--muted); white-space: pre-wrap; }
+    table.skills { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.skills th, table.skills td { border-bottom: 1px solid var(--border); padding: 0.35rem 0.4rem; text-align: left; }
+    table.skills th { color: var(--muted); font-weight: 600; }
+    table.skills select { max-width: 7rem; font-size: 0.88rem; padding: 0.25rem; }
+    pre#sheet {
+      margin: 0;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.78rem;
+      line-height: 1.25;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 22rem;
+      overflow: auto;
+      background: #0d0f14;
+      padding: 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; margin-top: 0.75rem; }
+    button {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: #1c2a3d;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+    button:hover { background: #24344d; }
+    button.primary { background: var(--accent); color: #0a0e14; border-color: var(--accent); font-weight: 600; }
+    button.primary:hover { filter: brightness(1.08); }
+    .checkbox-row { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.5rem 0; font-size: 0.9rem; color: var(--muted); }
+    .checkbox-row label { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0; cursor: pointer; color: var(--muted); }
+    #status { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.5; }
+    #status a { color: var(--accent); text-decoration: underline; word-break: break-all; }
+    #status a:hover { filter: brightness(1.1); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SAVAGE WORLDS STAR WARS</h1>
+    <p>Character builder — single page (local FastAPI). Exports are written to the <code>output</code> folder next to the app.</p>
+  </header>
+  <div class="page-wrap">
+    <aside id="live-panel" aria-label="Running totals and validation">
+      <div class="live-panel-inner">
+        <h2>Live totals &amp; validation</h2>
+        <div id="live-validation" role="status">Loading…</div>
+        <div id="live-totals" class="live-totals"></div>
+      </div>
+    </aside>
+    <div class="form-column">
+  <main>
+
+    <section id="sec-concept">
+      <h2>Concept &amp; species</h2>
+      <div class="grid-2">
+        <div>
+          <label for="char-name">Character name</label>
+          <input type="text" id="char-name" autocomplete="off" placeholder="Name">
+        </div>
+        <div>
+          <label for="char-species">Species</label>
+          <select id="char-species"></select>
+          <div id="species-blurb" class="species-blurb"></div>
+          <label for="char-career" style="margin-top:0.75rem;">Career</label>
+          <select id="char-career"></select>
+          <div id="career-blurb" class="species-blurb"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-hindrances">
+      <h2>Hindrances</h2>
+      <p class="muted">Up to 4 hindrance points (Major = 2, Minor = 1). Selections feed attributes, skills, and edges.</p>
+      <div id="hindrance-checks" class="scroll-checks hindrance-scroll"></div>
+      <p class="muted" id="hindrance-pts-label"></p>
+    </section>
+
+    <section id="sec-attributes">
+      <h2>Attributes</h2>
+      <p class="muted">Each attribute starts at d4. You have 5 die steps; extra steps cost 2 hindrance points each.</p>
+      <div id="attr-fields" class="attr-grid"></div>
+    </section>
+
+    <section id="sec-skills">
+      <h2>Skills</h2>
+      <p class="muted">Skill budget is <strong>one</strong> pool: 15 creation points plus hindrance points left after attributes. Raising skills spends from that pool only. Any skill cost over 15 is also <em>tagged</em> to hindrance so the panel can show how much hindrance is still free for Edges—it is not a second charge on top of “skill budget remaining.”</p>
+      <div style="overflow-x:auto;">
+        <table class="skills" id="skills-table"><thead><tr><th>Skill</th><th>Linked</th><th>Die</th></tr></thead><tbody></tbody></table>
+      </div>
+    </section>
+
+    <section id="sec-edges">
+      <h2>Edges</h2>
+      <p class="muted">Each edge costs 2 hindrance points after skills. If your species is Human, a free-edge choice appears below.</p>
+      <div id="human-free-wrap" class="human-free-wrap" hidden>
+        <label for="human-free-edge">Human free edge</label>
+        <select id="human-free-edge"></select>
+      </div>
+      <label class="muted" style="margin-top:0.75rem;">Edges</label>
+      <div id="edge-checks" class="scroll-checks edge-scroll"></div>
+    </section>
+
+    <section id="sec-gear">
+      <h2>Weapons, armor &amp; gear</h2>
+      <p class="muted">Credits depend on hindrances (e.g. Poverty). Purchases cannot exceed starting credits.</p>
+      <label>Weapons</label>
+      <div id="weapon-checks" class="scroll-checks"></div>
+      <label style="margin-top:0.75rem;">Armor (one suit)</label>
+      <select id="armor-select"></select>
+      <label style="margin-top:0.75rem;">Gear</label>
+      <div id="gear-checks" class="scroll-checks"></div>
+    </section>
+
+    <section id="sec-summary">
+      <h2>Summary &amp; save</h2>
+      <pre id="sheet"></pre>
+      <div class="checkbox-row">
+        <label><input type="checkbox" id="save-json" checked> Save JSON</label>
+        <label><input type="checkbox" id="save-html" checked> Save printable HTML</label>
+        <label><input type="checkbox" id="save-txt" checked> Save text sheet</label>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="btn-save">Save to <code>output/</code></button>
+      </div>
+      <div id="status" class="save-status"></div>
+    </section>
+  </main>
+    </div>
+  </div>
+  <script src="/static/builder.js"></script>
+</body>
+</html>

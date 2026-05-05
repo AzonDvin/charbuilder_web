@@ -1,0 +1,6 @@
+# Savage Worlds Star Wars Character Builder
+# Desktop wizard: Python standard library only (Tkinter).
+# Web UI: pip install -r requirements.txt
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.0

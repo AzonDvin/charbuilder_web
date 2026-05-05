@@ -1,0 +1,385 @@
+{
+  "Hold-Out Blaster": {
+    "category": "weapon",
+    "cost": 75,
+    "notes": "Concealable",
+    "damage": "2d4",
+    "range": "5/10/20",
+    "desc": "Small, easily hidden blaster for backup or covert carry. Lower damage and range, but can pass security checks when properly concealed."
+  },
+  "Blaster Pistol": {
+    "category": "weapon",
+    "cost": 150,
+    "notes": "Semi-auto",
+    "damage": "2d6",
+    "range": "12/24/48",
+    "desc": "Standard civilian blaster pistol. Reliable and widely available across the galaxy. Favored by smugglers and merchants for self-defense."
+  },
+  "Ion Pistol": {
+    "category": "weapon",
+    "cost": 300,
+    "notes": "Ionic, +2 damage vs droids/vehicles, Stun setting",
+    "damage": "2d6",
+    "range": "10/20/40",
+    "desc": "Specialized sidearm that fires ionized bolts. Less effective against living targets, but excellent for disabling droids, sensors, and light vehicle systems."
+  },
+  "BlasTech DL-44": {
+    "category": "weapon",
+    "cost": 450,
+    "notes": "Heavy, AP 1",
+    "damage": "2d6+2",
+    "range": "5/10/20",
+    "desc": "Heavy blaster pistol famously used by Han Solo. Powerful punch in a compact package. Highly sought after; expensive and often restricted."
+  },
+  "Blaster Rifle (Standard)": {
+    "category": "weapon",
+    "cost": 300,
+    "notes": "AP 1",
+    "damage": "2d8",
+    "range": "15/30/60",
+    "desc": "Standard military blaster rifle. Good balance of power and accuracy. Used by militias, pirates, and resistance forces across the galaxy."
+  },
+  "E-11 Stormtrooper Rifle": {
+    "category": "weapon",
+    "cost": 350,
+    "notes": "AP 1, 3RB",
+    "damage": "2d8",
+    "range": "24/48/96",
+    "desc": "Imperial standard-issue blaster rifle. Compact, reliable, with folding stock. Can fire three-round bursts. Common on the black market."
+  },
+  "Blaster Carbine": {
+    "category": "weapon",
+    "cost": 450,
+    "notes": "AP 1, Stun setting",
+    "damage": "2d8",
+    "range": "18/36/72",
+    "desc": "Compact long arm balancing mobility and stopping power. Popular with scouts, pilots, and boarding teams."
+  },
+  "Ion Rifle": {
+    "category": "weapon",
+    "cost": 700,
+    "notes": "Ionic, +2 damage vs droids/vehicles",
+    "damage": "2d8",
+    "range": "20/40/80",
+    "desc": "Long-arm ion weapon built to disable droids and light vehicles. Excellent support weapon against mechanized threats."
+  },
+  "Blaster Rifle (Heavy)": {
+    "category": "weapon",
+    "cost": 500,
+    "notes": "AP 2, 3RB",
+    "damage": "2d8+1",
+    "range": "24/48/96",
+    "desc": "Heavy assault rifle with three-round burst. Devastating against armored targets. Requires strength to wield effectively; used by heavy weapons specialists."
+  },
+  "A280 Blaster Rifle": {
+    "category": "weapon",
+    "cost": 400,
+    "notes": "AP 2",
+    "damage": "2d8+1",
+    "range": "24/48/96",
+    "desc": "Alliance favorite; powerful and accurate. Superior to E-11 in most respects. Favored by Rebel infantry and veterans."
+  },
+  "Light Repeating Blaster": {
+    "category": "weapon",
+    "cost": 1800,
+    "notes": "AP 1, Auto-fire, Bulky",
+    "damage": "2d10",
+    "range": "24/48/96",
+    "desc": "Portable support blaster designed for sustained fire. Devastating in suppression roles, but heavy and difficult to conceal."
+  },
+  "Heavy Repeating Blaster": {
+    "category": "weapon",
+    "cost": 3000,
+    "notes": "AP 2, Auto-fire, Very Bulky, Crew-served",
+    "damage": "3d8",
+    "range": "30/60/120",
+    "desc": "Tripod- or harness-mounted heavy weapon for battlefield dominance. Used by entrenched defenders and heavy assault teams."
+  },
+  "Vibroblade": {
+    "category": "weapon",
+    "cost": 500,
+    "notes": "AP 2",
+    "damage": "Str+d6",
+    "range": "Melee",
+    "desc": "Vibrating blade that cuts through armor. Silent and deadly for close-quarters combat. Popular among assassins and those who prefer stealth."
+  },
+  "Vibro-ax": {
+    "category": "weapon",
+    "cost": 350,
+    "notes": "AP 2, Parry -1",
+    "damage": "Str+d8",
+    "range": "Melee",
+    "desc": "Heavy vibro-weapon; powerful strikes but harder to parry with. Common among Wookiees and other strong species."
+  },
+  "Combat Knife": {
+    "category": "weapon",
+    "cost": 15,
+    "notes": "",
+    "damage": "Str+d4",
+    "range": "Melee",
+    "desc": "Simple metal blade. Cheap, reliable, and always useful. Standard issue for soldiers; essential backup when blasters fail."
+  },
+  "Electrostaff": {
+    "category": "weapon",
+    "cost": 600,
+    "notes": "AP 1, Reach 1",
+    "damage": "Str+d6",
+    "range": "Melee",
+    "desc": "Electrified pole weapon used by MagnaGuards. Can block lightsabers. Extended reach; requires training to use effectively."
+  },
+  "Lightsaber": {
+    "category": "weapon",
+    "cost": 15000,
+    "notes": "AP 4, Ignores 4 armor",
+    "damage": "Str+d10",
+    "range": "Melee",
+    "desc": "Elegant weapon of a more civilized age. Plasma blade that cuts through nearly anything. Requires kyber crystal and Force attunement; extremely rare and illegal in Imperial space."
+  },
+  "Vibrosword": {
+    "category": "weapon",
+    "cost": 750,
+    "notes": "AP 2, Parry +1",
+    "damage": "Str+d8",
+    "range": "Melee",
+    "desc": "Powered vibroblade with dueling balance and armor-cutting edge. A premium melee weapon for nobles, mercenaries, and elite enforcers."
+  },
+  "Force Pike": {
+    "category": "weapon",
+    "cost": 500,
+    "notes": "AP 2, Reach 1, Stun setting",
+    "damage": "Str+d6",
+    "range": "Melee",
+    "desc": "Polearm favored by ceremonial guards and security forces. Combines armor-penetrating thrusts with controlled stun discharge."
+  },
+  "Shock Gloves": {
+    "category": "weapon",
+    "cost": 300,
+    "notes": "Stun 3, Concealable",
+    "damage": "Str+d4",
+    "range": "Melee",
+    "desc": "Electrified combat gloves for close-quarters takedowns. Favored by enforcers and bounty hunters who need prisoners alive."
+  },
+  "Stun Baton": {
+    "category": "weapon",
+    "cost": 200,
+    "notes": "Stun setting, Nonlethal focus",
+    "damage": "Str+d4",
+    "range": "Melee",
+    "desc": "Security-grade impact baton with a shock emitter. Designed for riot control and law enforcement engagements."
+  },
+  "Grenade": {
+    "category": "weapon",
+    "cost": 100,
+    "notes": "AP 2, Medium Blast Template, one use",
+    "damage": "3d6",
+    "range": "5/10/20",
+    "desc": "Standard fragmentation grenade. Thrown explosive with a short fuse; strong anti-personnel effect in a small area."
+  },
+  "Thermal Detonator": {
+    "category": "weapon",
+    "cost": 500,
+    "notes": "AP 4, Medium Blast Template, one use, restricted",
+    "damage": "3d8",
+    "range": "4/8/16",
+    "desc": "High-yield military explosive charge. Compact, volatile, and heavily regulated due to severe blast and fragmentation effects."
+  },
+  "No Armor": {
+    "category": "armor",
+    "cost": 0,
+    "notes": "",
+    "toughness": "0",
+    "desc": "No protective gear. Maximum mobility, zero protection. Risky but common for those relying on speed or avoiding notice."
+  },
+  "Padded Clothing": {
+    "category": "armor",
+    "cost": 25,
+    "notes": "",
+    "toughness": "+1",
+    "desc": "Light padding beneath clothes. Minimal protection, easily concealed. Common for diplomats and those who need to look unarmed."
+  },
+  "Leather/Jacket": {
+    "category": "armor",
+    "cost": 50,
+    "notes": "",
+    "toughness": "+1",
+    "desc": "Thick leather or reinforced jacket. Slight protection with everyday appearance. Popular with pilots and smugglers."
+  },
+  "Combat Armor (Light)": {
+    "category": "armor",
+    "cost": 200,
+    "notes": "",
+    "toughness": "+2",
+    "desc": "Light tactical armor. Good protection without limiting mobility. Standard for mercenaries and security personnel."
+  },
+  "Stormtrooper Armor": {
+    "category": "armor",
+    "cost": 400,
+    "notes": "-1 Stealth",
+    "toughness": "+3",
+    "desc": "Imperial stormtrooper armor. White plastoid plate offers solid protection. Imposes Stealth penalty; highly recognizable and illegal for civilians."
+  },
+  "Heavy Battle Armor": {
+    "category": "armor",
+    "cost": 600,
+    "notes": "-2 Stealth, -1 Agility",
+    "toughness": "+4",
+    "desc": "Full military armor. Excellent protection but heavy and restrictive. Used by assault troops and heavy weapons specialists."
+  },
+  "Mandalorian Armor": {
+    "category": "armor",
+    "cost": 3000,
+    "notes": "AP 2 vs conventional",
+    "toughness": "+4",
+    "desc": "Beskar or similar alloys. Legendary armor worn by Mandalorian warriors. Resists conventional weapons; extremely rare and valuable."
+  },
+  "Comlink": {
+    "category": "gear",
+    "cost": 25,
+    "notes": "Short-range communication",
+    "desc": "Personal communicator for voice contact. Short range; essential for coordination. Every spacer and soldier carries one."
+  },
+  "Macrobinoculars": {
+    "category": "gear",
+    "cost": 150,
+    "notes": "+2 Notice at long range",
+    "desc": "High-magnification optical device. Extends vision dramatically. Essential for scouts, snipers, and anyone who needs to spot distant targets."
+  },
+  "Glow Rod": {
+    "category": "gear",
+    "cost": 10,
+    "notes": "Illumination",
+    "desc": "Portable light source. Illuminates dark corridors, caves, and ship interiors. Standard equipment for exploration."
+  },
+  "Medpac": {
+    "category": "gear",
+    "cost": 50,
+    "notes": "+2 Healing, 5 uses",
+    "desc": "Field medical kit with stimulants, bacta patches, and basic instruments. Grants +2 to Healing rolls; 5 uses before depleted."
+  },
+  "Security Kit": {
+    "category": "gear",
+    "cost": 200,
+    "notes": "+2 Electronics/Repair for locks",
+    "desc": "Slicing tools, code crackers, and bypass devices. +2 to Electronics or Repair when dealing with locks and security systems."
+  },
+  "Tool Kit": {
+    "category": "gear",
+    "cost": 100,
+    "notes": "+1 Repair",
+    "desc": "General mechanical tools for repairs. +1 to Repair rolls. Every mechanic and starship crew keeps one handy."
+  },
+  "Stimpack": {
+    "category": "gear",
+    "cost": 25,
+    "notes": "Removes 1 level Fatigue",
+    "desc": "Chemical stimulant patch. Removes one level of Fatigue when applied. Quick fix; overuse can be addictive."
+  },
+  "Data Pad": {
+    "category": "gear",
+    "cost": 75,
+    "notes": "Use Computer, basic functions",
+    "desc": "Portable computer for data access, maps, and basic slicing. Essential for Use Computer skill. Ubiquitous in the galaxy."
+  },
+  "Breath Mask": {
+    "category": "gear",
+    "cost": 50,
+    "notes": "Survive in toxic atmosphere",
+    "desc": "Filters breathable air in hostile environments. Essential for toxic worlds, space walks, or smoke-filled areas."
+  },
+  "Energy Cell (Spare)": {
+    "category": "gear",
+    "cost": 5,
+    "notes": "Power pack for blasters",
+    "desc": "Replacement power pack for blaster weapons. Lightweight; experienced fighters always carry spares."
+  },
+  "Binders": {
+    "category": "gear",
+    "cost": 25,
+    "notes": "Restrain prisoners",
+    "desc": "Magnetic or mechanical restraints for prisoners. Standard for bounty hunters, law enforcement, and slavers."
+  },
+  "Fusion Cutter": {
+    "category": "gear",
+    "cost": 150,
+    "notes": "Cut through metal",
+    "desc": "High-temperature cutting tool. Cuts through hull plating, doors, and barriers. Essential for salvage and infiltration."
+  },
+  "Grappling Spike Launcher": {
+    "category": "gear",
+    "cost": 100,
+    "notes": "Climbing aid",
+    "desc": "Launches tethered spike for climbing or crossing gaps. Common among scouts and urban operatives."
+  },
+  "Holorecorder": {
+    "category": "gear",
+    "cost": 200,
+    "notes": "Record/play holograms",
+    "desc": "Records and plays holographic messages and imagery. Used for intelligence, messages, and recording evidence."
+  },
+  "Long-Range Comlink": {
+    "category": "gear",
+    "cost": 150,
+    "notes": "Long-distance encrypted communication",
+    "desc": "Upgraded comlink with boosted transmitter and directional antenna. Supports communication beyond local line of sight when relay networks are available."
+  },
+  "Encrypted Comlink Module": {
+    "category": "gear",
+    "cost": 100,
+    "notes": "+2 to avoid interception/eavesdropping",
+    "desc": "Add-on crypto unit for comlinks. Makes slicing or signal interception significantly harder for hostile listeners."
+  },
+  "Bacta Patch": {
+    "category": "gear",
+    "cost": 75,
+    "notes": "Single use, +1 Healing on one treatment",
+    "desc": "Sealed topical bacta strip for emergency field care. Stabilizes patients quickly and improves one immediate Healing attempt."
+  },
+  "Antitoxin Injector": {
+    "category": "gear",
+    "cost": 60,
+    "notes": "Single use, +2 Vigor vs poison",
+    "desc": "Rapid auto-injector loaded with anti-venom compounds. Used by scouts and troopers operating in toxic or venomous environments."
+  },
+  "Survival Kit (24h)": {
+    "category": "gear",
+    "cost": 120,
+    "notes": "+1 Survival in harsh environments",
+    "desc": "Compact emergency pack with rations, water purifier, thermal sheet, flare, and distress beacon. Designed to keep one person alive for a day."
+  },
+  "Thermal Cloak": {
+    "category": "gear",
+    "cost": 80,
+    "notes": "+2 to resist cold environmental effects",
+    "desc": "Insulated cloak with heat-retaining fibers. Common for operations in polar regions, high-altitude worlds, and unheated ruins."
+  },
+  "Slicer Spike": {
+    "category": "gear",
+    "cost": 75,
+    "notes": "Single use, +1 Electronics on one access attempt",
+    "desc": "Disposable intrusion module used to bypass basic security systems. Favored by slicers and infiltration teams on tight schedules."
+  },
+  "Detonator (Breaching Charge)": {
+    "category": "gear",
+    "cost": 250,
+    "notes": "One controlled door/wall breach",
+    "desc": "Shaped charge designed to open sealed doors or light barriers with focused force. Standard for boarding and hostage rescue operations."
+  },
+  "Scanner Jammer": {
+    "category": "gear",
+    "cost": 300,
+    "notes": "Nearby sensor checks suffer -2 briefly",
+    "desc": "Portable interference emitter that floods short-range scanners with static and false echoes. Best used for quick evasions or covert movement."
+  },
+  "Climbing Gloves (Mag)": {
+    "category": "gear",
+    "cost": 180,
+    "notes": "+2 Athletics for climbing metal surfaces",
+    "desc": "Magnetic grip gloves with micro-adhesion pads. Improve climbing on hulls, towers, and urban infrastructure."
+  },
+  "Tracking Beacon": {
+    "category": "gear",
+    "cost": 50,
+    "notes": "Attach to target/item; detectable by tuned scanner",
+    "desc": "Thumb-sized transmitter beacon used to track moving targets, cargo, or vehicles. Popular with bounty hunters and intelligence operatives."
+  }
+}

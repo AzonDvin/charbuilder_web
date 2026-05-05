@@ -1,0 +1,70 @@
+{
+  "Human": {
+    "abilities": "One extra Edge at creation (ignore requirements except prerequisites)",
+    "notes": "Most common species in the galaxy; adaptable and versatile"
+  },
+  "Twi'lek": {
+    "abilities": "+1 Persuasion, Low-light vision, Performance d6 (lekku dance and traditional Ryloth arts); -1 Quirk: Lekku make some armor and helmets awkward",
+    "notes": "From Ryloth; lekku (head-tails) express emotion; often targeted by slavers"
+  },
+  "Wookiee": {
+    "abilities": "d6 Strength, +1 Size; Cannot speak Basic (Minor), -2 Charisma with strangers",
+    "notes": "From Kashyyyk; fierce warriors; life-debt tradition; Shyriiwook only"
+  },
+  "Trandoshan": {
+    "abilities": "Climbing d6, Regeneration (1 wound/day), Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma",
+    "notes": "Reptilian hunters from Trandosha; bounty hunter culture"
+  },
+  "Bothan": {
+    "abilities": "+2 Streetwise, Low-light vision, Stealth d6 (spynet field tradecraft); Curious—can't resist seeking intel (Minor)",
+    "notes": "Famous spy network; \"Many Bothans died\" for Death Star plans"
+  },
+  "Duros": {
+    "abilities": "Piloting d6, Astrogation d6, Low-light vision; Slender build (Pace 5)",
+    "notes": "From Duro; spacefaring pioneers; large red eyes, hairless blue skin"
+  },
+  "Rodian": {
+    "abilities": "+2 Notice (sight), Infravision, Shooting d6 (hunters and duelists); -2 Charisma (insectoid appearance unsettles many)",
+    "notes": "From Rodia; hunting culture; compound eyes, antennae"
+  },
+  "Zabrak": {
+    "abilities": "+2 to resist Fear, Two hearts (+1 Toughness); Stubborn (Minor)",
+    "notes": "From Iridonia; distinctive facial horns and tattoos; durable"
+  },
+  "Chiss": {
+    "abilities": "d6 Smarts, Low-light vision; -2 Charisma (cold, aloof demeanor)",
+    "notes": "From Csilla; expansionist; blue skin, glowing red eyes"
+  },
+  "Droid": {
+    "abilities": "Construct (ignore wound modifiers, disease, poison), Immune to poison/disease, Integrated systems (diagnostics, tool mounts), Repair d6 (maintenance protocols); Vulnerable to ion/EMP (-4 resist electricity), -2 Charisma with organics",
+    "notes": "Artificial beings; programmable; no fatigue from sleep"
+  },
+  "Togruta": {
+    "abilities": "+2 Notice (spatial awareness via montrals), Natural weapons (bite Str+d4), Low-light vision; Pack mentality—strongly Loyal to their group (Minor)",
+    "notes": "From Shili; Ahsoka Tano's species; montrals provide echolocation; pack hunters"
+  },
+  "Nautolan": {
+    "abilities": "Swimming d6, Hold breath 15+ min, +2 Notice in water (electroreception via head tendrils), Athletics d6 (powerful swimmers); Dehydration—must immerse in water 1 hr per 24 hrs or become Fatigued",
+    "notes": "From Glee Anselm; amphibious; tendrils sense pheromones and emotions; Kit Fisto's species"
+  },
+  "Kel Dor": {
+    "abilities": "Darkvision, +4 resist vacuum/low pressure, Common Knowledge d6, Low-light vision, Piloting d6 (void and thin-atmosphere operations); Oxygen toxicity—must wear breath mask off Dorin (Major)",
+    "notes": "From Dorin; Plo Koon's species; antiox mask and goggles required off-world"
+  },
+  "Lasat": {
+    "abilities": "d6 Strength, +1 Size; Code of Honor (Minor), -2 Charisma (outsider)",
+    "notes": "From Lasan; Zeb's species; large, strong, honor-bound warriors"
+  },
+  "Mon Calamari": {
+    "abilities": "Aquatic (cannot drown, Swimming d6, full swim Pace), Low-light vision, Repair d6 (shipwright instincts); Must immerse in water 1 hr per 24 hrs or become Fatigued",
+    "notes": "From Mon Cala; Admiral Ackbar's species; shipwrights; large eyes, webbed hands"
+  },
+  "Sullustan": {
+    "abilities": "Piloting d6, Low-light vision, +2 Notice in darkness (echolocation); Pace 5",
+    "notes": "From Sullust; Nien Nunb's species; natural pilots; cave dwellers with large ears"
+  },
+  "Devaronian": {
+    "abilities": "+1 Persuasion, +1 Intimidation, Low-light vision; Greedy (Minor)",
+    "notes": "From Devaron; horned humanoids; merchants and smugglers"
+  }
+}
