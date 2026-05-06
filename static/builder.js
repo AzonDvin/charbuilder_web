@@ -333,8 +333,6 @@
       return;
     }
     const parts = [];
-    const d = (cr.desc && String(cr.desc).trim()) || "";
-    if (d) parts.push(d);
     const benefits = Array.isArray(cr.benefits) ? cr.benefits : [];
     benefits.forEach((b) => {
       if (!b || typeof b !== "object") return;

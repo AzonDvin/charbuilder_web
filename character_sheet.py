@@ -114,7 +114,7 @@ def _split_skills_into_three_columns(skill_lines: list[str]) -> list[list[str]]:
 
 
 def _career_lines_for_sheet(data: dict) -> list[str]:
-    """Plain-text lines for career name, description, and every benefit."""
+    """Plain-text lines for career name and every benefit (career `desc` is not printed)."""
     name = (data.get("career") or "").strip()
     if not name:
         return []
@@ -123,10 +123,6 @@ def _career_lines_for_sheet(data: dict) -> list[str]:
     if not entry or not isinstance(entry, dict):
         return [f"CAREER: {name}", "  (no entry in careers data)"]
     out: list[str] = [f"CAREER: {name}"]
-    desc = str(entry.get("desc") or "").strip()
-    if desc:
-        for part in desc.splitlines():
-            out.append(f"  {part}" if part else "  ")
     benefits = entry.get("benefits")
     if isinstance(benefits, list):
         for b in benefits:

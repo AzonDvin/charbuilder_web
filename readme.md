@@ -8,7 +8,7 @@ The web UI is a **single top-down page** (no step-by-step wizard). It is intende
 
 The character builder walks through this process in order:
 
-1. **Concept, species & career** - Set character name, species, and **career** (from `data/careers.json`). Careers are free at creation; all benefits appear on the exported sheet.
+1. **Concept, species & career** - Set character name, species, and **career** (from `data/careers.json`). Careers are free at creation; **benefits** (not the internal `desc`) appear on exported sheets.
 2. **Hindrances** - Select up to 4 hindrance points (Major = 2, Minor = 1).
 3. **Attributes** - Spend base attribute points plus any converted hindrance points.
 4. **Skills** - Spend base skill points plus any converted hindrance points.
@@ -21,7 +21,7 @@ The character builder walks through this process in order:
 - Desktop: guided multi-step UI flow with Previous/Next navigation.
 - Web: one-page builder with live preview and saves into the `output/` folder on the host machine.
 - Species-aware setup (including Human free-edge handling).
-- **Careers** (web and desktop concept step): optional job packages with described benefits; full benefit text appears in live preview, JSON export, and print/text sheets.
+- **Careers** (web and desktop concept step): optional job packages; **benefits only** are shown in the UI and on printed/text/HTML sheets (career `desc` in JSON is optional author notes and is not published anywhere in the app).
 - Hindrance point tracking across attributes, skills, and edges.
 - Edge requirement checks for rank, attributes, and skills.
 - Equipment shop with buy/sell and live credit recalculation.
@@ -65,7 +65,7 @@ Then open **http://127.0.0.1:8000** in your browser. Use **Save to `output/`** t
 - `data.py` - JSON data loader and data grouping.
 - `data/` - Source game content:
   - `attributes.json`
-  - `careers.json` — career name, description, and benefit list (shown on character sheets)
+  - `careers.json` — career `desc` (optional, unused by the app) and `benefits` (shown in UI and exports)
   - `edges.json`
   - `gear.json`
   - `hindrances.json`
@@ -79,7 +79,7 @@ Most rules content is loaded from JSON files in `data/`. To expand options:
 - Add or edit edges in `data/edges.json`
 - Add or edit hindrances in `data/hindrances.json`
 - Add or edit species in `data/species.json`
-- Add or edit careers in `data/careers.json` (each entry: `desc` string and `benefits` array of `{ "title", "type", "effect" }` objects)
+- Add or edit careers in `data/careers.json` (each entry: optional `desc` for your own notes; `benefits` array of `{ "title", "type", "effect" }` objects is what players see)
 - Add or edit equipment in `data/gear.json`
 - Update skills/attributes in `data/attributes.json`
 
@@ -87,7 +87,7 @@ Most rules content is loaded from JSON files in `data/`. To expand options:
 
 When the build is complete, the app saves a character JSON that includes:
 
-- Character identity, species data, and **`career`** (career name; sheets expand full benefits from `careers.json`)
+- Character identity, species data, and **`career`** (career name; text/HTML sheets list **benefits** from `careers.json`, not `desc`)
 - Attributes and skills
 - Hindrances and edges
 - Equipment and credits

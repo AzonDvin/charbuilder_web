@@ -289,10 +289,10 @@ def create_app() -> FastAPI:
         )
         skill_order = non_core + list(CORE_SKILLS)
 
+        # Omit career "desc" from meta; only benefits are used in the UI and on sheets.
         career_list = [
             {
                 "name": n,
-                "desc": (v.get("desc") or "") if isinstance(v, dict) else "",
                 "benefits": v.get("benefits", []) if isinstance(v, dict) else [],
             }
             for n, v in sorted(CAREERS.items(), key=lambda x: x[0].lower())

@@ -475,9 +475,6 @@ class CharacterBuilderApp:
                 return
             data = CAREERS[cr]
             bits = []
-            desc = (data.get("desc") or "").strip()
-            if desc:
-                bits.append(desc)
             for b in data.get("benefits") or []:
                 if not isinstance(b, dict):
                     continue
