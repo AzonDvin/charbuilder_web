@@ -49,13 +49,38 @@
       }
     ]
   },
+  "Politico": {
+    "desc": "Diplomat, public advocate, or deal-broker who wins conflicts before blasters clear leather.",
+    "benefits": [
+      {
+        "title": "Floor presence",
+        "type": "situational",
+        "effect": "+1 to Persuasion when addressing a group, hearing, council, or negotiation table where your target can hear your full argument."
+      },
+      {
+        "title": "Biting retort",
+        "type": "situational",
+        "effect": "Once per combat, as a free action, make a Taunt test against one target who can hear and understand you; on a success, the target is Distracted until the end of its next turn, and on a raise it is also Vulnerable."
+      },
+      {
+        "title": "Protocol web",
+        "type": "narrative",
+        "effect": "After you spend a few hours talking to locals, you learn the local etiquette chain for formal talks (who must be approached first, titles to use, and what custom might offend) without a roll."
+      },
+      {
+        "title": "Market brief",
+        "type": "situational",
+        "effect": "+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations built on policy and commerce: trade delegations, customs boards, colonial councils, or corporate affairs offices."
+      }
+    ]
+  },
   "Hired Gun": {
     "desc": "Mercenary, enforcer, or line soldier for credits. Violence is the job description.",
     "benefits": [
       {
-        "title": "Suppression habit",
+        "title": "Snap retaliation",
         "type": "situational",
-        "effect": "+1 to Shooting on your first attack in a firefight after you or an ally has already been Shaken or Wounded this combat (represents covering fire timing)."
+        "effect": "+1 to one of your Shooting rolls targeting an enemy that missed you last round."
       },
       {
         "title": "Mercenary rep",
@@ -65,10 +90,10 @@
       {
         "title": "Heavy familiarity",
         "type": "situational",
-        "effect": "Ignore 1 point of multi-action penalty when your extra action is only bracing, deploying, or swapping to a heavy weapon you personally own (GM discretion)."
+        "effect": "Ignore 1 point of multi-action penalty when your extra action is only bracing, deploying, or swapping to a heavy weapon."
       },
       {
-        "title": "Contract floor",
+        "title": "Merc's code",
         "type": "situational",
         "effect": "+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations that trade in force: mercenary companies, PMC contracting desks, arms suppliers, or veteran and muster societies."
       }
@@ -83,14 +108,14 @@
         "effect": "+1 to Thievery or Streetwise when hiding contraband in a vehicle, crate, or false panel you prepared at least one scene in advance."
       },
       {
-        "title": "Yeah, I'm sure you have...",
+        "title": "Yeah, I bet you have...",
         "type": "situational",
         "effect": "Once per scene, if you are in a conversation with the target, you may attempt to draw your blaster and attack. Roll Thievery; on a success, you have the Drop on that target for the attack."
       },
       {
         "title": "Fixer’s introduction",
         "type": "narrative",
-        "effect": "In any starport Class III or larger, you know a fence, loader’s union rep, or corrupt clerk by reputation; the GM names them when you arrive."
+        "effect": "In any starport Class III or larger, you may know a fence, loader’s union rep, or corrupt clerk by reputation; the GM names them when you arrive."
       },
       {
         "title": "Gray channel",
@@ -110,12 +135,12 @@
       {
         "title": "Bad Motivator",
         "type": "situational",
-        "effect": "Spend a Benny and roll Repair at −2; on a success, a technical item spontaneously ceases to work until it is fixed. Droid Extras are Shaken instead."
+        "effect": "Spend a Benny and roll Repair at −2; on a success, a technical item within 4 meters of you spontaneously ceases to work until it is fixed. Droid Extras are Shaken instead."
       },
       {
-        "title": "Spare tub",
+        "title": "Found a spare",
         "type": "gear_access",
-        "effect": "Once per scene, make a Repair roll (0 to 4 penalty, GM discretion) on a technical item you own; on a success, you have a spare of that item. If you fail, you damage the item until it is repaired."
+        "effect": "Once per scene, make a Repair roll (0 to 4 penalty, GM discretion) on a technical item; on a success, you have a spare of that item. If you fail, you damage the item until it is repaired."
       },
       {
         "title": "Yard cred",
