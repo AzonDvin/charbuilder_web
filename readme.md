@@ -2,7 +2,11 @@
 
 This is a character builder for playing **Star Wars using the Savage Worlds Adventure Edition (SWADE)** ruleset. If your group is running a Star Wars tabletop campaign with SWADE, this tool walks you through making a character and spits out a finished sheet you can bring to the table.
 
-It runs as a **local web app** you open in your browser — self-contained, no account, no internet connection, no server to host.
+## Try it now
+
+> **[starwarsswadecharactergenerator.up.railway.app](https://starwarsswadecharactergenerator.up.railway.app/)**
+
+Hosted on Railway — no installation, no account, just open and build. Works on any device with a browser.
 
 ---
 
