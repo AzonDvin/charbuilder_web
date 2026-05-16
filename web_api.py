@@ -1,6 +1,5 @@
 """
-Local FastAPI web UI: single top-down character builder page.
-Saves exports under ./output/ on the machine running the server.
+Savage Worlds Star Wars Character Builder — FastAPI web UI.
 """
 
 from __future__ import annotations
@@ -47,7 +46,6 @@ from rules import (
 )
 
 ROOT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = ROOT_DIR / "output"
 STATIC_DIR = ROOT_DIR / "static"
 TEMPLATES_DIR = ROOT_DIR / "templates"
 
@@ -249,7 +247,6 @@ class SaveRequest(BaseModel):
 
 
 def create_app() -> FastAPI:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
     app = FastAPI(title="SW Savage Worlds Character Builder", version="1.0")
