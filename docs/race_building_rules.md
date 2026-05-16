@@ -50,7 +50,7 @@ Before finalising any species, ask:
 | **+2** | +1 Toughness |
 | **+2** | +1 Size (usually paired with a drawback) |
 | **+2** | +1 Parry |
-| **+2** | +2 Charisma |
+| **+2** | +2 Persuasion |
 | **+2** | Aquatic (cannot drown; full Swim pace; free Swimming d6) |
 | **+2** | Pace 10 |
 | **+2** | Flight (base Pace; may run) |
@@ -65,8 +65,8 @@ Before finalising any species, ask:
 |------|---------|
 | **–1** | Minor Hindrance baked into the species |
 | **–1** | Pace 5 |
-| **–1** | –2 Charisma |
-| **–1** | Racial Enemy (–4 Charisma vs. one specific group) |
+| **–1** | –2 Persuasion |
+| **–1** | Racial Enemy (–4 Persuasion vs. one specific group) |
 | **–1** | –4 resist one environmental effect |
 | **–2** | Major Hindrance baked into the species |
 | **–2** | Pace 3 (d4 running die) |
@@ -86,7 +86,7 @@ Before finalising any species, ask:
 | +3 | Hardy, Seasoned Edge, d8-start attribute |
 | +2 | d6-start attribute, Novice Edge, Toughness, Aquatic, Flight |
 | +1 | Low-light vision, natural weapons, immunities, skill d6 |
-| –1 | Minor Hindrance, Pace 5, Charisma penalty |
+| –1 | Minor Hindrance, Pace 5, Persuasion penalty |
 | –2 | Major Hindrance, Pace 3, Cannot speak Basic |
 | –3 | Hard attribute cap or double advancement cost |
 
@@ -128,28 +128,28 @@ These examples use actual species in `data/species.json`.
 | Strength starts at d6 | +2 |
 | +1 Size | +2 |
 | Cannot speak Basic (Minor) | –2 |
-| –2 Charisma with strangers | –1 |
+| –2 Persuasion with strangers | –1 |
 | **Total** | **+3** (slightly over cap — GM may adjust) |
 
-**JSON:** `"d6 Strength, +1 Size; Cannot speak Basic (Minor), -2 Charisma with strangers"`
+**JSON:** `"d6 Strength, +1 Size; Cannot speak Basic (Minor), -2 Persuasion with strangers"`
 
-**Design note:** Wookiees are intentionally on the generous side. Their social hindrances
-(can't speak Basic, charisma penalty) create real play consequences that justify the power.
+**Design note:** Wookiees are intentionally on the generous side. The language barrier and
+intimidating presence create real play consequences that justify the physical power.
 
 ---
 
 ### Zabrak
-*Tough species from Iridonia. Balanced fighter profile.*
+*Tough species from Iridonia. Sheer will keeps them in the fight.*
 
 | Trait | Cost |
 |-------|------|
 | Free base | +2 |
-| +2 to resist Fear | +1 |
-| +1 Toughness (Two hearts) | +2 |
+| +2 Spirit to recover from Shaken | +1 |
+| +1 Toughness | +2 |
 | Stubborn (Minor) | –1 |
-| **Total** | **+4** (at the generous end of a 4-cap setting) |
+| **Total** | **+4** ✓ |
 
-**JSON:** `"+2 to resist Fear, Two hearts (+1 Toughness); Stubborn (Minor)"`
+**JSON:** `"+2 Spirit to recover from Shaken, +1 Toughness; Stubborn (Minor)"`
 
 ---
 
@@ -163,10 +163,10 @@ These examples use actual species in `data/species.json`.
 | Regeneration (1 wound/day) | +2 |
 | Claws (Str+d6) | +1 |
 | Cold-blooded (–4 resist cold) | –1 |
-| –2 Charisma | –1 |
+| –2 Persuasion | –1 |
 | **Total** | **+4** |
 
-**JSON:** `"Climbing d6, Regeneration (1 wound/day), Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma"`
+**JSON:** `"Climbing d6, Regeneration (1 wound/day), Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Persuasion"`
 
 ---
 
@@ -208,7 +208,7 @@ Edit `data/species.json`. Each entry follows this format:
 
 ```json
 "Gamorrean": {
-  "abilities": "d6 Strength, +1 Toughness, Natural weapons (tusks Str+d4); Low Smarts (Smarts cannot exceed d6), -2 Charisma",
+  "abilities": "d6 Strength, +1 Toughness, Natural weapons (tusks Str+d4); Low Smarts (Smarts cannot exceed d6), -2 Persuasion",
   "notes": "From Gamorr; green-skinned boar warriors; Jabba's palace guards; loyalty to clan over everything."
 }
 ```

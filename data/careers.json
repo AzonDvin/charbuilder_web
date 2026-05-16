@@ -1,6 +1,7 @@
 {
   "Bounty Hunter": {
     "desc": "Licensed or freelance retrieval specialist. You get paid when the target is in cuffs—or a slab.",
+    "suggested_skills": ["Shooting", "Intimidation", "Fighting", "Notice", "Stealth", "Survival", "Athletics", "Driving"],
     "benefits": [
       {
         "title": "Dead or alive paperwork",
@@ -10,12 +11,12 @@
       {
         "title": "Pressure at range",
         "type": "situational",
-        "effect": "+1 to Intimidation against a single target who knows you are armed and serious (once per scene per target)."
+        "effect": "Once per scene per target, +1 to Intimidation against a target who knows you are armed and serious."
       },
       {
         "title": "Hunter’s mark",
         "type": "situational",
-        "effect": "In the first round of combat, once per combat, shoot at a target that has not acted this round; each raise adds 1d6 to damage."
+        "effect": "In the first round of combat, shoot at a target that has not yet acted; each raise adds 1d6 to damage."
       },
       {
         "title": "Guild hall tone",
@@ -26,6 +27,7 @@
   },
   "Politico": {
     "desc": "Diplomat, public advocate, or deal-broker who wins conflicts before blasters clear leather.",
+    "suggested_skills": ["Persuasion", "Taunt", "Notice", "Intimidation", "Performance", "Research", "Academics"],
     "benefits": [
       {
         "title": "Floor presence",
@@ -35,7 +37,7 @@
       {
         "title": "Biting retort",
         "type": "situational",
-        "effect": "Once per combat, as a free action, make a Taunt test against one target who can hear and understand you; on a success, the target is Distracted until the end of its next turn, and on a raise it is also Vulnerable."
+        "effect": "Once per combat, as a free action, make a Taunt test against one target who can hear and understand you."
       },
       {
         "title": "Protocol web",
@@ -51,6 +53,7 @@
   },
   "Hired Gun": {
     "desc": "Mercenary, enforcer, or line soldier for credits. Violence is the job description.",
+    "suggested_skills": ["Shooting", "Fighting", "Intimidation", "Athletics", "Notice", "Survival", "Battle"],
     "benefits": [
       {
         "title": "Snap retaliation",
@@ -65,7 +68,7 @@
       {
         "title": "Heavy familiarity",
         "type": "situational",
-        "effect": "Ignore 1 point of multi-action penalty when your extra action is only bracing, deploying, or swapping to a heavy weapon."
+        "effect": "Ignore 1 point of multi-action penalty when your extra action is bracing, deploying, or drawing a heavy weapon."
       },
       {
         "title": "Merc's code",
@@ -76,6 +79,7 @@
   },
   "Smuggler": {
     "desc": "Blockade sprinter, fixer, or fast-talking loader. Cargo flies if the story holds.",
+    "suggested_skills": ["Piloting", "Thievery", "Persuasion", "Stealth", "Notice", "Astrogation", "Driving"],
     "benefits": [
       {
         "title": "Gray manifest",
@@ -85,7 +89,7 @@
       {
         "title": "Yeah, I bet you have...",
         "type": "situational",
-        "effect": "Once per scene, if you are in a conversation with the target, you may attempt to draw your blaster and attack. Roll Thievery; on a success, you have the Drop on that target for the attack."
+        "effect": "Once per scene, while in conversation with a target, roll Thievery; on a success, draw your blaster and gain the Drop on that target."
       },
       {
         "title": "Fixer’s introduction",
@@ -101,21 +105,22 @@
   },
   "Technician": {
     "desc": "Ship’s engineer, slicer, or grease-stained genius. If it has wires, you’ve sworn at it professionally.",
+    "suggested_skills": ["Repair", "Slicing", "Notice", "Science", "Academics", "Athletics"],
     "benefits": [
       {
         "title": "Battlefield patch",
         "type": "situational",
-        "effect": "+1 to Repair when fixing something damaged in the last hour during combat or an active chase."
+        "effect": "+1 to Repair on any item damaged within the last hour, during combat or an active chase."
       },
       {
         "title": "Bad Motivator",
         "type": "situational",
-        "effect": "Spend a Benny and roll Repair at −2; on a success, a technical item within 4 meters of you spontaneously ceases to work until it is fixed. Droid Extras are Shaken instead."
+        "effect": "Spend a Benny and roll Repair at −2; on a success, a technical item within 4 meters of you spontaneously ceases to work until it is repaired. Droid Extras are Shaken instead."
       },
       {
         "title": "Found a spare",
         "type": "gear_access",
-        "effect": "Once per scene, make a Repair roll (0 to 4 penalty, GM discretion) on a technical item; on a success, you have a spare of that item. If you fail, you damage the item until it is repaired."
+        "effect": "Once per scene, strip a working part from a nearby technical item. Roll Repair (−0 to −4, GM's call); on a success, the source item is undamaged but Unreliable until serviced. On a failure, it is damaged."
       },
       {
         "title": "Yard cred",
@@ -126,6 +131,7 @@
   },
   "Scout": {
     "desc": "Ranger, pathfinder, or wilderness operative. You move fast, stay hidden, and always know the terrain before anyone else does.",
+    "suggested_skills": ["Survival", "Stealth", "Notice", "Athletics", "Shooting", "Healing"],
     "benefits": [
       {
         "title": "Covering withdrawal",
@@ -135,7 +141,7 @@
       {
         "title": "Terrain reader",
         "type": "narrative",
-        "effect": "When planetside, you always know local terrain features, likely ambush points, water sources, and safe camp sites without a roll. No Survival check needed for basic orientation in a new environment."
+        "effect": "When planetside, you always know local terrain features, likely ambush points, water sources, and safe camp sites — no roll needed."
       },
       {
         "title": "Ghost step",
@@ -151,6 +157,7 @@
   },
   "Medic": {
     "desc": "Field surgeon, bacta specialist, or triage expert. You keep people alive when everything else is trying to kill them.",
+    "suggested_skills": ["Healing", "Notice", "Persuasion", "Science", "Academics", "Athletics"],
     "benefits": [
       {
         "title": "Trauma response",
@@ -160,12 +167,12 @@
       {
         "title": "Field assessment",
         "type": "narrative",
-        "effect": "You always know the nearest medical facility, what supplies are available locally, and which injuries are treatable in the field without a roll. No check needed to assess a wound or triage a scene."
+        "effect": "You always know the nearest medical facility, what supplies are available locally, and whether injuries are treatable in the field — no roll needed."
       },
       {
         "title": "Golden hour",
         "type": "situational",
-        "effect": "+1 to Healing rolls when treating a patient within 1 hour of them receiving the wound."
+        "effect": "+1 to Healing when treating a wound within 1 hour of injury."
       },
       {
         "title": "Medical network",
@@ -176,6 +183,7 @@
   },
   "Scoundrel": {
     "desc": "Gambler, grifter, or con artist. You live by your wits, your luck, and your ability to make people look the other way.",
+    "suggested_skills": ["Thievery", "Persuasion", "Notice", "Stealth", "Fighting", "Gambling"],
     "benefits": [
       {
         "title": "Dirty fighter",

@@ -2,7 +2,7 @@
 
 This is a character builder for playing **Star Wars using the Savage Worlds Adventure Edition (SWADE)** ruleset. If your group is running a Star Wars tabletop campaign with SWADE, this tool walks you through making a character and spits out a finished sheet you can bring to the table.
 
-It runs two ways: as a **local web app** you open in your browser, or as a **desktop wizard** on Windows/Mac/Linux. Either way it's self-contained — no account, no internet connection, no server to host.
+It runs as a **local web app** you open in your browser — self-contained, no account, no internet connection, no server to host.
 
 ---
 
@@ -16,22 +16,14 @@ When you're done it saves a character file and can export a **print-ready HTML s
 
 ## Getting started
 
-You need **Python 3.10 or newer**.
-
-**Run the web UI** (recommended — works in any browser):
+You need **Python 3.10 or newer** and the three dependencies below.
 
 ```bash
 pip install -r requirements.txt
-python main.py --web
+python main.py
 ```
 
 Then open **http://127.0.0.1:8000** in your browser.
-
-**Run the desktop app** (no extra dependencies):
-
-```bash
-python main.py
-```
 
 Saved characters and exported sheets land in the `output/` folder, which is created automatically the first time you save.
 
@@ -111,13 +103,12 @@ The skill list, edges, and species abilities have all been audited against **SWA
 
 ```
 charbuilder_web/
-├── main.py               # Start here — runs desktop or web UI
+├── main.py               # Start here — launches the web UI
 ├── web_api.py            # FastAPI routes and API logic
 ├── character.py          # Character model; calculates Toughness and Parry
 ├── character_sheet.py    # Generates the text and HTML exports
 ├── rules.py              # Credit and hindrance/edge rule helpers
 ├── data.py               # Loads and groups JSON data files
-├── gui.py                # Desktop wizard (Tkinter)
 ├── templates/builder.html
 ├── static/builder.js
 ├── data/                 # All game content — edit these to expand the game
@@ -130,14 +121,10 @@ charbuilder_web/
 
 ## Dependencies
 
-The **desktop app** uses only the Python standard library (plus Tkinter, which ships with most Python installs).
-
-The **web UI** requires three packages:
-
 ```
 fastapi
 uvicorn
 pydantic
 ```
 
-Install them with `pip install -r requirements.txt`.
+Install with `pip install -r requirements.txt`.

@@ -38,7 +38,7 @@
     "kind": "weapon",
     "hardPointCost": 2,
     "cost": 620,
-    "desc": "+2 AP on attacks made with this weapon (add to the weapon's listed AP, if any). If the weapon's total AP including this mod is greater than 3 and you roll a critical failure on Shooting with this weapon, the weapon is damaged until repaired (−2 to the Mechanics roll to fix it); the Plasma Agitator is destroyed and cannot be salvaged.",
+    "desc": "+2 AP on attacks made with this weapon (add to the weapon's listed AP, if any). If the weapon's total AP including this mod is greater than 3 and you roll a critical failure on Shooting with this weapon, the weapon is damaged (−2 to the Repair roll); the Plasma Agitator is destroyed and cannot be salvaged.",
     "notes": "Critical failure: both the trait die and Wild Die show 1, or a 1 on the trait die with no Wild Die (SWADE)."
   },
   "Suppressed Barrel": {
@@ -96,5 +96,47 @@
     "cost": 75,
     "desc": "Rifles only. The weapon is considered always readied while worn — draw or stow it as a free action. Lets you switch between rifle and sidearm without losing an action.",
     "notes": null
+  },
+  "Strength Stim Injector": {
+    "kind": "armor",
+    "hardPointCost": 1,
+    "cost": 350,
+    "desc": "Wrist-mounted auto-injector loaded with combat stims. Once per day, activate as a free action to raise Strength by one die step for 5 rounds.",
+    "notes": "Cannot stack with other trait-boosting stims. Side effects of overuse are the owner's problem."
+  },
+  "Energized Strike Module": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 300,
+    "desc": "Channels an electric charge through the blade on activation. Once per combat, activate as a free action; the weapon deals +2 damage on the next successful hit.",
+    "notes": "Melee weapons only. The charge discharges on hit whether or not it causes a wound."
+  },
+  "Personal Deflector Screen": {
+    "kind": "armor",
+    "hardPointCost": 2,
+    "cost": 850,
+    "desc": "Miniaturized deflector field generator. Once per combat, activate as a free action; all ranged attackers suffer -2 to hit you until the start of your next turn.",
+    "notes": "Does not affect melee attacks. Emits a faint hum detectable at close range."
+  },
+  "Darksite Visor": {
+    "kind": "armor",
+    "hardPointCost": 1,
+    "cost": 320,
+    "desc": "Multi-spectrum visor that amplifies ambient light and switches to thermal imaging in total darkness. Negates all Shooting and Notice penalties from dim light or darkness.",
+    "notes": "Does not stack with Helmet HUD / Macrovisor unless both are physically fitted (GM discretion)."
+  },
+  "Emergency Bacta Injector": {
+    "kind": "armor",
+    "hardPointCost": 1,
+    "cost": 500,
+    "desc": "Auto-triggered bacta injector mounted in the armor's chest piece. Once per session, when Incapacitated, automatically make a free Vigor roll to Soak the wound that put you down.",
+    "notes": "Single use per session. Requires a bacta refill (75 cr) between sessions to remain active."
+  },
+  "Concussive Discharger": {
+    "kind": "weapon",
+    "hardPointCost": 2,
+    "cost": 600,
+    "desc": "Underbarrel sonic emitter that releases a focused pressure burst. Once per combat as an action, all targets within a Medium Burst Template centered on you are Distracted. No attack roll required.",
+    "notes": "Affects allies in the template as well. Cannot be used the same round you fire the weapon."
   }
 }

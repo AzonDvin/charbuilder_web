@@ -216,7 +216,6 @@ code { background: #eef0f6; padding: 1px 5px; border-radius: 3px; font-size: 0.8
         "<tr><td><strong>Toughness</strong></td><td>2 + half Vigor die + armor bonus + size bonus</td></tr>"
         "<tr><td><strong>Parry</strong></td><td>2 + half Fighting die (or 2 if Untrained)</td></tr>"
         "<tr><td><strong>Pace</strong></td><td>6&Prime; (modified by some species)</td></tr>"
-        "<tr><td><strong>Charisma</strong></td><td>0 (modified by Edges and some species)</td></tr>"
         "</tbody></table>"
         "<p style='font-size:0.88rem;color:#555;'>"
         "Half die = half the die's number, rounded down. Vigor d6 → 3; Vigor d8 → 4."

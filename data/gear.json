@@ -1,66 +1,66 @@
 {
-  "Hold-Out Blaster": {
+  "BlasTech SE-14C Hold-Out Blaster": {
     "category": "weapon",
     "hardPoints": 0,
     "cost": 75,
     "notes": "Concealable",
     "damage": "2d6+2",
     "range": "5/10/20",
-    "desc": "+2 to conceal; single shot. Requires a full action to reload — most users fire once then switch to a sidearm. Carry spare power packs if you rely on it."
+    "desc": "+2 to conceal; single shot. Requires a full action to reload — most users fire once then switch to a sidearm. The SE-14C is the compact officer's sidearm of choice across the Imperial military and black market alike. Carry spare power packs if you rely on it."
   },
-  "Blaster Pistol": {
+  "BlasTech DH-17 Blaster Pistol": {
     "category": "weapon",
     "hardPoints": 2,
     "cost": 150,
     "notes": "Semi-auto",
     "damage": "2d6",
     "range": "12/24/48",
-    "desc": "Standard civilian blaster pistol. Reliable and widely available across the galaxy. Favored by smugglers and merchants for self-defense."
+    "desc": "Standard military sidearm used by Rebel soldiers and spacers across the galaxy. Reliable, widely available, and easy to maintain in the field. The workhorse blaster of the Galactic Civil War — if you see someone carrying one, they've seen action."
   },
-  "BlasTech DL-44": {
+  "BlasTech DL-44 Heavy Blaster Pistol": {
     "category": "weapon",
     "hardPoints": 2,
     "cost": 450,
     "notes": "Heavy, AP 1, 6 shots",
     "damage": "2d6+2",
     "range": "10/20/40",
-    "desc": "Heavy blaster pistol famously used by Han Solo. Hits harder than any standard pistol at close to mid range. Compact power cell holds only 6 shots before a full-action reload — carry spare packs. Highly sought after; expensive and often restricted."
+    "desc": "Heavy blaster pistol favored by smugglers and outlaws who need stopping power in a compact frame. Hits harder than any standard pistol at close to mid range. The compact power cell holds only 6 shots before a full-action reload — carry spare packs. Expensive, hard to find, and worth every credit."
   },
-  "Blaster Rifle (Standard)": {
+  "BlasTech A-300 Blaster Rifle": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 300,
     "notes": "AP 1",
     "damage": "2d8",
     "range": "15/30/60",
-    "desc": "Standard military blaster rifle. Good balance of power and accuracy. Used by militias, pirates, and resistance forces across the galaxy."
+    "desc": "The A-300 is the standard-issue longarm for Rebel Pathfinders and Alliance ground troops. Good balance of power and accuracy in a durable, field-serviceable package. Used by militias, resistance fighters, and anyone who needs a dependable rifle and can't afford something heavier."
   },
-  "E-11 Stormtrooper Rifle": {
+  "E-11 Blaster Rifle": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 350,
     "notes": "AP 1, 2RB",
     "damage": "2d8",
     "range": "24/48/96",
-    "desc": "Imperial standard-issue blaster rifle. Compact, reliable, with folding stock. Can fire three-round bursts. Common on the black market."
+    "desc": "Imperial standard-issue blaster rifle. Compact, reliable, with folding stock and excellent range. Can fire two-round bursts. Flooding the black market as Imperial garrisons fall — a common sight in the hands of pirates, remnant soldiers, and opportunists across the Rim."
   },
-  "Blaster Carbine": {
+  "BlasTech A-180 Blaster": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 450,
     "notes": "AP 1, Stun setting",
     "damage": "2d8",
     "range": "18/36/72",
-    "desc": "Compact long arm balancing mobility and stopping power. Popular with scouts, pilots, and boarding teams."
+    "desc": "Compact carbine favored by scouts, pilots, and boarding teams. Balances mobility and stopping power in a short, reliable package — the go-to longarm when space and weight matter."
   },
-  "Blaster Rifle (Heavy)": {
+  "BlasTech E-22 Blaster Rifle": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 500,
     "notes": "AP 2, 3RB",
     "damage": "2d8+1",
     "range": "24/48/96",
-    "desc": "Heavy assault rifle with three-round burst. Devastating against armored targets. Requires strength to wield effectively; used by heavy weapons specialists."
+    "desc": "The double-barreled E-22 is the heavy assault rifle of Imperial shoretroopers and specialist units. Three-round burst capability and AP 2 make it devastating against armored targets. Heavier than a standard longarm; favored by anyone whose job involves punching through cover."
   },
   "A280 Blaster Rifle": {
     "category": "weapon",
@@ -69,89 +69,87 @@
     "notes": "AP 2, Str d6 min",
     "damage": "2d8+1",
     "range": "24/48/96",
-    "desc": "Alliance favorite; powerful and accurate. A heavy, well-built rifle that hits harder than standard military issue. Requires Str d6 to handle without penalty. Favored by Rebel veterans and elite infantry."
+    "desc": "Alliance favorite; powerful and accurate. A heavy, well-built rifle that hits harder than standard military issue. Requires Str d6 to handle without penalty. Favored by Rebel veterans and elite infantry — if you see someone carrying an A280, they know what they're doing."
   },
-  "Light Repeating Blaster": {
+  "BlasTech T-21 Light Repeating Blaster": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 1800,
     "notes": "AP 1, Auto-fire, Bulky",
     "damage": "2d10",
     "range": "24/48/96",
-    "desc": "Portable support blaster designed for sustained fire. Devastating in suppression roles, but heavy and difficult to conceal."
+    "desc": "A heavy support weapon carried by Tusken Raiders, pirates, and anyone who needs sustained fire without a crew. The T-21 puts out a withering volume of fire at long range. Heavy and impossible to conceal — when you bring one out, everyone in the room understands what's about to happen."
   },
-  "Heavy Repeating Blaster": {
+  "E-Web Heavy Repeating Blaster": {
     "category": "weapon",
     "hardPoints": 3,
     "cost": 3000,
     "notes": "AP 2, Auto-fire, Very Bulky, Crew-served",
     "damage": "3d8",
     "range": "30/60/120",
-    "desc": "Tripod- or harness-mounted heavy weapon for battlefield dominance. Used by entrenched defenders and heavy assault teams."
+    "desc": "Tripod-mounted Imperial heavy weapon — the E-Web turns any defensive position into a killing ground. Requires a two-person crew and an external power generator. A staple of Imperial garrisons and remnant forces across the Outer Rim. When one gets set up, the smart move is not to be in front of it."
   },
-  "Vibroblade": {
+  "Czerka Arms Vibroblade": {
     "category": "weapon",
+    "hardPoints": 2,
     "cost": 500,
     "notes": "AP 2",
     "damage": "Str+d6",
     "range": "Melee",
-    "desc": "Vibrating blade that cuts through armor. Silent and deadly for close-quarters combat. Popular among assassins and those who prefer stealth."
+    "desc": "A vibrating blade that cuts through armor and flesh with equal efficiency. Czerka's standard vibroblade is the go-to for assassins, mercenaries, and anyone who needs to work quietly. Silent, reliable, and legal on most worlds — which is why so many people carry one."
   },
-  "Vibro-ax": {
+  "Gamorrean Vibro-Ax": {
     "category": "weapon",
+    "hardPoints": 1,
     "cost": 350,
     "notes": "AP 2, Parry -1",
     "damage": "Str+d8",
     "range": "Melee",
-    "desc": "Heavy vibro-weapon; powerful strikes but harder to parry with. Common among Wookiees and other strong species."
+    "desc": "Heavy vibro-weapon popularized by Gamorrean warriors — Jabba's palace guards made it infamous across the Outer Rim. Powerful strikes but harder to parry with. Common among Wookiees, Gamorreans, and other species who prefer a weapon with presence."
   },
-  "Combat Knife": {
+  "Vibro-Knife": {
     "category": "weapon",
+    "hardPoints": 0,
     "cost": 15,
     "notes": "",
     "damage": "Str+d4",
     "range": "Melee",
-    "desc": "Simple metal blade. Cheap, reliable, and always useful. Standard issue for soldiers; essential backup when blasters fail."
+    "desc": "A compact vibro-edged blade — cheap, quiet, and always useful. Standard backup for soldiers when blasters fail or draw unwanted attention. Every spacer worth the name has one somewhere on their person."
   },
-  "Electrostaff": {
+  "MagnaGuard Electrostaff": {
     "category": "weapon",
+    "hardPoints": 2,
     "cost": 600,
     "notes": "AP 1, Reach 1",
     "damage": "Str+d6",
     "range": "Melee",
-    "desc": "Electrified pole weapon used by MagnaGuards. Can block lightsabers. Extended reach; requires training to use effectively."
-  },
-  "Lightsaber": {
-    "category": "weapon",
-    "cost": 15000,
-    "notes": "AP 4",
-    "damage": "Spi+d10",
-    "range": "Melee",
-    "desc": "Elegant weapon of a more civilized age. Plasma blade that cuts through nearly anything. Requires kyber crystal and Force attunement; extremely rare and illegal in Imperial space."
+    "desc": "Electrified pole weapon designed for and used by General Grievous's MagnaGuard droids. One of the few weapons capable of blocking a lightsaber. Extended reach and armor-piercing shock emitters make it dangerous in trained hands — requires training to use effectively."
   },
   "Shock Gloves": {
     "category": "weapon",
+    "hardPoints": 0,
     "cost": 300,
     "notes": "Stun 3, Concealable",
     "damage": "Str+d4",
     "range": "Melee",
-    "desc": "Electrified combat gloves for close-quarters takedowns. Favored by enforcers and bounty hunters who need prisoners alive."
+    "desc": "Electrified combat gloves for close-quarters takedowns. Favored by enforcers and bounty hunters who need prisoners alive. Concealable enough to pass casual inspection."
   },
   "Stun Baton": {
     "category": "weapon",
+    "hardPoints": 1,
     "cost": 200,
     "notes": "Stun setting, Nonlethal focus",
     "damage": "Str+d4",
     "range": "Melee",
-    "desc": "Security-grade impact baton with a shock emitter. Designed for riot control and law enforcement engagements."
+    "desc": "Security-grade impact baton with a shock emitter. Standard issue for prison guards, riot control, and anyone whose job involves keeping people alive and cooperative."
   },
-  "Grenade": {
+  "Fragmentation Grenade": {
     "category": "weapon",
     "cost": 100,
     "notes": "AP 2, Medium Blast Template, one use",
     "damage": "3d6",
     "range": "5/10/20",
-    "desc": "Standard fragmentation grenade. Thrown explosive with a short fuse; strong anti-personnel effect in a small area."
+    "desc": "Standard fragmentation grenade. A thrown explosive with strong anti-personnel effect in a small area. Simple, reliable, and found in the kit of soldiers and mercenaries across every faction in the galaxy."
   },
   "Thermal Detonator": {
     "category": "weapon",
@@ -159,7 +157,16 @@
     "notes": "AP 4, Medium Blast Template, one use, restricted",
     "damage": "3d8",
     "range": "4/8/16",
-    "desc": "High-yield military explosive charge. Compact, volatile, and heavily regulated due to severe blast and fragmentation effects."
+    "desc": "High-yield military explosive charge. Compact, volatile, and heavily regulated — possession alone is enough to get you hauled in on most worlds. The preferred threat of bounty hunters, mercenaries, and people who need to make a very clear point."
+  },
+  "Merr-Sonn Model 22T4 Scatter Blaster": {
+    "category": "weapon",
+    "hardPoints": 1,
+    "cost": 350,
+    "notes": "Small Cone Template",
+    "damage": "2d6",
+    "range": "--/--/--",
+    "desc": "Short-range scatter weapon favored by pirates, cantina owners, and corridor defenders. No attack roll required — place the cone and every target inside makes an Agility roll or takes 2d6 damage. No effective range beyond the cone itself, but inside that cone, nothing walks away clean."
   },
   "Padded Clothing": {
     "category": "armor",
@@ -350,14 +357,5 @@
     "cost": 50,
     "notes": "Attach to target/item; detectable by tuned scanner",
     "desc": "Thumb-sized transmitter beacon used to track moving targets, cargo, or vehicles. Popular with bounty hunters and intelligence operatives."
-  },
-  "Scatter Blaster": {
-    "category": "weapon",
-    "hardPoints": 1,
-    "cost": 350,
-    "notes": "Small Cone Template",
-    "damage": "2d6",
-    "range": "--/--/--",
-    "desc": "Short-range scatter weapon favored by pirates, cantina owners, and corridor defenders. Roll Shooting once — every target in the Small Cone Template makes an Agility roll or takes 2d6 damage. No effective range beyond the cone itself."
   }
 }

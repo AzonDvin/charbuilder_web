@@ -42,6 +42,7 @@ from rules import (
     hindrance_points_after_skills,
     hindrance_points_on_attributes,
     recalc_credits,
+    suggest_skills_for_career,
     total_adjusted_skill_cost,
     validate_hindrance_budget,
 )
@@ -76,7 +77,7 @@ def _num_to_die(num: int) -> str:
 
 
 def normalize_skills_for_species(char: Character) -> None:
-    """Apply species skill dice grants (same behavior as the Tkinter skills step)."""
+    """Apply species skill dice grants to the character's skill list."""
     core = set(CORE_SKILLS)
     for s in CORE_SKILLS:
         if s not in char.skills:
@@ -119,7 +120,7 @@ def edges_meeting_trait_requirements(char: Character) -> list[str]:
 
 def compute_budget_totals(char: Character) -> dict:
     """
-    Running totals for the live panel (matches wizard math: hindrances → attributes → skills → edges).
+    Running totals for the live budget panel (hindrances → attributes → skills → edges).
     """
     H_total = sum(HINDRANCES[h]["pts"] for h in char.hindrances if h in HINDRANCES)
     raw_attr_steps = attribute_steps_spent(char.attributes, ATTRIBUTES)
@@ -238,6 +239,12 @@ def validate_character(char: Character) -> list[str]:
     return errors
 
 
+class SuggestSkillsRequest(BaseModel):
+    career: str
+    species: str = ""
+    attributes: dict = {}
+
+
 class SaveRequest(BaseModel):
     character: dict
     save_json: bool = True
@@ -309,7 +316,13 @@ def create_app() -> FastAPI:
                 "hindrances": hindrance_list,
                 "edges": edge_list,
                 "weapons": [
-                    {"name": n, "cost": v.get("cost", 0), "notes": v.get("notes", "")}
+                    {
+                        "name": n,
+                        "cost": v.get("cost", 0),
+                        "damage": v.get("damage", ""),
+                        "range": v.get("range", ""),
+                        "notes": v.get("notes", ""),
+                    }
                     for n, v in _gear_entries_sorted_by_cost(WEAPONS)
                 ],
                 "armor": [
@@ -340,6 +353,24 @@ def create_app() -> FastAPI:
                 "ok": len(errors) == 0,
             }
         )
+
+    @app.post("/api/suggest-skills")
+    async def api_suggest_skills(req: SuggestSkillsRequest) -> JSONResponse:
+        """
+        Return a suggested skill allocation for a career using only the 15 base
+        skill points (never touching hindrance points).  The caller applies these
+        values to the UI; the existing /api/preview endpoint validates the result.
+        """
+        sp_abilities = ""
+        if req.species and req.species in SPECIES:
+            sp_abilities = SPECIES[req.species].get("abilities", "")
+        suggested = suggest_skills_for_career(req.career, req.attributes, sp_abilities)
+        if suggested is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No suggested skills found for career '{req.career}'.",
+            )
+        return JSONResponse({"skills": suggested})
 
     @app.post("/api/save")
     async def api_save(req: SaveRequest) -> JSONResponse:

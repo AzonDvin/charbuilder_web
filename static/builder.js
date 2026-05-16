@@ -243,19 +243,68 @@
     syncHumanFreeEdgeCheckbox();
   }
 
+  function buildQtyRow(container, name, cost, meta2) {
+    // meta2: optional { damage, range } for weapons
+    const row = document.createElement("div");
+    row.className = "qty-row";
+    row.dataset.item = name;
+
+    const minus = document.createElement("button");
+    minus.type = "button";
+    minus.className = "qty-btn";
+    minus.textContent = "−";
+
+    const countEl = document.createElement("span");
+    countEl.className = "qty-count";
+    countEl.textContent = "0";
+
+    const plus = document.createElement("button");
+    plus.type = "button";
+    plus.className = "qty-btn";
+    plus.textContent = "+";
+
+    const lbl = document.createElement("span");
+    lbl.className = "qty-label";
+    lbl.textContent = name;
+
+    const sub = document.createElement("span");
+    sub.className = "qty-sub";
+    const parts = [`${cost} cr`];
+    if (meta2 && meta2.damage) parts.push(meta2.damage);
+    if (meta2 && meta2.range)  parts.push(`Range ${meta2.range}`);
+    sub.textContent = parts.join("  ·  ");
+
+    minus.addEventListener("click", () => {
+      const n = parseInt(countEl.textContent) || 0;
+      if (n > 0) {
+        countEl.textContent = n - 1;
+        countEl.classList.toggle("active", n - 1 > 0);
+        schedulePreview();
+      }
+    });
+
+    plus.addEventListener("click", () => {
+      const n = parseInt(countEl.textContent) || 0;
+      countEl.textContent = n + 1;
+      countEl.classList.add("active");
+      schedulePreview();
+    });
+
+    row.appendChild(minus);
+    row.appendChild(countEl);
+    row.appendChild(plus);
+    const textWrap = document.createElement("span");
+    textWrap.style.cssText = "display:flex;flex-direction:column;gap:0.05rem;";
+    textWrap.appendChild(lbl);
+    textWrap.appendChild(sub);
+    row.appendChild(textWrap);
+    container.appendChild(row);
+  }
+
   function buildWeaponsGear() {
     const wh = $("weapon-checks");
     wh.innerHTML = "";
-    (meta.weapons || []).forEach((w) => {
-      const lab = document.createElement("label");
-      const inp = document.createElement("input");
-      inp.type = "checkbox";
-      inp.value = w.name;
-      inp.addEventListener("change", schedulePreview);
-      lab.appendChild(inp);
-      lab.appendChild(document.createTextNode(` ${w.name} (${w.cost} cr)`));
-      wh.appendChild(lab);
-    });
+    (meta.weapons || []).forEach((w) => buildQtyRow(wh, w.name, w.cost, { damage: w.damage, range: w.range }));
 
     const arm = $("armor-select");
     arm.innerHTML = "";
@@ -274,16 +323,7 @@
 
     const gh = $("gear-checks");
     gh.innerHTML = "";
-    (meta.gear || []).forEach((g) => {
-      const lab = document.createElement("label");
-      const inp = document.createElement("input");
-      inp.type = "checkbox";
-      inp.value = g.name;
-      inp.addEventListener("change", schedulePreview);
-      lab.appendChild(inp);
-      lab.appendChild(document.createTextNode(` ${g.name} (${g.cost} cr)`));
-      gh.appendChild(lab);
-    });
+    (meta.gear || []).forEach((g) => buildQtyRow(gh, g.name, g.cost));
   }
 
   function buildSpeciesSelect() {
@@ -323,7 +363,8 @@
     sel.value = "";
     sel.addEventListener("change", () => {
       updateCareerBlurb();
-      schedulePreview();
+      // Auto-populate skills with career defaults; user can edit freely after
+      void applyCareerSkills(true);
     });
     updateCareerBlurb();
   }
@@ -390,10 +431,16 @@
     }
 
     const weapons = [];
-    document.querySelectorAll("#weapon-checks input:checked").forEach((cb) => weapons.push(cb.value));
+    document.querySelectorAll("#weapon-checks .qty-row").forEach((row) => {
+      const qty = parseInt(row.querySelector(".qty-count").textContent) || 0;
+      for (let i = 0; i < qty; i++) weapons.push(row.dataset.item);
+    });
 
     const gear = [];
-    document.querySelectorAll("#gear-checks input:checked").forEach((cb) => gear.push(cb.value));
+    document.querySelectorAll("#gear-checks .qty-row").forEach((row) => {
+      const qty = parseInt(row.querySelector(".qty-count").textContent) || 0;
+      for (let i = 0; i < qty; i++) gear.push(row.dataset.item);
+    });
 
     return {
       name: ($("char-name").value || "").trim(),
@@ -453,6 +500,28 @@
       if (ar && [...armSel.options].some((o) => o.value === ar)) armSel.value = ar;
       else armSel.value = "";
     }
+
+    // Sync weapon quantities
+    if (Array.isArray(c.weapons)) {
+      const weapCounts = {};
+      c.weapons.forEach((w) => { weapCounts[w] = (weapCounts[w] || 0) + 1; });
+      document.querySelectorAll("#weapon-checks .qty-row").forEach((row) => {
+        const qty = weapCounts[row.dataset.item] || 0;
+        const countEl = row.querySelector(".qty-count");
+        if (countEl) { countEl.textContent = qty; countEl.classList.toggle("active", qty > 0); }
+      });
+    }
+
+    // Sync gear quantities
+    if (Array.isArray(c.gear)) {
+      const gearCounts = {};
+      c.gear.forEach((g) => { gearCounts[g] = (gearCounts[g] || 0) + 1; });
+      document.querySelectorAll("#gear-checks .qty-row").forEach((row) => {
+        const qty = gearCounts[row.dataset.item] || 0;
+        const countEl = row.querySelector(".qty-count");
+        if (countEl) { countEl.textContent = qty; countEl.classList.toggle("active", qty > 0); }
+      });
+    }
   }
 
   function renderLiveTotals(t) {
@@ -492,23 +561,18 @@
       tRow("Hindrance pool after attributes", esc(t.hindrance_pool_after_attributes), t.hindrance_pool_after_attributes < 0),
       section("Skills"),
       tRow(
-        "Skill budget (15 + hindrance after attributes)",
+        "Skill budget (15 + unspent hindrance)",
         esc(t.skill_points_budget),
         t.skill_points_budget < 0
       ),
-      tRow("Total skill purchase cost", esc(t.skill_points_spent), false),
-      tRow("Skill budget remaining", esc(t.skill_points_remaining), t.skill_points_remaining < 0),
+      tRow("Skill points spent", esc(t.skill_points_spent), false),
+      tRow("Skill points remaining", esc(t.skill_points_remaining), t.skill_points_remaining < 0),
       tRow(
-        "Skill cost past the free 15 (1:1 from hindrance pool)",
+        "Spent above 15 (drawn from hindrance pool)",
         esc(t.hindrance_used_by_skills_past_15),
         false
       ),
-      tRow("Hindrance left for Edges (after skills)", esc(t.hindrance_pool_after_skills), t.hindrance_pool_after_skills < 0),
-      totalsExplain(
-        "One wallet: “Skill budget remaining” is (15 + hindrance after attributes) minus total skill cost. " +
-          "“Skill cost past the free 15” is only the slice of that same cost above 15; it reserves hindrance for the math on Edges. " +
-          "So you can still see budget headroom while hindrance-for-Edges goes down—same purchase, two labels."
-      ),
+      tRow("Hindrance left for Edges", esc(t.hindrance_pool_after_skills), t.hindrance_pool_after_skills < 0),
       section("Edges"),
       tRow("Edges selected", esc(t.edges_selected), false),
       tRow("Edges paid with hindrance (not free)", esc(t.edges_paid_with_hindrance), false),
@@ -622,6 +686,87 @@
     }
   }
 
+  /**
+   * Fetch career skill suggestion from the server and apply it to the skill table.
+   * @param {boolean} silent - when true, suppress the status note (used for auto-apply on career change)
+   */
+  async function applyCareerSkills(silent) {
+    const career = $("char-career").value;
+    const note = $("suggest-skills-note");
+
+    if (!career) {
+      if (!silent) {
+        note.textContent = "Choose a career first.";
+        note.style.color = "var(--warn)";
+      }
+      return;
+    }
+
+    const attributes = {};
+    (meta.attributes || []).forEach((attr) => {
+      const sel = $(`attr-${attr}`);
+      if (sel) attributes[attr] = sel.value;
+    });
+
+    if (!silent) {
+      note.textContent = "Calculating…";
+      note.style.color = "var(--muted)";
+    }
+
+    try {
+      const res = await fetch("/api/suggest-skills", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          career,
+          species: $("char-species").value,
+          attributes,
+        }),
+      });
+
+      if (!res.ok) {
+        if (!silent) {
+          const err = await res.json().catch(() => ({}));
+          note.textContent =
+            err.detail && typeof err.detail === "string"
+              ? err.detail
+              : "No suggestion available for this career.";
+          note.style.color = "var(--warn)";
+        }
+        return;
+      }
+
+      const data = await res.json();
+      const suggested = data.skills || {};
+      const core = new Set(meta.core_skills || []);
+
+      // Apply suggested values; skills remain freely editable after this
+      document.querySelectorAll("#skills-table select[data-skill]").forEach((sel) => {
+        const sk = sel.dataset.skill;
+        const val = Object.prototype.hasOwnProperty.call(suggested, sk)
+          ? suggested[sk]
+          : core.has(sk) ? "d4" : "Untrained";
+        if ([...sel.options].some((o) => o.value === val)) {
+          sel.value = val;
+        }
+      });
+
+      if (!silent) {
+        note.textContent = `Reset to ${career} defaults.`;
+        note.style.color = "var(--good)";
+      } else {
+        note.textContent = "";
+      }
+
+      schedulePreview();
+    } catch (e) {
+      if (!silent) {
+        note.textContent = String(e);
+        note.style.color = "var(--bad)";
+      }
+    }
+  }
+
   async function init() {
     const res = await fetch("/api/meta");
     meta = await res.json();
@@ -636,6 +781,7 @@
     buildEdges();
     buildWeaponsGear();
 
+    $("btn-suggest-skills").addEventListener("click", () => applyCareerSkills(false));
     $("btn-save").addEventListener("click", saveFiles);
 
     await runPreview();

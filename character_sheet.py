@@ -1,7 +1,7 @@
 """
 Build human-readable character sheets from exported character JSON (dict).
 
-Used by the GUI summary/export and by the CLI: ``python character_sheet.py <file.json>``.
+Used by the web API and by the CLI: ``python character_sheet.py <file.json>``.
 """
 
 from __future__ import annotations
@@ -698,11 +698,6 @@ def character_sheet_html(data: dict, title: str | None = None) -> str:
           <span class="ds-lbl">Toughness</span>
           <span class="ds-val">{E(str(toughness))}</span>
           <span class="ds-note">2+Half<br>Vigor</span>
-        </div>
-        <div class="ds-box">
-          <span class="ds-lbl">Charisma</span>
-          <span class="ds-val">0</span>
-          <span class="ds-note">[ 0 ]</span>
         </div>
 
         <div style="border-top:1px solid #bbb;">

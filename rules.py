@@ -1,5 +1,5 @@
 """
-Pure game-rule helpers shared by the desktop GUI and the web app.
+Pure game-rule helpers used by the web app.
 """
 
 from __future__ import annotations
@@ -7,7 +7,7 @@ from __future__ import annotations
 import re
 
 from character import Character, parse_species_granted_attribute_dice
-from data import ARMOR, EDGES, GEAR, HINDRANCES, WEAPONS
+from data import ARMOR, CAREERS, CORE_SKILLS, EDGES, GEAR, HINDRANCES, SKILL_ATTRIBUTES, WEAPONS
 
 
 def die_to_num(die: str) -> int:
@@ -67,7 +67,7 @@ def edge_category_from_data(name: str, data: dict) -> str:
         return "Power"
     if any(k in blob for k in ["command", "inspire", "battle", "allies"]):
         return "Leadership"
-    if any(k in blob for k in ["charisma", "persuasion", "contact", "connections", "streetwise"]):
+    if any(k in blob for k in ["persuasion", "contact", "connections", "streetwise"]):
         return "Social"
     if any(k in blob for k in ["investigation", "knowledge", "repair", "tracking", "survival", "scholar", "thief"]):
         return "Professional"
@@ -190,7 +190,7 @@ def total_adjusted_skill_cost(
 
 
 def hindrance_points_after_skills(hindrance_after_attrs: int, skill_total_cost: int) -> int:
-    """Hindrance pool remaining after skills (same rule as the Tkinter wizard)."""
+    """Hindrance pool remaining after skills."""
     skill_hindrance = max(0, skill_total_cost - 15)
     return max(0, hindrance_after_attrs - skill_hindrance)
 
@@ -253,3 +253,124 @@ def validate_hindrance_budget(
         errors.append("Only Human characters may use human_free_edges_used.")
 
     return errors, H_total, hindrance_on_attr, hindrance_after_attrs, hindrance_after_skills
+
+
+def suggest_skills_for_career(
+    career_name: str,
+    attributes: dict,
+    species_abilities: str | None,
+) -> dict[str, str] | None:
+    """
+    Return a suggested skill allocation that spends exactly the 15 base skill points
+    (never touches hindrance points) weighted toward the career's priority skills.
+
+    Returns a dict of {skill_name: die_value} for every skill that should have a
+    value set, or None if the career has no suggested_skills list.
+
+    Algorithm:
+    - Core skills start at d4 (free).
+    - Species skill grants are applied first at no cost.
+    - Priority skills are raised in waves (→d6 first across all, then →d8, then →d10/d12)
+      so no single skill hogs all the budget before others get a d6.
+    - Any leftover budget fills secondary skills at d6, then raises core skills to d6.
+    """
+    from character import skill_purchase_cost, parse_species_granted_skill_dice
+
+    career = CAREERS.get(career_name, {})
+    priority: list[str] = career.get("suggested_skills", []) if isinstance(career, dict) else []
+    if not priority:
+        return None
+
+    core = set(CORE_SKILLS)
+    _die_n = {"Untrained": 0, "d4": 4, "d6": 6, "d8": 8, "d10": 10, "d12": 12}
+    _n_die = {0: "Untrained", 4: "d4", 6: "d6", 8: "d8", 10: "d10", 12: "d12"}
+
+    # Initialise: core skills free at d4, everything else Untrained
+    skills: dict[str, str] = {s: "d4" for s in core}
+
+    # Apply species free skill grants first
+    grants = parse_species_granted_skill_dice(species_abilities or "", SKILL_ATTRIBUTES.keys())
+    for sk, g_die in grants.items():
+        cur_n = _die_n.get(skills.get(sk, "Untrained"), 0)
+        g_n = _die_n.get(g_die, 4)
+        skills[sk] = _n_die[max(cur_n, g_n)]
+
+    budget = 15  # base skill points only — never touch hindrance
+
+    def _incr_cost(skill: str, from_die: str, to_die: str) -> int:
+        """Marginal point cost to raise skill from from_die to to_die (one step)."""
+        to_c = skill_purchase_cost(skill, to_die, attributes, core, SKILL_ATTRIBUTES)
+        from_c = (
+            0
+            if from_die == "Untrained"
+            else skill_purchase_cost(skill, from_die, attributes, core, SKILL_ATTRIBUTES)
+        )
+        return max(0, to_c - from_c)
+
+    def _try_raise(skill: str, cap_die: str) -> bool:
+        """
+        Raise skill by exactly one die step toward cap_die if budget allows.
+        Returns True if a raise happened.
+        """
+        nonlocal budget
+        current = skills.get(skill, "Untrained")
+        cur_n = _die_n.get(current, 0)
+        cap_n = _die_n[cap_die]
+        if cur_n >= cap_n:
+            return False
+        next_n = 4 if cur_n == 0 else cur_n + 2
+        if next_n > cap_n:
+            return False
+        nd = _n_die[next_n]
+        cost = _incr_cost(skill, current, nd)
+        if cost <= budget:
+            skills[skill] = nd
+            budget -= cost
+            return True
+        return False
+
+    # Phase A: raise each priority skill to d6, then d8 (in waves so early skills
+    # don't starve later ones)
+    for cap in ("d6", "d8"):
+        cap_n = _die_n[cap]
+        for skill in priority:
+            cur_n = _die_n.get(skills.get(skill, "Untrained"), 0)
+            while cur_n < cap_n and budget > 0:
+                if _try_raise(skill, cap):
+                    cur_n = _die_n.get(skills.get(skill, "Untrained"), 0)
+                else:
+                    break
+
+    # Phase B: push priority skills further if budget remains
+    for cap in ("d10", "d12"):
+        cap_n = _die_n[cap]
+        for skill in priority:
+            cur_n = _die_n.get(skills.get(skill, "Untrained"), 0)
+            while cur_n < cap_n and budget > 0:
+                if _try_raise(skill, cap):
+                    cur_n = _die_n.get(skills.get(skill, "Untrained"), 0)
+                else:
+                    break
+
+    # Phase C: spend leftovers on secondary non-core skills at d6
+    secondary = sorted(s for s in SKILL_ATTRIBUTES if s not in priority and s not in core)
+    for skill in secondary:
+        if budget <= 0:
+            break
+        if skills.get(skill, "Untrained") == "Untrained":
+            cost = _incr_cost(skill, "Untrained", "d6")
+            if cost <= budget:
+                skills[skill] = "d6"
+                budget -= cost
+
+    # Phase D: raise any core skills not in priority to d6 with remaining budget
+    for skill in CORE_SKILLS:
+        if budget <= 0:
+            break
+        if skill not in priority:
+            cost = _incr_cost(skill, skills.get(skill, "d4"), "d6")
+            if cost <= budget:
+                skills[skill] = "d6"
+                budget -= cost
+
+    return skills

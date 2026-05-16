@@ -28,7 +28,7 @@
     header {
       background: linear-gradient(180deg, #1a1a2e 0%, #12141a 100%);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 1.25rem 1.25rem;
+      padding: 0.85rem 1.25rem;
     }
     header h1 {
       margin: 0;
@@ -37,7 +37,6 @@
       color: var(--accent);
       letter-spacing: 0.04em;
     }
-    header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.92rem; }
     .page-wrap {
       display: grid;
       grid-template-columns: minmax(17rem, 19rem) minmax(0, 1fr);
@@ -269,12 +268,36 @@
     #status { font-size: 0.88rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.5; }
     #status a { color: var(--accent); text-decoration: underline; word-break: break-all; }
     #status a:hover { filter: brightness(1.1); }
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.28rem 0.1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .qty-row:last-child { border-bottom: none; }
+    .qty-btn {
+      padding: 0.05rem 0.45rem;
+      font-size: 1rem;
+      line-height: 1.2;
+      min-width: 1.7rem;
+      border-radius: 4px;
+    }
+    .qty-count {
+      min-width: 1.6rem;
+      text-align: center;
+      font-size: 0.88rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+    }
+    .qty-count.active { color: var(--accent); font-weight: 600; }
+    .qty-label { font-size: 0.88rem; }
+    .qty-sub { font-size: 0.78rem; color: var(--muted); }
   </style>
 </head>
 <body>
   <header>
     <h1>SAVAGE WORLDS STAR WARS</h1>
-    <p>Character builder — single page (local FastAPI). Exports are written to the <code>output</code> folder next to the app.</p>
   </header>
   <div class="page-wrap">
     <aside id="live-panel" aria-label="Running totals and validation">
@@ -320,9 +343,13 @@
 
     <section id="sec-skills">
       <h2>Skills</h2>
-      <p class="muted">Skill budget is <strong>one</strong> pool: 15 creation points plus hindrance points left after attributes. Raising skills spends from that pool only. Any skill cost over 15 is also <em>tagged</em> to hindrance so the panel can show how much hindrance is still free for Edges—it is not a second charge on top of “skill budget remaining.”</p>
+      <p class="muted">15 base points, plus any hindrance points left after attributes. Skills past 15 draw from the hindrance pool, leaving less available for Edges.</p>
       <div style="overflow-x:auto;">
         <table class="skills" id="skills-table"><thead><tr><th>Skill</th><th>Linked</th><th>Die</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div style="margin-top:0.65rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+        <button type="button" id="btn-suggest-skills">↺ Reset to career defaults</button>
+        <span id="suggest-skills-note" class="muted" style="font-size:0.82rem;"></span>
       </div>
     </section>
 

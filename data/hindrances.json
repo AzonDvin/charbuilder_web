@@ -24,9 +24,9 @@
   "Doubting Thomas": {"type": "Major", "pts": 2, "desc": "Doesn't believe in the Force"},
   "Enemy": {"type": "Major", "pts": 2, "desc": "Powerful foe opposes you"},
   "Habit (Major)": {"type": "Major", "pts": 2, "desc": "Serious addiction"},
-  "Hesitant": {"type": "Major", "pts": 2, "desc": "No free reroll"},
+  "Hesitant": {"type": "Major", "pts": 2, "desc": "Draw two action cards each round; act on the lower card"},
   "Illiterate (Major)": {"type": "Major", "pts": 2, "desc": "Cannot read, -2 Common Knowledge"},
-  "Mean": {"type": "Major", "pts": 2, "desc": "-2 Charisma"},
+  "Mean": {"type": "Major", "pts": 2, "desc": "-2 Persuasion"},
   "One Arm": {"type": "Major", "pts": 2, "desc": "Missing limb"},
   "One Eye": {"type": "Major", "pts": 2, "desc": "-2 ranged attacks"},
   "Outsider": {"type": "Major", "pts": 2, "desc": "-2 Persuasion, different culture"},
@@ -34,5 +34,5 @@
   "Phobia": {"type": "Major", "pts": 2, "desc": "Paralyzing fear"},
   "Poverty (Major)": {"type": "Major", "pts": 2, "desc": "Quarter starting credits"},
   "Vow": {"type": "Major", "pts": 2, "desc": "Major commitment"},
-  "Young": {"type": "Major", "pts": 2, "desc": "-1 size"}
+  "Young": {"type": "Major", "pts": 2, "desc": "-1 die step to three traits (GM selects); +1 Benny per session"}
 }
