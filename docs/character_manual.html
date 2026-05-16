@@ -4,49 +4,99 @@
 <meta charset="utf-8">
 <title>Character Builder Reference Manual</title>
 <style>
-:root { --bg: #f6f7f9; --text: #1a1d26; --muted: #5c6578; --border: #c9ced9; --head: #2c3d5c; }
+:root {
+  --bg: #f4f6fb;
+  --text: #1a1d26;
+  --muted: #5c6578;
+  --border: #c9ced9;
+  --head: #1a3a6b;
+  --accent: #1a3a6b;
+  --accent-light: #e8edf8;
+}
 * { box-sizing: border-box; }
-body { font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.45; color: var(--text); background: var(--bg); margin: 0; padding: 1.5rem 2rem 3rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
-h1 { color: var(--head); font-size: 1.75rem; margin-top: 0; }
-h2 { color: var(--head); font-size: 1.35rem; margin-top: 2.25rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--border); }
-h3 { color: var(--head); font-size: 1.1rem; margin-top: 1.5rem; }
+body { font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.5; color: var(--text); background: var(--bg); margin: 0; padding: 1.5rem 2rem 3rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
+h1 { color: var(--head); font-size: 1.8rem; margin-top: 0; border-bottom: 3px solid var(--accent); padding-bottom: 0.4rem; }
+h2 { color: var(--head); font-size: 1.25rem; margin-top: 2.5rem; padding: 0.3rem 0.7rem; background: var(--accent); color: #fff; border-radius: 3px; }
+h3 { color: var(--head); font-size: 1.05rem; margin-top: 1.5rem; border-left: 4px solid var(--accent); padding-left: 0.5rem; }
 p.lead { color: var(--muted); font-size: 1.05rem; }
-.meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-th, td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
-th { background: #e8ecf4; font-weight: 600; color: var(--head); }
-tr:nth-child(even) td { background: #fafbfd; }
+.meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; background: var(--accent-light); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.91rem; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07); border-radius: 4px; overflow: hidden; }
+th, td { border: 1px solid var(--border); padding: 0.45rem 0.7rem; text-align: left; vertical-align: top; }
+th { background: var(--accent); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: #f8fafd; }
+tr:hover td { background: var(--accent-light); }
 .career-desc { color: var(--muted); margin: 0.25rem 0 0.75rem; font-style: italic; }
 ul.steps { margin: 0.5rem 0 1rem 1.2rem; }
-ul.steps li { margin: 0.35rem 0; }
-a.nav { color: #1d5a9c; }
-@media print { body { background: #fff; } table { box-shadow: none; } }
+ul.steps li { margin: 0.45rem 0; }
+a.nav { color: var(--accent); font-weight: 500; text-decoration: none; }
+a.nav:hover { text-decoration: underline; }
+.nav-bar { display: flex; flex-wrap: wrap; gap: 0.4rem 0.75rem; background: var(--accent); padding: 0.6rem 0.9rem; border-radius: 4px; margin: 1.2rem 0; }
+.nav-bar a { color: #fff; font-size: 0.88rem; text-decoration: none; }
+.nav-bar a:hover { text-decoration: underline; }
+.ref-box { background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 4px; padding: 0.75rem 1rem; margin: 1rem 0 1.5rem; }
+.ref-box h3 { margin-top: 0; border: none; padding: 0; font-size: 0.95rem; color: var(--head); }
+.ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.badge { display: inline-block; background: var(--accent); color: #fff; font-size: 0.75rem; font-weight: 600; padding: 1px 6px; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
+.badge.minor { background: #7a6a1a; }
+.badge.major { background: #7a1a1a; }
+code { background: #eef0f6; padding: 1px 5px; border-radius: 3px; font-size: 0.88em; }
+@media print { body { background: #fff; } table { box-shadow: none; } h2 { background: #000; } .nav-bar { background: #000; } }
 </style>
 </head>
 <body>
 <h1>Character Builder Reference Manual</h1>
-<p class="lead">Savage Worlds–style Star Wars character creation. Tables below list every option loaded from the project <code>data/</code> folder.</p>
-<p class="meta">Regenerate this file after editing JSON: <code>python scripts/generate_character_manual.py</code></p>
-<h2>How to use this manual</h2>
+<p class="lead">Savage Worlds Adventure Edition (SWADE) — Star Wars setting. Every option below is loaded live from the project's <code>data/</code> JSON files.</p>
+<p class="meta">&#x26A0; Regenerate this file whenever you edit a JSON data file: <code>python scripts/generate_character_manual.py</code></p>
+<div class="nav-bar">
+<a href="#species">Species</a>
+<a href="#careers">Careers</a>
+<a href="#hindrances">Hindrances</a>
+<a href="#attributes">Attributes</a>
+<a href="#skills">Skills</a>
+<a href="#edges">Edges</a>
+<a href="#weapons">Weapons</a>
+<a href="#armor">Armor</a>
+<a href="#attachments">Attachments</a>
+<a href="#gear">Gear</a>
+<a href="#mechanics">Mechanics</a>
+</div>
+<h2>Build Flow (7 Steps)</h2>
 <ul class='steps'>
-<li><strong>Step 1 — Concept:</strong> Choose name, species, and career (see tables below).</li>
-<li><strong>Step 2 — Hindrances:</strong> Up to 4 hindrance points total (Minor = 1, Major = 2). Points pay for higher attributes, extra skills, and edges.</li>
-<li><strong>Step 3 — Attributes:</strong> Agility, Smarts, Spirit, Strength, Vigor (dice d4–d12).</li>
-<li><strong>Step 4 — Skills:</strong> Train skills; core skills start at d4.</li>
-<li><strong>Step 5 — Edges:</strong> Special advantages; Humans get one free edge.</li>
-<li><strong>Step 6 — Equipment:</strong> Spend starting credits on weapons, one armor, and gear.</li>
+<li><strong>Step 1 — Concept:</strong> Choose a name, species, and career. Your species sets any racial traits and minimum attribute dice. Careers are free flavor packages — pick the one that fits the character concept.</li>
+<li><strong>Step 2 — Hindrances:</strong> Select up to <strong>4 hindrance points</strong> total (Major = 2 pts, Minor = 1 pt). These points are a currency you spend in steps 3–5.</li>
+<li><strong>Step 3 — Attributes:</strong> Spend <strong>5 free die steps</strong> across Agility, Smarts, Spirit, Strength, and Vigor (each starts at d4). Each step raises one attribute by one die (d4→d6→d8→d10→d12). Spend 2 hindrance points per extra step beyond the 5 free ones.</li>
+<li><strong>Step 4 — Skills:</strong> Spend <strong>15 free skill points</strong>. Core skills default to d4; all others start Untrained. Raising a skill up to its linked attribute costs 1 pt per step; above the linked attribute costs 2 pts per step. Spend hindrance points (1 pt each) for every skill point beyond 15.</li>
+<li><strong>Step 5 — Edges:</strong> Spend <strong>2 hindrance points per Edge</strong>. Humans get one free Edge (ignore requirements, except for prerequisite Edges). Edge requirements (rank, attribute, skill) must be met.</li>
+<li><strong>Step 6 — Equipment:</strong> Spend your starting credits on weapons (any number), one suit of armor, and general gear. Credits not spent carry over to play.</li>
+<li><strong>Step 7 — Summary &amp; Save:</strong> Review your derived stats (Toughness, Parry), confirm no validation errors, then save to <code>output/</code> as JSON, HTML sheet, and plain-text sheet.</li>
 </ul>
-<p>Jump to: 
-<a class="nav" href="#species">Species</a> · <a class="nav" href="#careers">Careers</a> · <a class="nav" href="#hindrances">Hindrances</a> · <a class="nav" href="#attributes">Attributes</a> · <a class="nav" href="#skills">Skills</a> · <a class="nav" href="#edges">Edges</a> · <a class="nav" href="#weapons">Weapons</a> · <a class="nav" href="#armor">Armor</a> · <a class="nav" href="#gear">Gear</a>
-</p>
+<h2 id="mechanics">Mechanics Quick Reference</h2>
+<div class="ref-grid">
+<div class="ref-box">
+<h3>Hindrance Point Budget</h3>
+<table><thead><tr><th>Phase</th><th>Free allowance</th><th>Hindrance cost to exceed</th></tr></thead><tbody><tr><td>Attributes</td><td>5 die steps</td><td>2 pts per extra step</td></tr><tr><td>Skills</td><td>15 skill points</td><td>1 pt per extra skill point</td></tr><tr><td>Edges</td><td>0 (Human: 1 free)</td><td>2 pts per Edge</td></tr></tbody></table><p style='font-size:0.88rem;color:#555;'>Maximum hindrance points collectible: <strong>4</strong>.</p>
+</div>
+<div class="ref-box">
+<h3>Derived Stats</h3>
+<table><thead><tr><th>Stat</th><th>Formula</th></tr></thead><tbody><tr><td><strong>Toughness</strong></td><td>2 + half Vigor die + armor bonus + size bonus</td></tr><tr><td><strong>Parry</strong></td><td>2 + half Fighting die (or 2 if Untrained)</td></tr><tr><td><strong>Pace</strong></td><td>6&Prime; (modified by some species)</td></tr><tr><td><strong>Charisma</strong></td><td>0 (modified by Edges and some species)</td></tr></tbody></table><p style='font-size:0.88rem;color:#555;'>Half die = half the die's number, rounded down. Vigor d6 → 3; Vigor d8 → 4.</p>
+</div>
+<div class="ref-box">
+<h3>Starting Credits</h3>
+<table><thead><tr><th>Condition</th><th>Credits</th></tr></thead><tbody><tr><td>Standard (no wealth modifiers)</td><td>500 cr</td></tr><tr><td>Poverty (Minor hindrance)</td><td>250 cr</td></tr><tr><td>Poverty (Major hindrance)</td><td>125 cr</td></tr><tr><td>Rich Edge</td><td>1,500 cr</td></tr><tr><td>Filthy Rich Edge</td><td>2,500 cr</td></tr></tbody></table>
+</div>
+<div class="ref-box">
+<h3>Skill Point Cost per Step</h3>
+<table><thead><tr><th>Skill die vs linked attribute</th><th>Cost per step</th></tr></thead><tbody><tr><td>At or below linked attribute die</td><td>1 point</td></tr><tr><td>Above linked attribute die</td><td>2 points</td></tr><tr><td>Core skill (already at d4)</td><td>1 point to raise to d6+</td></tr><tr><td>Species-granted skill</td><td>Counts from the granted die, not Untrained</td></tr></tbody></table>
+</div>
+</div>
 <h2 id="species">Step 1 — Species</h2>
 <table>
 <thead><tr><th>Species</th><th>Abilities</th><th>Notes</th></tr></thead>
 <tbody>
-<tr><td><strong>Bothan</strong></td><td>+2 Streetwise, Low-light vision, Stealth d6 (spynet field tradecraft); Curious—can&#x27;t resist seeking intel (Minor)</td><td>Famous spy network; &quot;Many Bothans died&quot; for Death Star plans</td></tr>
-<tr><td><strong>Chiss</strong></td><td>d6 Smarts, Low-light vision; -2 Charisma (cold, aloof demeanor)</td><td>From Csilla; expansionist; blue skin, glowing red eyes</td></tr>
+<tr><td><strong>Bothan</strong></td><td>+2 Notice, Low-light vision, Stealth d6 (spynet field tradecraft); Curious—can&#x27;t resist seeking intel (Minor)</td><td>Famous spy network; &quot;Many Bothans died&quot; for Death Star plans</td></tr>
+<tr><td><strong>Chiss</strong></td><td>d6 Smarts, Low-light vision; -2 Charisma (cold, aloof demeanor), Cautious—methodical and calculating, hesitates in uncertain situations (Minor)</td><td>From Csilla; expansionist; blue skin, glowing red eyes</td></tr>
 <tr><td><strong>Devaronian</strong></td><td>+1 Persuasion, +1 Intimidation, Low-light vision; Greedy (Minor)</td><td>From Devaron; horned humanoids; merchants and smugglers</td></tr>
-<tr><td><strong>Droid</strong></td><td>Construct (ignore wound modifiers, disease, poison), Immune to poison/disease, Integrated systems (diagnostics, tool mounts), Repair d6 (maintenance protocols); Vulnerable to ion/EMP (-4 resist electricity), -2 Charisma with organics</td><td>Artificial beings; programmable; no fatigue from sleep</td></tr>
+<tr><td><strong>Droid</strong></td><td>Construct (ignore wound modifiers, disease, poison), Immune to poison/disease, Integrated systems (diagnostics, tool mounts), Repair d6 (maintenance protocols); Vulnerable to ion/EMP (-4 resist electricity), -2 Charisma with organics, Maintenance (must recharge 8hrs per day or gain Fatigue)</td><td>Artificial beings; programmable; requires 8hrs daily recharge or suffers Fatigue like organics without sleep</td></tr>
 <tr><td><strong>Duros</strong></td><td>Piloting d6, Astrogation d6, Low-light vision; Slender build (Pace 5)</td><td>From Duro; spacefaring pioneers; large red eyes, hairless blue skin</td></tr>
 <tr><td><strong>Human</strong></td><td>One extra Edge at creation (ignore requirements except prerequisites)</td><td>Most common species in the galaxy; adaptable and versatile</td></tr>
 <tr><td><strong>Kel Dor</strong></td><td>Darkvision, +4 resist vacuum/low pressure, Common Knowledge d6, Low-light vision, Piloting d6 (void and thin-atmosphere operations); Oxygen toxicity—must wear breath mask off Dorin (Major)</td><td>From Dorin; Plo Koon&#x27;s species; antiox mask and goggles required off-world</td></tr>
@@ -55,10 +105,10 @@ a.nav { color: #1d5a9c; }
 <tr><td><strong>Nautolan</strong></td><td>Swimming d6, Hold breath 15+ min, +2 Notice in water (electroreception via head tendrils), Athletics d6 (powerful swimmers); Dehydration—must immerse in water 1 hr per 24 hrs or become Fatigued</td><td>From Glee Anselm; amphibious; tendrils sense pheromones and emotions; Kit Fisto&#x27;s species</td></tr>
 <tr><td><strong>Rodian</strong></td><td>+2 Notice (sight), Infravision, Shooting d6 (hunters and duelists); -2 Charisma (insectoid appearance unsettles many)</td><td>From Rodia; hunting culture; compound eyes, antennae</td></tr>
 <tr><td><strong>Sullustan</strong></td><td>Piloting d6, Low-light vision, +2 Notice in darkness (echolocation); Pace 5</td><td>From Sullust; Nien Nunb&#x27;s species; natural pilots; cave dwellers with large ears</td></tr>
-<tr><td><strong>Togruta</strong></td><td>+2 Notice (spatial awareness via montrals), Natural weapons (bite Str+d4), Low-light vision; Pack mentality—strongly Loyal to their group (Minor)</td><td>From Shili; Ahsoka Tano&#x27;s species; montrals provide echolocation; pack hunters</td></tr>
-<tr><td><strong>Trandoshan</strong></td><td>Climbing d6, Regeneration (1 wound/day), Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma</td><td>Reptilian hunters from Trandosha; bounty hunter culture</td></tr>
+<tr><td><strong>Togruta</strong></td><td>+1 Notice (spatial awareness via montrals — distance and movement only), Natural weapons (bite Str+d4), Low-light vision; Pack mentality—strongly Loyal to their group (Minor)</td><td>From Shili; Ahsoka Tano&#x27;s species; montrals provide echolocation; pack hunters</td></tr>
+<tr><td><strong>Trandoshan</strong></td><td>Climbing d6, +2 to natural Vigor healing rolls, Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma</td><td>Reptilian hunters from Trandosha; bounty hunter culture</td></tr>
 <tr><td><strong>Twi&#x27;lek</strong></td><td>+1 Persuasion, Low-light vision, Performance d6 (lekku dance and traditional Ryloth arts); -1 Quirk: Lekku make some armor and helmets awkward</td><td>From Ryloth; lekku (head-tails) express emotion; often targeted by slavers</td></tr>
-<tr><td><strong>Wookiee</strong></td><td>d6 Strength, +1 Size; Cannot speak Basic (Minor), -2 Charisma with strangers</td><td>From Kashyyyk; fierce warriors; life-debt tradition; Shyriiwook only</td></tr>
+<tr><td><strong>Wookiee</strong></td><td>d6 Strength, +1 Size; Cannot speak Basic (-2 Persuasion with beings who don&#x27;t understand Shyriiwook, Minor), -2 Charisma with strangers</td><td>From Kashyyyk; fierce warriors; life-debt tradition; Shyriiwook only</td></tr>
 <tr><td><strong>Zabrak</strong></td><td>+2 to resist Fear, Two hearts (+1 Toughness); Stubborn (Minor)</td><td>From Iridonia; distinctive facial horns and tattoos; durable</td></tr>
 </tbody></table>
 <h2 id="careers">Step 1 — Careers</h2>
@@ -70,17 +120,7 @@ a.nav { color: #1d5a9c; }
 <tr><td>Dead or alive paperwork</td><td>narrative</td><td>You can always identify local bounty-posting customs and typical bond rules without a roll (who pays, who enforces, what voids a claim).</td></tr>
 <tr><td>Pressure at range</td><td>situational</td><td>+1 to Intimidation against a single target who knows you are armed and serious (once per scene per target).</td></tr>
 <tr><td>Hunter’s mark</td><td>situational</td><td>In the first round of combat, once per combat, shoot at a target that has not acted this round; each raise adds 1d6 to damage.</td></tr>
-<tr><td>Guild hall tone</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations that routinely work with hunters: bounty guilds, posting authorities, law-enforcement liaisons, or prison and transport contractors.</td></tr>
-</tbody></table>
-<h3>Colonist</h3>
-<p class="career-desc">Frontier settler, ag worker, or town pillar. You know how to make a life where supply lines are thin.</p>
-<table>
-<thead><tr><th>Benefit title</th><th>Type</th><th>Effect</th></tr></thead>
-<tbody>
-<tr><td>Community face</td><td>situational</td><td>+1 to Persuasion when dealing with locals in a settlement of ≤ 5,000 people.</td></tr>
-<tr><td>Practical medicine</td><td>situational</td><td>+1 to Healing when treating shock, heatstroke, dehydration, or vermin bites—not lightsaber wounds or major surgery.</td></tr>
-<tr><td>Barter sense</td><td>narrative</td><td>You always know who runs the local market, who sets landing pad fees, and who will trade favors for food or parts (no roll to learn that gossip).</td></tr>
-<tr><td>Co-op voice</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations rooted in settlement life: homestead councils, agricultural co-ops, colonial administration, or frontier relief and supply leagues.</td></tr>
+<tr><td>Guild hall tone</td><td>situational</td><td>+1 to Persuasion when dealing with organizations that routinely work with hunters: bounty guilds, posting authorities, law-enforcement liaisons, or prison and transport contractors.</td></tr>
 </tbody></table>
 <h3>Hired Gun</h3>
 <p class="career-desc">Mercenary, enforcer, or line soldier for credits. Violence is the job description.</p>
@@ -90,7 +130,17 @@ a.nav { color: #1d5a9c; }
 <tr><td>Snap retaliation</td><td>situational</td><td>+1 to one of your Shooting rolls targeting an enemy that missed you last round.</td></tr>
 <tr><td>Mercenary rep</td><td>narrative</td><td>You recognize unit insignia, typical contract rates, and which officers actually pay on time—no roll for general knowledge of merc bands in the Outer Rim.</td></tr>
 <tr><td>Heavy familiarity</td><td>situational</td><td>Ignore 1 point of multi-action penalty when your extra action is only bracing, deploying, or swapping to a heavy weapon.</td></tr>
-<tr><td>Merc&#x27;s code</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations that trade in force: mercenary companies, PMC contracting desks, arms suppliers, or veteran and muster societies.</td></tr>
+<tr><td>Merc&#x27;s code</td><td>situational</td><td>+1 to Persuasion when dealing with organizations that trade in force: mercenary companies, PMC contracting desks, arms suppliers, or veteran and muster societies.</td></tr>
+</tbody></table>
+<h3>Medic</h3>
+<p class="career-desc">Field surgeon, bacta specialist, or triage expert. You keep people alive when everything else is trying to kill them.</p>
+<table>
+<thead><tr><th>Benefit title</th><th>Type</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Trauma response</td><td>situational</td><td>Once per combat, you may make a Healing roll as a free action (instead of a full action) on an adjacent character who was wounded this round.</td></tr>
+<tr><td>Field assessment</td><td>narrative</td><td>You always know the nearest medical facility, what supplies are available locally, and which injuries are treatable in the field without a roll. No check needed to assess a wound or triage a scene.</td></tr>
+<tr><td>Golden hour</td><td>situational</td><td>+1 to Healing rolls when treating a patient within 1 hour of them receiving the wound.</td></tr>
+<tr><td>Medical network</td><td>situational</td><td>+1 to Persuasion when dealing with organizations built around care and supply: MedStar field units, bacta cartel reps, Alliance medical corps, refugee relief organizations, or Imperial garrison surgeons.</td></tr>
 </tbody></table>
 <h3>Politico</h3>
 <p class="career-desc">Diplomat, public advocate, or deal-broker who wins conflicts before blasters clear leather.</p>
@@ -100,17 +150,37 @@ a.nav { color: #1d5a9c; }
 <tr><td>Floor presence</td><td>situational</td><td>+1 to Persuasion when addressing a group, hearing, council, or negotiation table where your target can hear your full argument.</td></tr>
 <tr><td>Biting retort</td><td>situational</td><td>Once per combat, as a free action, make a Taunt test against one target who can hear and understand you; on a success, the target is Distracted until the end of its next turn, and on a raise it is also Vulnerable.</td></tr>
 <tr><td>Protocol web</td><td>narrative</td><td>After you spend a few hours talking to locals, you learn the local etiquette chain for formal talks (who must be approached first, titles to use, and what custom might offend) without a roll.</td></tr>
-<tr><td>Market brief</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations built on policy and commerce: trade delegations, customs boards, colonial councils, or corporate affairs offices.</td></tr>
+<tr><td>Market brief</td><td>situational</td><td>+1 to Persuasion when dealing with organizations built on policy and commerce: trade delegations, customs boards, colonial councils, or corporate affairs offices.</td></tr>
+</tbody></table>
+<h3>Scoundrel</h3>
+<p class="career-desc">Gambler, grifter, or con artist. You live by your wits, your luck, and your ability to make people look the other way.</p>
+<table>
+<thead><tr><th>Benefit title</th><th>Type</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Dirty fighter</td><td>situational</td><td>Once per combat, when an enemy is Distracted or Vulnerable, you may make an attack against them as a free action. You do not fight fair — you fight smart.</td></tr>
+<tr><td>Read the room</td><td>narrative</td><td>You always know the local gambling scene, back-room deals, and who is running what hustle in any settlement — no Notice or Persuasion roll needed to find the seedy underbelly of a new location.</td></tr>
+<tr><td>Silver tongue</td><td>situational</td><td>+1 to Persuasion when lying, bluffing, or running a con. Does not apply to honest social interactions.</td></tr>
+<tr><td>Underworld ear</td><td>situational</td><td>+1 to Persuasion when dealing with organizations that live in the grey: sabacc dens, spice traders, debt collectors, crime family associates, or underworld fixers.</td></tr>
+</tbody></table>
+<h3>Scout</h3>
+<p class="career-desc">Ranger, pathfinder, or wilderness operative. You move fast, stay hidden, and always know the terrain before anyone else does.</p>
+<table>
+<thead><tr><th>Benefit title</th><th>Type</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Covering withdrawal</td><td>situational</td><td>Once per combat, you may Run and Shoot in the same round with only -1 penalty instead of the normal -2.</td></tr>
+<tr><td>Terrain reader</td><td>narrative</td><td>When planetside, you always know local terrain features, likely ambush points, water sources, and safe camp sites without a roll. No Survival check needed for basic orientation in a new environment.</td></tr>
+<tr><td>Ghost step</td><td>situational</td><td>+1 to Stealth when stationary or moving at half Pace or less.</td></tr>
+<tr><td>Frontier contacts</td><td>situational</td><td>+1 to Persuasion when dealing with organizations operating on the edge of civilization: Rebel cells in the field, planetary ranger corps, explorer guilds, or smuggler crews running wild space routes.</td></tr>
 </tbody></table>
 <h3>Smuggler</h3>
 <p class="career-desc">Blockade sprinter, fixer, or fast-talking loader. Cargo flies if the story holds.</p>
 <table>
 <thead><tr><th>Benefit title</th><th>Type</th><th>Effect</th></tr></thead>
 <tbody>
-<tr><td>Gray manifest</td><td>situational</td><td>+1 to Thievery or Streetwise when hiding contraband in a vehicle, crate, or false panel you prepared at least one scene in advance.</td></tr>
+<tr><td>Gray manifest</td><td>situational</td><td>+1 to Thievery or Stealth when hiding contraband in a vehicle, crate, or false panel you prepared at least one scene in advance.</td></tr>
 <tr><td>Yeah, I bet you have...</td><td>situational</td><td>Once per scene, if you are in a conversation with the target, you may attempt to draw your blaster and attack. Roll Thievery; on a success, you have the Drop on that target for the attack.</td></tr>
 <tr><td>Fixer’s introduction</td><td>narrative</td><td>In any starport Class III or larger, you may know a fence, loader’s union rep, or corrupt clerk by reputation; the GM names them when you arrive.</td></tr>
-<tr><td>Gray channel</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations that routinely touch the shadow trade: fences, blockade-runner rings, dockside syndicates, or black-market clearing houses.</td></tr>
+<tr><td>Gray channel</td><td>situational</td><td>+1 to Persuasion when dealing with organizations that routinely touch the shadow trade: fences, blockade-runner rings, dockside syndicates, or black-market clearing houses.</td></tr>
 </tbody></table>
 <h3>Technician</h3>
 <p class="career-desc">Ship’s engineer, slicer, or grease-stained genius. If it has wires, you’ve sworn at it professionally.</p>
@@ -120,48 +190,49 @@ a.nav { color: #1d5a9c; }
 <tr><td>Battlefield patch</td><td>situational</td><td>+1 to Repair when fixing something damaged in the last hour during combat or an active chase.</td></tr>
 <tr><td>Bad Motivator</td><td>situational</td><td>Spend a Benny and roll Repair at −2; on a success, a technical item within 4 meters of you spontaneously ceases to work until it is fixed. Droid Extras are Shaken instead.</td></tr>
 <tr><td>Found a spare</td><td>gear_access</td><td>Once per scene, make a Repair roll (0 to 4 penalty, GM discretion) on a technical item; on a success, you have a spare of that item. If you fail, you damage the item until it is repaired.</td></tr>
-<tr><td>Yard cred</td><td>situational</td><td>+1 to Persuasion or Streetwise (pick each roll) when dealing with organizations that keep ships and machines running: shipyards, mechanics’ unions, factory service desks, or certified repair and parts networks.</td></tr>
+<tr><td>Yard cred</td><td>situational</td><td>+1 to Persuasion when dealing with organizations that keep ships and machines running: shipyards, mechanics’ unions, factory service desks, or certified repair and parts networks.</td></tr>
 </tbody></table>
 <h2 id="hindrances">Step 2 — Hindrances</h2>
+<p>Select up to <strong>4 hindrance points</strong>. Major hindrances = 2 pts each; Minor = 1 pt each. You may take up to 2 Major, or 1 Major + 2 Minor, or 4 Minor.</p>
 <table>
-<thead><tr><th>Name</th><th>Severity</th><th>Points</th><th>Description</th></tr></thead>
+<thead><tr><th>Name</th><th>Severity</th><th>Pts</th><th>Description</th></tr></thead>
 <tbody>
-<tr><td><strong>Blind</strong></td><td>Major</td><td>2</td><td>Cannot see</td></tr>
-<tr><td><strong>Bloodthirsty</strong></td><td>Major</td><td>2</td><td>Prefers killing to capture</td></tr>
-<tr><td><strong>Code of Honor</strong></td><td>Major</td><td>2</td><td>Keeps word, won&#x27;t abuse/kill prisoners, operates within notion of proper behavior</td></tr>
-<tr><td><strong>Death Wish</strong></td><td>Major</td><td>2</td><td>Seeks dangerous situations</td></tr>
-<tr><td><strong>Delusional</strong></td><td>Major</td><td>2</td><td>Firm false belief</td></tr>
-<tr><td><strong>Doubting Thomas</strong></td><td>Major</td><td>2</td><td>Doesn&#x27;t believe in the Force</td></tr>
-<tr><td><strong>Enemy</strong></td><td>Major</td><td>2</td><td>Powerful foe opposes you</td></tr>
-<tr><td><strong>Habit (Major)</strong></td><td>Major</td><td>2</td><td>Serious addiction</td></tr>
-<tr><td><strong>Hesitant</strong></td><td>Major</td><td>2</td><td>No free reroll</td></tr>
-<tr><td><strong>Illiterate (Major)</strong></td><td>Major</td><td>2</td><td>Cannot read, -2 Common Knowledge</td></tr>
-<tr><td><strong>Mean</strong></td><td>Major</td><td>2</td><td>-2 Charisma</td></tr>
-<tr><td><strong>One Arm</strong></td><td>Major</td><td>2</td><td>Missing limb</td></tr>
-<tr><td><strong>One Eye</strong></td><td>Major</td><td>2</td><td>-2 ranged attacks</td></tr>
-<tr><td><strong>Outsider</strong></td><td>Major</td><td>2</td><td>-2 Persuasion, different culture</td></tr>
-<tr><td><strong>Pacifist</strong></td><td>Major</td><td>2</td><td>Won&#x27;t harm sentients</td></tr>
-<tr><td><strong>Phobia</strong></td><td>Major</td><td>2</td><td>Paralyzing fear</td></tr>
-<tr><td><strong>Poverty (Major)</strong></td><td>Major</td><td>2</td><td>Quarter starting credits</td></tr>
-<tr><td><strong>Vow</strong></td><td>Major</td><td>2</td><td>Major commitment</td></tr>
-<tr><td><strong>Young</strong></td><td>Major</td><td>2</td><td>-1 size</td></tr>
-<tr><td><strong>All Thumbs</strong></td><td>Minor</td><td>1</td><td>-2 Repair; roll of 1 on skill die breaks device</td></tr>
-<tr><td><strong>Arrogant</strong></td><td>Minor</td><td>1</td><td>Believes they&#x27;re better than others</td></tr>
-<tr><td><strong>Bad Eyes</strong></td><td>Minor</td><td>1</td><td>-2 when using ranged weapons beyond Short range</td></tr>
-<tr><td><strong>Big Mouth</strong></td><td>Minor</td><td>1</td><td>Can&#x27;t keep secrets</td></tr>
-<tr><td><strong>Cautious</strong></td><td>Minor</td><td>1</td><td>Hesitates in dangerous situations</td></tr>
-<tr><td><strong>Curious</strong></td><td>Minor</td><td>1</td><td>Must investigate interesting things</td></tr>
-<tr><td><strong>Greedy</strong></td><td>Minor</td><td>1</td><td>Wants more credits</td></tr>
-<tr><td><strong>Habit</strong></td><td>Minor</td><td>1</td><td>Minor vice or addiction</td></tr>
-<tr><td><strong>Illiterate</strong></td><td>Minor</td><td>1</td><td>Cannot read</td></tr>
-<tr><td><strong>Loyal</strong></td><td>Minor</td><td>1</td><td>Stands by allies</td></tr>
-<tr><td><strong>Obese</strong></td><td>Minor</td><td>1</td><td>-1 Pace, -1 running die</td></tr>
-<tr><td><strong>Overconfident</strong></td><td>Minor</td><td>1</td><td>Takes unnecessary risks</td></tr>
-<tr><td><strong>Poverty</strong></td><td>Minor</td><td>1</td><td>Half starting credits</td></tr>
-<tr><td><strong>Quirk</strong></td><td>Minor</td><td>1</td><td>Minor personality quirk</td></tr>
-<tr><td><strong>Stubborn</strong></td><td>Minor</td><td>1</td><td>Resists changing mind</td></tr>
-<tr><td><strong>Vengeful</strong></td><td>Minor</td><td>1</td><td>Seeks revenge</td></tr>
-<tr><td><strong>Wanted</strong></td><td>Minor</td><td>1</td><td>Bounty or warrant</td></tr>
+<tr><td><strong>Blind</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Cannot see</td></tr>
+<tr><td><strong>Bloodthirsty</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Prefers killing to capture</td></tr>
+<tr><td><strong>Code of Honor</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Keeps word, won&#x27;t abuse/kill prisoners, operates within notion of proper behavior</td></tr>
+<tr><td><strong>Death Wish</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Seeks dangerous situations</td></tr>
+<tr><td><strong>Delusional</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Firm false belief</td></tr>
+<tr><td><strong>Doubting Thomas</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Doesn&#x27;t believe in the Force</td></tr>
+<tr><td><strong>Enemy</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Powerful foe opposes you</td></tr>
+<tr><td><strong>Habit (Major)</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Serious addiction</td></tr>
+<tr><td><strong>Hesitant</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>No free reroll</td></tr>
+<tr><td><strong>Illiterate (Major)</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Cannot read, -2 Common Knowledge</td></tr>
+<tr><td><strong>Mean</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>-2 Charisma</td></tr>
+<tr><td><strong>One Arm</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Missing limb</td></tr>
+<tr><td><strong>One Eye</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>-2 ranged attacks</td></tr>
+<tr><td><strong>Outsider</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>-2 Persuasion, different culture</td></tr>
+<tr><td><strong>Pacifist</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Won&#x27;t harm sentients</td></tr>
+<tr><td><strong>Phobia</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Paralyzing fear</td></tr>
+<tr><td><strong>Poverty (Major)</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Quarter starting credits</td></tr>
+<tr><td><strong>Vow</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>Major commitment</td></tr>
+<tr><td><strong>Young</strong></td><td><span class="badge major">Major</span></td><td><strong>2</strong></td><td>-1 size</td></tr>
+<tr><td><strong>All Thumbs</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>-2 Repair; roll of 1 on skill die breaks device</td></tr>
+<tr><td><strong>Arrogant</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Believes they&#x27;re better than others</td></tr>
+<tr><td><strong>Bad Eyes</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>-2 when using ranged weapons beyond Short range</td></tr>
+<tr><td><strong>Big Mouth</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Can&#x27;t keep secrets</td></tr>
+<tr><td><strong>Cautious</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Hesitates in dangerous situations</td></tr>
+<tr><td><strong>Curious</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Must investigate interesting things</td></tr>
+<tr><td><strong>Greedy</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Wants more credits</td></tr>
+<tr><td><strong>Habit</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Minor vice or addiction</td></tr>
+<tr><td><strong>Illiterate</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Cannot read</td></tr>
+<tr><td><strong>Loyal</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Stands by allies</td></tr>
+<tr><td><strong>Obese</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>-1 Pace, -1 running die</td></tr>
+<tr><td><strong>Overconfident</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Takes unnecessary risks</td></tr>
+<tr><td><strong>Poverty</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Half starting credits</td></tr>
+<tr><td><strong>Quirk</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Minor personality quirk</td></tr>
+<tr><td><strong>Stubborn</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Resists changing mind</td></tr>
+<tr><td><strong>Vengeful</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Seeks revenge</td></tr>
+<tr><td><strong>Wanted</strong></td><td><span class="badge minor">Minor</span></td><td><strong>1</strong></td><td>Bounty or warrant</td></tr>
 </tbody></table>
 <h2 id="attributes">Step 3 — Attributes</h2>
 <p>Die steps from d4 upward. Species may set minimum dice; the builder tracks free steps and hindrance cost for extra steps.</p>
@@ -175,119 +246,131 @@ a.nav { color: #1d5a9c; }
 <tr><td><strong>Vigor</strong></td><td>Endurance, health, resistance, base toughness.</td></tr>
 </tbody></table>
 <h2 id="skills">Step 4 — Skills</h2>
-<p>Core skills default to d4. Other skills default to Untrained until purchased. Linked attribute affects training cost.</p>
+<p>You have <strong>15 free skill points</strong>. Core skills already start at d4 and cost 1 pt per step to raise further. Non-core skills start Untrained; raising them up to their linked attribute costs 1 pt per step, above costs 2 pts per step. Species-granted skills begin at the granted die level at no cost.</p>
 <table>
-<thead><tr><th>Skill</th><th>Linked attribute</th><th>Core skill</th></tr></thead>
+<thead><tr><th>Skill</th><th>Linked attribute</th><th>Core (starts at d4)</th></tr></thead>
 <tbody>
-<tr><td>Academics</td><td>Smarts</td><td></td></tr>
-<tr><td>Astrogation</td><td>Smarts</td><td></td></tr>
-<tr><td>Athletics</td><td>Agility</td><td>Yes</td></tr>
-<tr><td>Battle</td><td>Smarts</td><td></td></tr>
-<tr><td>Boating</td><td>Agility</td><td></td></tr>
-<tr><td>Common Knowledge</td><td>Smarts</td><td>Yes</td></tr>
-<tr><td>Driving</td><td>Agility</td><td></td></tr>
-<tr><td>Electronics</td><td>Smarts</td><td></td></tr>
-<tr><td>Faith</td><td>Spirit</td><td></td></tr>
-<tr><td>Fighting</td><td>Agility</td><td></td></tr>
-<tr><td>Focus</td><td>Spirit</td><td></td></tr>
-<tr><td>Gambling</td><td>Smarts</td><td></td></tr>
-<tr><td>Hacking</td><td>Smarts</td><td></td></tr>
-<tr><td>Healing</td><td>Smarts</td><td></td></tr>
-<tr><td>Intimidation</td><td>Spirit</td><td></td></tr>
-<tr><td>Language</td><td>Smarts</td><td></td></tr>
-<tr><td>Notice</td><td>Smarts</td><td>Yes</td></tr>
-<tr><td>Occult</td><td>Smarts</td><td></td></tr>
-<tr><td>Performance</td><td>Spirit</td><td></td></tr>
-<tr><td>Persuasion</td><td>Spirit</td><td>Yes</td></tr>
-<tr><td>Piloting</td><td>Agility</td><td></td></tr>
-<tr><td>Repair</td><td>Smarts</td><td></td></tr>
-<tr><td>Research</td><td>Smarts</td><td></td></tr>
-<tr><td>Riding</td><td>Agility</td><td></td></tr>
-<tr><td>Science</td><td>Smarts</td><td></td></tr>
-<tr><td>Shooting</td><td>Agility</td><td></td></tr>
-<tr><td>Stealth</td><td>Agility</td><td>Yes</td></tr>
-<tr><td>Streetwise</td><td>Smarts</td><td></td></tr>
-<tr><td>Survival</td><td>Smarts</td><td></td></tr>
-<tr><td>Taunt</td><td>Smarts</td><td></td></tr>
-<tr><td>Thievery</td><td>Agility</td><td></td></tr>
-<tr><td>Use Computer</td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Academics</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Astrogation</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Athletics</strong></td><td>Agility</td><td><span class="badge">Core</span></td></tr>
+<tr><td><strong>Battle</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Common Knowledge</strong></td><td>Smarts</td><td><span class="badge">Core</span></td></tr>
+<tr><td><strong>Driving</strong></td><td>Agility</td><td></td></tr>
+<tr><td><strong>Electronics</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Faith</strong></td><td>Spirit</td><td></td></tr>
+<tr><td><strong>Fighting</strong></td><td>Agility</td><td></td></tr>
+<tr><td><strong>Focus</strong></td><td>Spirit</td><td></td></tr>
+<tr><td><strong>Gambling</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Healing</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Intimidation</strong></td><td>Spirit</td><td></td></tr>
+<tr><td><strong>Language</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Notice</strong></td><td>Smarts</td><td><span class="badge">Core</span></td></tr>
+<tr><td><strong>Occult</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Performance</strong></td><td>Spirit</td><td></td></tr>
+<tr><td><strong>Persuasion</strong></td><td>Spirit</td><td><span class="badge">Core</span></td></tr>
+<tr><td><strong>Piloting</strong></td><td>Agility</td><td></td></tr>
+<tr><td><strong>Repair</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Research</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Science</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Shooting</strong></td><td>Agility</td><td></td></tr>
+<tr><td><strong>Slicing</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Stealth</strong></td><td>Agility</td><td><span class="badge">Core</span></td></tr>
+<tr><td><strong>Survival</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Taunt</strong></td><td>Smarts</td><td></td></tr>
+<tr><td><strong>Thievery</strong></td><td>Agility</td><td></td></tr>
 </tbody></table>
 <h2 id="edges">Step 5 — Edges</h2>
+<p>Each Edge costs <strong>2 hindrance points</strong>. Humans get one free Novice Edge (prerequisite Edges must still be met). All attribute and skill requirements must be satisfied at the time of selection. New characters are Novice rank — only Novice (or no-rank) Edges are available at creation.</p>
 <table>
 <thead><tr><th>Edge</th><th>Requirements</th><th>Description</th></tr></thead>
 <tbody>
-<tr><td><strong>Ace</strong></td><td>Piloting d8</td><td>+2 Piloting, can do maneuvers</td></tr>
-<tr><td><strong>Alert</strong></td><td></td><td>+2 to Notice</td></tr>
-<tr><td><strong>Ambidextrous</strong></td><td>Agility d8</td><td>No off-hand penalty</td></tr>
-<tr><td><strong>Attractive</strong></td><td>Novice, Vigor d6</td><td>+2 Charisma</td></tr>
-<tr><td><strong>Block</strong></td><td>Agility d8, Fighting d8</td><td>+1 Parry</td></tr>
-<tr><td><strong>Charismatic</strong></td><td>Spirit d8</td><td>+2 Charisma</td></tr>
-<tr><td><strong>Combat Reflexes</strong></td><td>Seasoned, Spirit d8</td><td>+2 to recover from Shaken</td></tr>
-<tr><td><strong>Command</strong></td><td>Novice, Smarts d6</td><td>Allies in command range gain +1 Spirit to recover from Shaken</td></tr>
-<tr><td><strong>Connections</strong></td><td>Novice</td><td>Has an insider contact in one organization who can provide occasional help</td></tr>
-<tr><td><strong>Counterattack</strong></td><td>Seasoned, Fighting d8</td><td>Free Fighting attack if foe misses you by 1+ in melee</td></tr>
-<tr><td><strong>Dodge</strong></td><td>Agility d8</td><td>-2 to be hit by ranged</td></tr>
-<tr><td><strong>Extraction</strong></td><td>Novice, Agility d8</td><td>No free attacks when withdrawing from melee</td></tr>
-<tr><td><strong>Filthy Rich</strong></td><td>Novice, Rich</td><td>Starts with 5x normal starting funds</td></tr>
-<tr><td><strong>First Strike</strong></td><td>Agility d8</td><td>Free attack when enemy moves into reach</td></tr>
-<tr><td><strong>Fleet-Footed</strong></td><td>Agility d6</td><td>Pace +2, d10 running</td></tr>
-<tr><td><strong>Force-Sensitive</strong></td><td>Spirit d6</td><td>Can use basic Force powers</td></tr>
-<tr><td><strong>Frenzy</strong></td><td>Seasoned, Fighting d10</td><td>One extra Fighting die against a single target</td></tr>
-<tr><td><strong>Improved Extraction</strong></td><td>Novice, Agility d8, Extraction</td><td>Can withdraw from multiple foes without free attacks</td></tr>
-<tr><td><strong>Improved First Strike</strong></td><td>Heroic, Agility d10, First Strike</td><td>First Strike applies to any foes entering reach</td></tr>
-<tr><td><strong>Improved Frenzy</strong></td><td>Veteran, Fighting d10, Frenzy</td><td>Two extra Fighting dice against a single target</td></tr>
-<tr><td><strong>Inspire</strong></td><td>Seasoned, Command</td><td>Success on Battle can remove Shaken from allies</td></tr>
-<tr><td><strong>Investigator</strong></td><td>Smarts d8</td><td>+2 Investigation</td></tr>
-<tr><td><strong>Marksman</strong></td><td>Shooting d8</td><td>Aim gives +2, no multi-action penalty</td></tr>
-<tr><td><strong>McGyver</strong></td><td>Novice, Smarts d6, Notice d8, Repair d6</td><td>Can improvise tools and simple devices from spare parts</td></tr>
-<tr><td><strong>Quick</strong></td><td></td><td>Redraw initiative cards &lt;= 5</td></tr>
-<tr><td><strong>Rich</strong></td><td>Novice</td><td>Starts with 3x normal starting funds</td></tr>
-<tr><td><strong>Scholar</strong></td><td>Smarts d8</td><td>+2 to two Knowledge skills</td></tr>
-<tr><td><strong>Strong Willed</strong></td><td>Spirit d8</td><td>+2 to resist Tests</td></tr>
-<tr><td><strong>Thief</strong></td><td>Novice, Agility d8, Athletics d6, Lockpicking d6, Stealth d8</td><td>+2 to Athletics(Climbing), Lockpicking, and Stealth</td></tr>
-<tr><td><strong>Trademark Weapon</strong></td><td>Fighting or Shooting d8</td><td>+1 with chosen weapon</td></tr>
-<tr><td><strong>Very Attractive</strong></td><td>Novice, Vigor d8, Attractive</td><td>+4 Charisma</td></tr>
-<tr><td><strong>Woodsman</strong></td><td>Novice, Spirit d6, Survival d8, Tracking d8</td><td>+2 to Survival and Tracking</td></tr>
+<tr><td><strong>Ace</strong></td><td>Agility d8, Piloting d8</td><td>+2 Piloting; may make Soak rolls for vehicles using Piloting; ignore up to 2 points of vehicle handling penalties.</td></tr>
+<tr><td><strong>Alert</strong></td><td>Novice</td><td>+2 to Notice; never surprised (if allowed a Notice roll, acts normally).</td></tr>
+<tr><td><strong>Ambidextrous</strong></td><td>Agility d8</td><td>No off-hand penalty.</td></tr>
+<tr><td><strong>Attractive</strong></td><td>Novice, Vigor d6</td><td>+1 to Persuasion and Performance rolls.</td></tr>
+<tr><td><strong>Block</strong></td><td>Seasoned, Fighting d8</td><td>+1 Parry.</td></tr>
+<tr><td><strong>Charismatic</strong></td><td>Spirit d8</td><td>Free reroll on Persuasion rolls.</td></tr>
+<tr><td><strong>Combat Reflexes</strong></td><td>Seasoned</td><td>+2 to Spirit rolls to recover from Shaken.</td></tr>
+<tr><td><strong>Command</strong></td><td>Novice, Smarts d6</td><td>Allies within 5&quot; (Command Range) add +1 to Spirit rolls to recover from Shaken.</td></tr>
+<tr><td><strong>Connections</strong></td><td>Novice</td><td>Has an insider contact in one organization who can provide occasional information, aid, or access.</td></tr>
+<tr><td><strong>Counterattack</strong></td><td>Seasoned, Fighting d8</td><td>Once per round, when an adjacent foe misses with a Fighting attack, the hero may immediately make a free Fighting attack against that foe.</td></tr>
+<tr><td><strong>Dodge</strong></td><td>Agility d8</td><td>All attackers suffer -1 to hit; -2 on a raise when the hero makes an Agility roll.</td></tr>
+<tr><td><strong>Extraction</strong></td><td>Agility d8</td><td>Withdrawing from melee does not give adjacent foes a free attack.</td></tr>
+<tr><td><strong>Filthy Rich</strong></td><td>Novice, Rich</td><td>Starts with 5x normal starting funds.</td></tr>
+<tr><td><strong>First Strike</strong></td><td>Agility d8</td><td>Once per round, may make a free Fighting attack against one foe who moves adjacent.</td></tr>
+<tr><td><strong>Fleet-Footed</strong></td><td>Agility d6</td><td>Pace +2, d10 running die.</td></tr>
+<tr><td><strong>Force-Sensitive</strong></td><td>Novice, Spirit d6</td><td>Can use basic Force powers.</td></tr>
+<tr><td><strong>Frenzy</strong></td><td>Seasoned, Fighting d8</td><td>Make one extra Fighting attack per round at -2 against a single target.</td></tr>
+<tr><td><strong>Improved Extraction</strong></td><td>Seasoned, Agility d8, Extraction</td><td>May withdraw from multiple foes without triggering free attacks.</td></tr>
+<tr><td><strong>Improved First Strike</strong></td><td>Heroic, Agility d10, First Strike</td><td>May use First Strike against every foe who moves adjacent in a round.</td></tr>
+<tr><td><strong>Improved Frenzy</strong></td><td>Veteran, Fighting d10, Frenzy</td><td>The -2 penalty from Frenzy is removed.</td></tr>
+<tr><td><strong>Inspire</strong></td><td>Seasoned, Command</td><td>With a successful Battle roll, allies in Command Range may remove Shaken and recover 1 Wound.</td></tr>
+<tr><td><strong>Investigator</strong></td><td>Smarts d8</td><td>+2 to Research rolls and to Notice when searching for clues or evidence.</td></tr>
+<tr><td><strong>Marksman</strong></td><td>Shooting d10</td><td>If the hero does not move, ignore up to 2 points of penalties from range, cover, called shots, and the like.</td></tr>
+<tr><td><strong>McGyver</strong></td><td>Novice, Smarts d6, Notice d8, Repair d6</td><td>Can improvise tools and simple devices from spare parts; ignore lack-of-tools penalty once per scene.</td></tr>
+<tr><td><strong>Quick</strong></td><td>Agility d8</td><td>Redraw initiative cards of 5 or lower.</td></tr>
+<tr><td><strong>Rich</strong></td><td>Novice</td><td>Starts with 3x normal starting funds.</td></tr>
+<tr><td><strong>Scholar</strong></td><td>Smarts d8</td><td>+2 to two chosen academic skills (Academics, Research, Science, or similar).</td></tr>
+<tr><td><strong>Strong Willed</strong></td><td>Smarts d8, Spirit d8</td><td>+2 to both Smarts and Spirit rolls when resisting Tests of Wills and similar opposed actions.</td></tr>
+<tr><td><strong>Thief</strong></td><td>Novice, Agility d8, Stealth d8, Thievery d6</td><td>+2 to Thievery; treated as carrying basic thieves&#x27; tools (lock overrides, slicer kits, bypass spikes).</td></tr>
+<tr><td><strong>Trademark Weapon</strong></td><td>Fighting d10 or Shooting d10</td><td>+1 with one specific named weapon; stacks with other bonuses.</td></tr>
+<tr><td><strong>Very Attractive</strong></td><td>Novice, Vigor d8, Attractive</td><td>+2 to Persuasion and Performance rolls (replaces Attractive bonus).</td></tr>
+<tr><td><strong>Woodsman</strong></td><td>Spirit d8, Survival d8</td><td>+2 to Notice and Survival rolls made in wilderness or natural terrain.</td></tr>
 </tbody></table>
 <h2 id="weapons">Step 6 — Weapons</h2>
 <table>
-<thead><tr><th>Name</th><th>Cost</th><th>Damage</th><th>Range</th><th>Notes</th><th>Description</th></tr></thead>
+<thead><tr><th>Name</th><th>Cost</th><th>Damage</th><th>Range</th><th>Hard P.</th><th>Notes</th><th>Description</th></tr></thead>
 <tbody>
-<tr><td><strong>Combat Knife</strong></td><td>15</td><td>Str+d4</td><td>Melee</td><td></td><td>Simple metal blade. Cheap, reliable, and always useful. Standard issue for soldiers; essential backup when blasters fail.</td></tr>
-<tr><td><strong>Hold-Out Blaster</strong></td><td>75</td><td>2d4</td><td>5/10/20</td><td>Concealable</td><td>Small, easily hidden blaster for backup or covert carry. Lower damage and range, but can pass security checks when properly concealed.</td></tr>
-<tr><td><strong>Grenade</strong></td><td>100</td><td>3d6</td><td>5/10/20</td><td>AP 2, Medium Blast Template, one use</td><td>Standard fragmentation grenade. Thrown explosive with a short fuse; strong anti-personnel effect in a small area.</td></tr>
-<tr><td><strong>Blaster Pistol</strong></td><td>150</td><td>2d6</td><td>12/24/48</td><td>Semi-auto</td><td>Standard civilian blaster pistol. Reliable and widely available across the galaxy. Favored by smugglers and merchants for self-defense.</td></tr>
-<tr><td><strong>Stun Baton</strong></td><td>200</td><td>Str+d4</td><td>Melee</td><td>Stun setting, Nonlethal focus</td><td>Security-grade impact baton with a shock emitter. Designed for riot control and law enforcement engagements.</td></tr>
-<tr><td><strong>Blaster Rifle (Standard)</strong></td><td>300</td><td>2d8</td><td>15/30/60</td><td>AP 1</td><td>Standard military blaster rifle. Good balance of power and accuracy. Used by militias, pirates, and resistance forces across the galaxy.</td></tr>
-<tr><td><strong>Ion Pistol</strong></td><td>300</td><td>2d6</td><td>10/20/40</td><td>Ionic, +2 damage vs droids/vehicles, Stun setting</td><td>Specialized sidearm that fires ionized bolts. Less effective against living targets, but excellent for disabling droids, sensors, and light vehicle systems.</td></tr>
-<tr><td><strong>Shock Gloves</strong></td><td>300</td><td>Str+d4</td><td>Melee</td><td>Stun 3, Concealable</td><td>Electrified combat gloves for close-quarters takedowns. Favored by enforcers and bounty hunters who need prisoners alive.</td></tr>
-<tr><td><strong>E-11 Stormtrooper Rifle</strong></td><td>350</td><td>2d8</td><td>24/48/96</td><td>AP 1, 3RB</td><td>Imperial standard-issue blaster rifle. Compact, reliable, with folding stock. Can fire three-round bursts. Common on the black market.</td></tr>
-<tr><td><strong>Vibro-ax</strong></td><td>350</td><td>Str+d8</td><td>Melee</td><td>AP 2, Parry -1</td><td>Heavy vibro-weapon; powerful strikes but harder to parry with. Common among Wookiees and other strong species.</td></tr>
-<tr><td><strong>A280 Blaster Rifle</strong></td><td>400</td><td>2d8+1</td><td>24/48/96</td><td>AP 2</td><td>Alliance favorite; powerful and accurate. Superior to E-11 in most respects. Favored by Rebel infantry and veterans.</td></tr>
-<tr><td><strong>BlasTech DL-44</strong></td><td>450</td><td>2d6+2</td><td>5/10/20</td><td>Heavy, AP 1</td><td>Heavy blaster pistol famously used by Han Solo. Powerful punch in a compact package. Highly sought after; expensive and often restricted.</td></tr>
-<tr><td><strong>Blaster Carbine</strong></td><td>450</td><td>2d8</td><td>18/36/72</td><td>AP 1, Stun setting</td><td>Compact long arm balancing mobility and stopping power. Popular with scouts, pilots, and boarding teams.</td></tr>
-<tr><td><strong>Blaster Rifle (Heavy)</strong></td><td>500</td><td>2d8+1</td><td>24/48/96</td><td>AP 2, 3RB</td><td>Heavy assault rifle with three-round burst. Devastating against armored targets. Requires strength to wield effectively; used by heavy weapons specialists.</td></tr>
-<tr><td><strong>Force Pike</strong></td><td>500</td><td>Str+d6</td><td>Melee</td><td>AP 2, Reach 1, Stun setting</td><td>Polearm favored by ceremonial guards and security forces. Combines armor-penetrating thrusts with controlled stun discharge.</td></tr>
-<tr><td><strong>Thermal Detonator</strong></td><td>500</td><td>3d8</td><td>4/8/16</td><td>AP 4, Medium Blast Template, one use, restricted</td><td>High-yield military explosive charge. Compact, volatile, and heavily regulated due to severe blast and fragmentation effects.</td></tr>
-<tr><td><strong>Vibroblade</strong></td><td>500</td><td>Str+d6</td><td>Melee</td><td>AP 2</td><td>Vibrating blade that cuts through armor. Silent and deadly for close-quarters combat. Popular among assassins and those who prefer stealth.</td></tr>
-<tr><td><strong>Electrostaff</strong></td><td>600</td><td>Str+d6</td><td>Melee</td><td>AP 1, Reach 1</td><td>Electrified pole weapon used by MagnaGuards. Can block lightsabers. Extended reach; requires training to use effectively.</td></tr>
-<tr><td><strong>Ion Rifle</strong></td><td>700</td><td>2d8</td><td>20/40/80</td><td>Ionic, +2 damage vs droids/vehicles</td><td>Long-arm ion weapon built to disable droids and light vehicles. Excellent support weapon against mechanized threats.</td></tr>
-<tr><td><strong>Vibrosword</strong></td><td>750</td><td>Str+d8</td><td>Melee</td><td>AP 2, Parry +1</td><td>Powered vibroblade with dueling balance and armor-cutting edge. A premium melee weapon for nobles, mercenaries, and elite enforcers.</td></tr>
-<tr><td><strong>Light Repeating Blaster</strong></td><td>1800</td><td>2d10</td><td>24/48/96</td><td>AP 1, Auto-fire, Bulky</td><td>Portable support blaster designed for sustained fire. Devastating in suppression roles, but heavy and difficult to conceal.</td></tr>
-<tr><td><strong>Heavy Repeating Blaster</strong></td><td>3000</td><td>3d8</td><td>30/60/120</td><td>AP 2, Auto-fire, Very Bulky, Crew-served</td><td>Tripod- or harness-mounted heavy weapon for battlefield dominance. Used by entrenched defenders and heavy assault teams.</td></tr>
-<tr><td><strong>Lightsaber</strong></td><td>15000</td><td>Str+d10</td><td>Melee</td><td>AP 4, Ignores 4 armor</td><td>Elegant weapon of a more civilized age. Plasma blade that cuts through nearly anything. Requires kyber crystal and Force attunement; extremely rare and illegal in Imperial space.</td></tr>
+<tr><td><strong>Combat Knife</strong></td><td>15</td><td>Str+d4</td><td>Melee</td><td>—</td><td></td><td>Simple metal blade. Cheap, reliable, and always useful. Standard issue for soldiers; essential backup when blasters fail.</td></tr>
+<tr><td><strong>Hold-Out Blaster</strong></td><td>75</td><td>2d6+2</td><td>5/10/20</td><td>0</td><td>Concealable</td><td>+2 to conceal; single shot. Requires a full action to reload — most users fire once then switch to a sidearm. Carry spare power packs if you rely on it.</td></tr>
+<tr><td><strong>Grenade</strong></td><td>100</td><td>3d6</td><td>5/10/20</td><td>—</td><td>AP 2, Medium Blast Template, one use</td><td>Standard fragmentation grenade. Thrown explosive with a short fuse; strong anti-personnel effect in a small area.</td></tr>
+<tr><td><strong>Blaster Pistol</strong></td><td>150</td><td>2d6</td><td>12/24/48</td><td>2</td><td>Semi-auto</td><td>Standard civilian blaster pistol. Reliable and widely available across the galaxy. Favored by smugglers and merchants for self-defense.</td></tr>
+<tr><td><strong>Stun Baton</strong></td><td>200</td><td>Str+d4</td><td>Melee</td><td>—</td><td>Stun setting, Nonlethal focus</td><td>Security-grade impact baton with a shock emitter. Designed for riot control and law enforcement engagements.</td></tr>
+<tr><td><strong>Blaster Rifle (Standard)</strong></td><td>300</td><td>2d8</td><td>15/30/60</td><td>3</td><td>AP 1</td><td>Standard military blaster rifle. Good balance of power and accuracy. Used by militias, pirates, and resistance forces across the galaxy.</td></tr>
+<tr><td><strong>Shock Gloves</strong></td><td>300</td><td>Str+d4</td><td>Melee</td><td>—</td><td>Stun 3, Concealable</td><td>Electrified combat gloves for close-quarters takedowns. Favored by enforcers and bounty hunters who need prisoners alive.</td></tr>
+<tr><td><strong>E-11 Stormtrooper Rifle</strong></td><td>350</td><td>2d8</td><td>24/48/96</td><td>3</td><td>AP 1, 2RB</td><td>Imperial standard-issue blaster rifle. Compact, reliable, with folding stock. Can fire three-round bursts. Common on the black market.</td></tr>
+<tr><td><strong>Scatter Blaster</strong></td><td>350</td><td>2d6</td><td>--/--/--</td><td>1</td><td>Small Cone Template</td><td>Short-range scatter weapon favored by pirates, cantina owners, and corridor defenders. Roll Shooting once — every target in the Small Cone Template makes an Agility roll or takes 2d6 damage. No effective range beyond the cone itself.</td></tr>
+<tr><td><strong>Vibro-ax</strong></td><td>350</td><td>Str+d8</td><td>Melee</td><td>—</td><td>AP 2, Parry -1</td><td>Heavy vibro-weapon; powerful strikes but harder to parry with. Common among Wookiees and other strong species.</td></tr>
+<tr><td><strong>BlasTech DL-44</strong></td><td>450</td><td>2d6+2</td><td>10/20/40</td><td>2</td><td>Heavy, AP 1, 6 shots</td><td>Heavy blaster pistol famously used by Han Solo. Hits harder than any standard pistol at close to mid range. Compact power cell holds only 6 shots before a full-action reload — carry spare packs. Highly sought after; expensive and often restricted.</td></tr>
+<tr><td><strong>Blaster Carbine</strong></td><td>450</td><td>2d8</td><td>18/36/72</td><td>3</td><td>AP 1, Stun setting</td><td>Compact long arm balancing mobility and stopping power. Popular with scouts, pilots, and boarding teams.</td></tr>
+<tr><td><strong>Blaster Rifle (Heavy)</strong></td><td>500</td><td>2d8+1</td><td>24/48/96</td><td>3</td><td>AP 2, 3RB</td><td>Heavy assault rifle with three-round burst. Devastating against armored targets. Requires strength to wield effectively; used by heavy weapons specialists.</td></tr>
+<tr><td><strong>Thermal Detonator</strong></td><td>500</td><td>3d8</td><td>4/8/16</td><td>—</td><td>AP 4, Medium Blast Template, one use, restricted</td><td>High-yield military explosive charge. Compact, volatile, and heavily regulated due to severe blast and fragmentation effects.</td></tr>
+<tr><td><strong>Vibroblade</strong></td><td>500</td><td>Str+d6</td><td>Melee</td><td>—</td><td>AP 2</td><td>Vibrating blade that cuts through armor. Silent and deadly for close-quarters combat. Popular among assassins and those who prefer stealth.</td></tr>
+<tr><td><strong>Electrostaff</strong></td><td>600</td><td>Str+d6</td><td>Melee</td><td>—</td><td>AP 1, Reach 1</td><td>Electrified pole weapon used by MagnaGuards. Can block lightsabers. Extended reach; requires training to use effectively.</td></tr>
+<tr><td><strong>A280 Blaster Rifle</strong></td><td>650</td><td>2d8+1</td><td>24/48/96</td><td>3</td><td>AP 2, Str d6 min</td><td>Alliance favorite; powerful and accurate. A heavy, well-built rifle that hits harder than standard military issue. Requires Str d6 to handle without penalty. Favored by Rebel veterans and elite infantry.</td></tr>
+<tr><td><strong>Light Repeating Blaster</strong></td><td>1800</td><td>2d10</td><td>24/48/96</td><td>3</td><td>AP 1, Auto-fire, Bulky</td><td>Portable support blaster designed for sustained fire. Devastating in suppression roles, but heavy and difficult to conceal.</td></tr>
+<tr><td><strong>Heavy Repeating Blaster</strong></td><td>3000</td><td>3d8</td><td>30/60/120</td><td>3</td><td>AP 2, Auto-fire, Very Bulky, Crew-served</td><td>Tripod- or harness-mounted heavy weapon for battlefield dominance. Used by entrenched defenders and heavy assault teams.</td></tr>
+<tr><td><strong>Lightsaber</strong></td><td>15000</td><td>Spi+d10</td><td>Melee</td><td>—</td><td>AP 4</td><td>Elegant weapon of a more civilized age. Plasma blade that cuts through nearly anything. Requires kyber crystal and Force attunement; extremely rare and illegal in Imperial space.</td></tr>
 </tbody></table>
 <h2 id="armor">Step 6 — Armor</h2>
 <table>
-<thead><tr><th>Name</th><th>Cost</th><th>Toughness</th><th>Notes</th><th>Description</th></tr></thead>
+<thead><tr><th>Name</th><th>Cost</th><th>Toughness</th><th>Hard P.</th><th>Notes</th><th>Description</th></tr></thead>
 <tbody>
-<tr><td><strong>No Armor</strong></td><td>0</td><td>0</td><td></td><td>No protective gear. Maximum mobility, zero protection. Risky but common for those relying on speed or avoiding notice.</td></tr>
-<tr><td><strong>Padded Clothing</strong></td><td>25</td><td>+1</td><td></td><td>Light padding beneath clothes. Minimal protection, easily concealed. Common for diplomats and those who need to look unarmed.</td></tr>
-<tr><td><strong>Leather/Jacket</strong></td><td>50</td><td>+1</td><td></td><td>Thick leather or reinforced jacket. Slight protection with everyday appearance. Popular with pilots and smugglers.</td></tr>
-<tr><td><strong>Combat Armor (Light)</strong></td><td>200</td><td>+2</td><td></td><td>Light tactical armor. Good protection without limiting mobility. Standard for mercenaries and security personnel.</td></tr>
-<tr><td><strong>Stormtrooper Armor</strong></td><td>400</td><td>+3</td><td>-1 Stealth</td><td>Imperial stormtrooper armor. White plastoid plate offers solid protection. Imposes Stealth penalty; highly recognizable and illegal for civilians.</td></tr>
-<tr><td><strong>Heavy Battle Armor</strong></td><td>600</td><td>+4</td><td>-2 Stealth, -1 Agility</td><td>Full military armor. Excellent protection but heavy and restrictive. Used by assault troops and heavy weapons specialists.</td></tr>
-<tr><td><strong>Mandalorian Armor</strong></td><td>3000</td><td>+4</td><td>AP 2 vs conventional</td><td>Beskar or similar alloys. Legendary armor worn by Mandalorian warriors. Resists conventional weapons; extremely rare and valuable.</td></tr>
+<tr><td><strong>Padded Clothing</strong></td><td>25</td><td>+1</td><td>0</td><td></td><td>Light padding beneath clothes. Minimal protection, easily concealed. Common for diplomats and those who need to look unarmed.</td></tr>
+<tr><td><strong>Leather/Jacket</strong></td><td>50</td><td>+1</td><td>0</td><td></td><td>Thick leather or reinforced jacket. Slight protection with everyday appearance. Popular with pilots and smugglers.</td></tr>
+<tr><td><strong>Combat Armor (Light)</strong></td><td>200</td><td>+2</td><td>3</td><td></td><td>Light tactical armor. Good protection without limiting mobility. Standard for mercenaries and security personnel.</td></tr>
+<tr><td><strong>Stormtrooper Armor</strong></td><td>400</td><td>+3</td><td>3</td><td>-1 to Agility skills</td><td>Imperial stormtrooper armor. White plastoid plate offers solid protection. Imposes a penalty to Agility-linked skills; highly recognizable and illegal for civilians.</td></tr>
+<tr><td><strong>Heavy Battle Armor</strong></td><td>600</td><td>+4</td><td>4</td><td>-2 Stealth, -1 Agility</td><td>Full military armor. Excellent protection but heavy and restrictive. Used by assault troops and heavy weapons specialists.</td></tr>
+</tbody></table>
+<h2 id="attachments">Step 6 — Attachments (hard points)</h2>
+<p>Each attachment costs hard points from the base weapon or armor listed in <a href="#weapons">Weapons</a> and <a href="#armor">Armor</a>. Total attachment cost cannot exceed that item's hardPoints.</p>
+<table>
+<thead><tr><th>Name</th><th>Kind</th><th>Cost (cr)</th><th>HP cost</th><th>Description</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><strong>Helmet HUD / Macrovisor</strong></td><td>armor</td><td>280</td><td>1</td><td>+1 Notice at long range while the helmet is sealed or the visor is deployed.</td><td>Does not stack with Macrobinoculars on the same check unless GM allows.</td></tr>
+<tr><td><strong>Mag-Plate Weave</strong></td><td>armor</td><td>700</td><td>2</td><td>Ignore the first hit&#x27;s weapon AP, once per combat. −1 Stealth rolls.</td><td></td></tr>
+<tr><td><strong>Stealth-Dampening Weave</strong></td><td>armor</td><td>800</td><td>2</td><td>+2 to Stealth on any round you do not run and do not attack.</td><td></td></tr>
+<tr><td><strong>Repulsor Jump Pack</strong></td><td>armor</td><td>900</td><td>2</td><td>Once per scene, use a move action to launch vertically or horizontally up to 6&quot;+d6&quot;. You may still act normally this round but cannot spend any additional actions to move. Useful for vaulting obstacles, reaching elevated positions, or closing distance in a single burst.</td><td>Requires a scene to recharge. Landing in melee range of an enemy does not trigger a free attack against you. Cannot be used while Prone.</td></tr>
+<tr><td><strong>Sling Mount</strong></td><td>weapon</td><td>75</td><td>1</td><td>Rifles only. The weapon is considered always readied while worn — draw or stow it as a free action. Lets you switch between rifle and sidearm without losing an action.</td><td></td></tr>
+<tr><td><strong>Secondary Power Cell</strong></td><td>weapon</td><td>120</td><td>1</td><td>Once per scene, ignore one reload, jam, or &#x27;out of power&#x27; complication from this weapon.</td><td></td></tr>
+<tr><td><strong>Gyro-Stabilized Grip</strong></td><td>weapon</td><td>175</td><td>1</td><td>Ignore 1 point of Shooting penalty from running or unstable platform.</td><td></td></tr>
+<tr><td><strong>Extended Barrel</strong></td><td>weapon</td><td>200</td><td>1</td><td>Improve the long end of the weapon&#x27;s listed range by +1/+2/+4.</td><td></td></tr>
+<tr><td><strong>Integrated Targeting Laser</strong></td><td>weapon</td><td>200</td><td>1</td><td>+1 Shooting on the first aimed attack each combat with this weapon. While aiming, foes gain +1 Notice to detect you.</td><td></td></tr>
+<tr><td><strong>Collimating Optics</strong></td><td>weapon</td><td>220</td><td>1</td><td>Negate 1 point of range penalties when shooting at medium or long range.</td><td></td></tr>
+<tr><td><strong>Overcharged Emitter</strong></td><td>weapon</td><td>250</td><td>1</td><td>Upgrade one damage die by one step; if the weapon has multiple damage dice, choose one die.</td><td>On a critical failure (both trait and Wild Die show 1), the weapon overheats and cannot fire until cleared with a full action.</td></tr>
+<tr><td><strong>Plasma Agitator</strong></td><td>weapon</td><td>620</td><td>2</td><td>+2 AP on attacks made with this weapon (add to the weapon&#x27;s listed AP, if any). If the weapon&#x27;s total AP including this mod is greater than 3 and you roll a critical failure on Shooting with this weapon, the weapon is damaged until repaired (−2 to the Mechanics roll to fix it); the Plasma Agitator is destroyed and cannot be salvaged.</td><td>Critical failure: both the trait die and Wild Die show 1, or a 1 on the trait die with no Wild Die (SWADE).</td></tr>
+<tr><td><strong>Under-Barrel Micro-Launcher</strong></td><td>weapon</td><td>650</td><td>3</td><td>Once per combat, Shooting attack using the weapon&#x27;s skill; on hit, 2d6 frag, medium blast template. Range —/12/24. Rifles only (requires 3 hard points). Reload 100 cr.</td><td></td></tr>
+<tr><td><strong>Suppressed Barrel</strong></td><td>weapon</td><td>750</td><td>2</td><td>Suppresses firing sound. Enemies attempting to locate the shooter by sound make Notice at -1.</td><td>Range bands reduced by 2/4/8 (short/medium/long) — suppressors trade reach for silence.</td></tr>
 </tbody></table>
 <h2 id="gear">Step 6 — General gear</h2>
 <table>
@@ -302,9 +385,9 @@ a.nav { color: #1d5a9c; }
 <tr><td><strong>Medpac</strong></td><td>50</td><td>+2 Healing, 5 uses</td><td>Field medical kit with stimulants, bacta patches, and basic instruments. Grants +2 to Healing rolls; 5 uses before depleted.</td></tr>
 <tr><td><strong>Tracking Beacon</strong></td><td>50</td><td>Attach to target/item; detectable by tuned scanner</td><td>Thumb-sized transmitter beacon used to track moving targets, cargo, or vehicles. Popular with bounty hunters and intelligence operatives.</td></tr>
 <tr><td><strong>Antitoxin Injector</strong></td><td>60</td><td>Single use, +2 Vigor vs poison</td><td>Rapid auto-injector loaded with anti-venom compounds. Used by scouts and troopers operating in toxic or venomous environments.</td></tr>
-<tr><td><strong>Bacta Patch</strong></td><td>75</td><td>Single use, +1 Healing on one treatment</td><td>Sealed topical bacta strip for emergency field care. Stabilizes patients quickly and improves one immediate Healing attempt.</td></tr>
-<tr><td><strong>Data Pad</strong></td><td>75</td><td>Use Computer, basic functions</td><td>Portable computer for data access, maps, and basic slicing. Essential for Use Computer skill. Ubiquitous in the galaxy.</td></tr>
-<tr><td><strong>Slicer Spike</strong></td><td>75</td><td>Single use, +1 Electronics on one access attempt</td><td>Disposable intrusion module used to bypass basic security systems. Favored by slicers and infiltration teams on tight schedules.</td></tr>
+<tr><td><strong>Bacta Patch</strong></td><td>75</td><td>Single use, instant d8 Healing on one treatment. No skill required.</td><td>Sealed topical bacta strip for emergency field care. Stabilizes patients quickly and improves one immediate Healing attempt.</td></tr>
+<tr><td><strong>Data Pad</strong></td><td>75</td><td>Research or Slicing, basic functions</td><td>Portable computer for data access, maps, and basic slicing. Supports Research and Slicing skill rolls. Ubiquitous in the galaxy.</td></tr>
+<tr><td><strong>Slicer Spike</strong></td><td>75</td><td>Single use, +1 Slicing on one access attempt</td><td>Disposable intrusion module used to bypass basic security systems. Favored by slicers and infiltration teams on tight schedules.</td></tr>
 <tr><td><strong>Thermal Cloak</strong></td><td>80</td><td>+2 to resist cold environmental effects</td><td>Insulated cloak with heat-retaining fibers. Common for operations in polar regions, high-altitude worlds, and unheated ruins.</td></tr>
 <tr><td><strong>Encrypted Comlink Module</strong></td><td>100</td><td>+2 to avoid interception/eavesdropping</td><td>Add-on crypto unit for comlinks. Makes slicing or signal interception significantly harder for hostile listeners.</td></tr>
 <tr><td><strong>Grappling Spike Launcher</strong></td><td>100</td><td>Climbing aid</td><td>Launches tethered spike for climbing or crossing gaps. Common among scouts and urban operatives.</td></tr>
@@ -315,7 +398,7 @@ a.nav { color: #1d5a9c; }
 <tr><td><strong>Macrobinoculars</strong></td><td>150</td><td>+2 Notice at long range</td><td>High-magnification optical device. Extends vision dramatically. Essential for scouts, snipers, and anyone who needs to spot distant targets.</td></tr>
 <tr><td><strong>Climbing Gloves (Mag)</strong></td><td>180</td><td>+2 Athletics for climbing metal surfaces</td><td>Magnetic grip gloves with micro-adhesion pads. Improve climbing on hulls, towers, and urban infrastructure.</td></tr>
 <tr><td><strong>Holorecorder</strong></td><td>200</td><td>Record/play holograms</td><td>Records and plays holographic messages and imagery. Used for intelligence, messages, and recording evidence.</td></tr>
-<tr><td><strong>Security Kit</strong></td><td>200</td><td>+2 Electronics/Repair for locks</td><td>Slicing tools, code crackers, and bypass devices. +2 to Electronics or Repair when dealing with locks and security systems.</td></tr>
+<tr><td><strong>Security Kit</strong></td><td>200</td><td>+2 Slicing or Repair for locks</td><td>Slicing tools, code crackers, and bypass devices. +2 to Slicing or Repair when bypassing locks and security systems.</td></tr>
 <tr><td><strong>Detonator (Breaching Charge)</strong></td><td>250</td><td>One controlled door/wall breach</td><td>Shaped charge designed to open sealed doors or light barriers with focused force. Standard for boarding and hostage rescue operations.</td></tr>
 <tr><td><strong>Scanner Jammer</strong></td><td>300</td><td>Nearby sensor checks suffer -2 briefly</td><td>Portable interference emitter that floods short-range scanners with static and false echoes. Best used for quick evasions or covert movement.</td></tr>
 </tbody></table>

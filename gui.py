@@ -1409,7 +1409,7 @@ class CharacterBuilderApp:
             old_cost = ARMOR.get(self.char.armor, {}).get("cost", 0)
             net_cost = cost - old_cost
             if self.char.credits >= net_cost:
-                if self.char.armor and self.char.armor != "No Armor":
+                if self.char.armor:
                     lb_armor_owned.delete(0)
                     lb_armor_avail.insert(tk.END, f"{self.char.armor} - {old_cost} cr")
                 self.char.armor = item
@@ -1421,11 +1421,11 @@ class CharacterBuilderApp:
                 )
 
         def sell_armor():
-            if not self.char.armor or self.char.armor == "No Armor":
+            if not self.char.armor:
                 return
             item = self.char.armor
             cost = ARMOR[item]["cost"]
-            self.char.armor = "No Armor"
+            self.char.armor = ""
             self.char.credits += cost
             lb_armor_owned.delete(0)
             lb_armor_avail.insert(tk.END, f"{item} - {cost} cr")
@@ -1444,7 +1444,7 @@ class CharacterBuilderApp:
         tk.Label(armor_right, text="Your armor (worn)", font=("Segoe UI", 9)).pack()
         lb_armor_owned = tk.Listbox(armor_right, height=4, font=("Segoe UI", 10))
         lb_armor_owned.pack(fill=tk.BOTH, expand=True)
-        if self.char.armor and self.char.armor != "No Armor":
+        if self.char.armor:
             lb_armor_owned.insert(tk.END, f"{self.char.armor} - {ARMOR[self.char.armor]['cost']} cr")
 
         lb_armor_avail.bind("<<ListboxSelect>>", show_armor_details)

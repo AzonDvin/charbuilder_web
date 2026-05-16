@@ -8,14 +8,12 @@
     "Stealth": "Agility",
     "Academics": "Smarts",
     "Battle": "Smarts",
-    "Boating": "Agility",
     "Driving": "Agility",
     "Electronics": "Smarts",
     "Faith": "Spirit",
     "Fighting": "Agility",
     "Focus": "Spirit",
     "Gambling": "Smarts",
-    "Hacking": "Smarts",
     "Healing": "Smarts",
     "Intimidation": "Spirit",
     "Language": "Smarts",
@@ -24,15 +22,13 @@
     "Piloting": "Agility",
     "Repair": "Smarts",
     "Research": "Smarts",
-    "Riding": "Agility",
     "Science": "Smarts",
     "Shooting": "Agility",
+    "Slicing": "Smarts",
     "Survival": "Smarts",
     "Taunt": "Smarts",
     "Thievery": "Agility",
-    "Astrogation": "Smarts",
-    "Streetwise": "Smarts",
-    "Use Computer": "Smarts"
+    "Astrogation": "Smarts"
   },
   "core_skills": ["Athletics", "Common Knowledge", "Notice", "Persuasion", "Stealth"]
 }

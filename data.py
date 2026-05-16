@@ -33,6 +33,16 @@ ARMOR = {k: v for k, v in _all_gear.items() if v.get("category") == "armor"}
 GEAR = {k: v for k, v in _all_gear.items() if v.get("category") == "gear"}
 ALL_GEAR = _all_gear
 
+# Weapon and armor attachments (hard point costs; see gear.json hardPoints on base items)
+_all_attachments = _load_json("attachments.json", {})
+ALL_ATTACHMENTS = _all_attachments
+WEAPON_ATTACHMENTS = {
+    k: v for k, v in _all_attachments.items() if v.get("kind") == "weapon"
+}
+ARMOR_ATTACHMENTS = {
+    k: v for k, v in _all_attachments.items() if v.get("kind") == "armor"
+}
+
 # Hindrances
 HINDRANCES = _load_json("hindrances.json", {})
 

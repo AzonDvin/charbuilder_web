@@ -1,0 +1,100 @@
+{
+  "Overcharged Emitter": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 250,
+    "desc": "Upgrade one damage die by one step; if the weapon has multiple damage dice, choose one die.",
+    "notes": "On a critical failure (both trait and Wild Die show 1), the weapon overheats and cannot fire until cleared with a full action."
+  },
+  "Extended Barrel": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 200,
+    "desc": "Improve the long end of the weapon's listed range by +1/+2/+4.",
+    "notes": null
+  },
+  "Gyro-Stabilized Grip": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 175,
+    "desc": "Ignore 1 point of Shooting penalty from running or unstable platform.",
+    "notes": null
+  },
+  "Collimating Optics": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 220,
+    "desc": "Negate 1 point of range penalties when shooting at medium or long range.",
+    "notes": null
+  },
+  "Integrated Targeting Laser": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 200,
+    "desc": "+1 Shooting on the first aimed attack each combat with this weapon. While aiming, foes gain +1 Notice to detect you.",
+    "notes": null
+  },
+  "Plasma Agitator": {
+    "kind": "weapon",
+    "hardPointCost": 2,
+    "cost": 620,
+    "desc": "+2 AP on attacks made with this weapon (add to the weapon's listed AP, if any). If the weapon's total AP including this mod is greater than 3 and you roll a critical failure on Shooting with this weapon, the weapon is damaged until repaired (−2 to the Mechanics roll to fix it); the Plasma Agitator is destroyed and cannot be salvaged.",
+    "notes": "Critical failure: both the trait die and Wild Die show 1, or a 1 on the trait die with no Wild Die (SWADE)."
+  },
+  "Suppressed Barrel": {
+    "kind": "weapon",
+    "hardPointCost": 2,
+    "cost": 750,
+    "desc": "Suppresses firing sound. Enemies attempting to locate the shooter by sound make Notice at -1.",
+    "notes": "Range bands reduced by 2/4/8 (short/medium/long) — suppressors trade reach for silence."
+  },
+  "Secondary Power Cell": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 120,
+    "desc": "Once per scene, ignore one reload, jam, or 'out of power' complication from this weapon.",
+    "notes": null
+  },
+  "Under-Barrel Micro-Launcher": {
+    "kind": "weapon",
+    "hardPointCost": 3,
+    "cost": 650,
+    "desc": "Once per combat, Shooting attack using the weapon's skill; on hit, 2d6 frag, medium blast template. Range —/12/24. Rifles only (requires 3 hard points). Reload 100 cr.",
+    "notes": null
+  },
+  "Helmet HUD / Macrovisor": {
+    "kind": "armor",
+    "hardPointCost": 1,
+    "cost": 280,
+    "desc": "+1 Notice at long range while the helmet is sealed or the visor is deployed.",
+    "notes": "Does not stack with Macrobinoculars on the same check unless GM allows."
+  },
+  "Mag-Plate Weave": {
+    "kind": "armor",
+    "hardPointCost": 2,
+    "cost": 700,
+    "desc": "Ignore the first hit's weapon AP, once per combat. −1 Stealth rolls.",
+    "notes": null
+  },
+  "Stealth-Dampening Weave": {
+    "kind": "armor",
+    "hardPointCost": 2,
+    "cost": 800,
+    "desc": "+2 to Stealth on any round you do not run and do not attack.",
+    "notes": null
+  },
+  "Repulsor Jump Pack": {
+    "kind": "armor",
+    "hardPointCost": 2,
+    "cost": 900,
+    "desc": "Once per scene, use a move action to launch vertically or horizontally up to 6\"+d6\". You may still act normally this round but cannot spend any additional actions to move. Useful for vaulting obstacles, reaching elevated positions, or closing distance in a single burst.",
+    "notes": "Requires a scene to recharge. Landing in melee range of an enemy does not trigger a free attack against you. Cannot be used while Prone."
+  },
+  "Sling Mount": {
+    "kind": "weapon",
+    "hardPointCost": 1,
+    "cost": 75,
+    "desc": "Rifles only. The weapon is considered always readied while worn — draw or stow it as a free action. Lets you switch between rifle and sidearm without losing an action.",
+    "notes": null
+  }
+}

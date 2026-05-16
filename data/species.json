@@ -8,15 +8,15 @@
     "notes": "From Ryloth; lekku (head-tails) express emotion; often targeted by slavers"
   },
   "Wookiee": {
-    "abilities": "d6 Strength, +1 Size; Cannot speak Basic (Minor), -2 Charisma with strangers",
+    "abilities": "d6 Strength, +1 Size; Cannot speak Basic (-2 Persuasion with beings who don't understand Shyriiwook, Minor), -2 Charisma with strangers",
     "notes": "From Kashyyyk; fierce warriors; life-debt tradition; Shyriiwook only"
   },
   "Trandoshan": {
-    "abilities": "Climbing d6, Regeneration (1 wound/day), Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma",
+    "abilities": "Climbing d6, +2 to natural Vigor healing rolls, Claws (Str+d6); Cold-blooded (-4 resist cold), -2 Charisma",
     "notes": "Reptilian hunters from Trandosha; bounty hunter culture"
   },
   "Bothan": {
-    "abilities": "+2 Streetwise, Low-light vision, Stealth d6 (spynet field tradecraft); Curious—can't resist seeking intel (Minor)",
+    "abilities": "+2 Notice, Low-light vision, Stealth d6 (spynet field tradecraft); Curious—can't resist seeking intel (Minor)",
     "notes": "Famous spy network; \"Many Bothans died\" for Death Star plans"
   },
   "Duros": {
@@ -32,15 +32,15 @@
     "notes": "From Iridonia; distinctive facial horns and tattoos; durable"
   },
   "Chiss": {
-    "abilities": "d6 Smarts, Low-light vision; -2 Charisma (cold, aloof demeanor)",
+    "abilities": "d6 Smarts, Low-light vision; -2 Charisma (cold, aloof demeanor), Cautious—methodical and calculating, hesitates in uncertain situations (Minor)",
     "notes": "From Csilla; expansionist; blue skin, glowing red eyes"
   },
   "Droid": {
-    "abilities": "Construct (ignore wound modifiers, disease, poison), Immune to poison/disease, Integrated systems (diagnostics, tool mounts), Repair d6 (maintenance protocols); Vulnerable to ion/EMP (-4 resist electricity), -2 Charisma with organics",
-    "notes": "Artificial beings; programmable; no fatigue from sleep"
+    "abilities": "Construct (ignore wound modifiers, disease, poison), Immune to poison/disease, Integrated systems (diagnostics, tool mounts), Repair d6 (maintenance protocols); Vulnerable to ion/EMP (-4 resist electricity), -2 Charisma with organics, Maintenance (must recharge 8hrs per day or gain Fatigue)",
+    "notes": "Artificial beings; programmable; requires 8hrs daily recharge or suffers Fatigue like organics without sleep"
   },
   "Togruta": {
-    "abilities": "+2 Notice (spatial awareness via montrals), Natural weapons (bite Str+d4), Low-light vision; Pack mentality—strongly Loyal to their group (Minor)",
+    "abilities": "+1 Notice (spatial awareness via montrals — distance and movement only), Natural weapons (bite Str+d4), Low-light vision; Pack mentality—strongly Loyal to their group (Minor)",
     "notes": "From Shili; Ahsoka Tano's species; montrals provide echolocation; pack hunters"
   },
   "Nautolan": {

@@ -259,13 +259,17 @@
 
     const arm = $("armor-select");
     arm.innerHTML = "";
+    const noneOpt = document.createElement("option");
+    noneOpt.value = "";
+    noneOpt.textContent = "(none)";
+    arm.appendChild(noneOpt);
     (meta.armor || []).forEach((a) => {
       const o = document.createElement("option");
       o.value = a.name;
       o.textContent = `${a.name} (${a.cost} cr)`;
       arm.appendChild(o);
     });
-    arm.value = "No Armor";
+    arm.value = "";
     arm.addEventListener("change", schedulePreview);
 
     const gh = $("gear-checks");
@@ -443,6 +447,12 @@
       const sk = sel.dataset.skill;
       if (Object.prototype.hasOwnProperty.call(skills, sk)) sel.value = skills[sk];
     });
+    const armSel = $("armor-select");
+    if (armSel && Object.prototype.hasOwnProperty.call(c, "armor")) {
+      const ar = String(c.armor ?? "");
+      if (ar && [...armSel.options].some((o) => o.value === ar)) armSel.value = ar;
+      else armSel.value = "";
+    }
   }
 
   function renderLiveTotals(t) {

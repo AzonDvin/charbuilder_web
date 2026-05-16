@@ -190,7 +190,11 @@ class Character:
         weapons = data.get("weapons")
         if isinstance(weapons, list):
             c.weapons = [str(w) for w in weapons]
-        c.armor = str(data.get("armor") or c.armor)
+        if "armor" in data:
+            raw = data["armor"]
+            c.armor = "" if raw is None else str(raw)
+        if c.armor == "No Armor":
+            c.armor = ""
         gear = data.get("gear")
         if isinstance(gear, list):
             c.gear = [str(g) for g in gear]
@@ -215,7 +219,7 @@ class Character:
         self.hindrances = []
         self.edges = []
         self.weapons = []
-        self.armor = "No Armor"
+        self.armor = ""
         self.gear = []
         self.credits = 500
         self.hindrance_points_remaining = 0

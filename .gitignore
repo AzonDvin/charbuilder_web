@@ -8,3 +8,6 @@ __pycache__/
 
 # Web app exports (local machine)
 output/
+
+# Claude Code
+.claude/

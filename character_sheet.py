@@ -48,10 +48,11 @@ def _format_weapon_entry(name: str) -> str:
     dmg = str(w.get("damage") or "").strip()
     rng = str(w.get("range") or "").strip()
     notes = str(w.get("notes") or "").strip()
+    rng_clean = rng.replace("-", "").replace("/", "").strip()
     bits = []
     if dmg:
         bits.append(dmg)
-    if rng:
+    if rng and rng_clean:
         bits.append(rng)
     if notes:
         bits.append(notes)
@@ -82,9 +83,11 @@ def _format_equipment_item_list(names: list[str]) -> str:
 
 def _format_armor_value(armor_name: str) -> str:
     """Armor name with toughness modifier and optional notes from data."""
-    label = armor_name or "No Armor"
+    label = (armor_name or "").strip()
+    if not label:
+        return "None"
     if label == "No Armor":
-        return "No Armor"
+        return "None"
     entry = ARMOR.get(label)
     if not entry:
         return label
@@ -161,7 +164,9 @@ def character_sheet_lines(data: dict) -> list[str]:
     hindrances = data.get("hindrances") or []
     edges = data.get("edges") or []
     weapons = data.get("weapons") or []
-    armor = data.get("armor") or "No Armor"
+    armor = (data.get("armor") or "").strip()
+    if armor == "No Armor":
+        armor = ""
     gear = data.get("gear") or []
     credits = data.get("credits", 0)
     species_abilities_raw = data.get("species_abilities") or ""
@@ -263,7 +268,7 @@ def _split_tail_layout(
         i += 1
     w = t[i] if i < len(t) else "WEAPONS: None"
     i += 1
-    a = t[i] if i < len(t) else "ARMOR: No Armor"
+    a = t[i] if i < len(t) else "ARMOR: None"
     i += 1
     g = t[i] if i < len(t) else "GEAR: None"
     i += 1
@@ -342,170 +347,457 @@ def _html_body_simpler(data: dict) -> str:
 
 
 def character_sheet_html(data: dict, title: str | None = None) -> str:
-    """Print-friendly HTML sheet: same content order as the .txt export; skills use three columns."""
-    safe_title = html.escape(title or data.get("name") or "Character")
-    body = _html_body_simpler(data)
+    """Print-friendly HTML styled like the official Savage Worlds Star Wars record sheet."""
+    from collections import defaultdict
+
+    E = html.escape
+
+    # ── Data extraction ───────────────────────────────────────────────────
+    char_name    = data.get("name") or "(unnamed)"
+    species_name = data.get("species") or "—"
+    career_name  = data.get("career") or "—"
+    attributes   = data.get("attributes") or {}
+    skills       = data.get("skills") or {}
+    hindrances   = data.get("hindrances") or []
+    edges        = data.get("edges") or []
+    weapons_list = data.get("weapons") or []
+    armor_name   = (data.get("armor") or "").strip()
+    if armor_name == "No Armor":
+        armor_name = ""
+    gear_list    = data.get("gear") or []
+    credits_left = data.get("credits", 0)
+    species_ab   = data.get("species_abilities") or ""
+    toughness    = compute_display_toughness(attributes, armor_name, species_ab)
+    parry        = data.get("parry") or "—"
+    human_free   = data.get("human_free_edges_used") or []
+
+    try:
+        from data import SKILL_ATTRIBUTES as _SA, EDGES as _ED, CAREERS as _CA
+        skill_attr_map: dict = _SA
+        edges_data: dict     = _ED
+        careers_data: dict   = _CA
+    except ImportError:
+        skill_attr_map = {}
+        edges_data     = {}
+        careers_data   = {}
+
+    def die_track(cur: str) -> str:
+        label = cur if cur.startswith("d") else f"d{cur}"
+        return f'<span class="die-badge">{E(label)}</span>'
+
+    # ── Attributes HTML ───────────────────────────────────────────────────
+    ATTR_DEFS = [
+        ("Agility",  "AGI", "lity"),
+        ("Smarts",   "SMA", "rts"),
+        ("Spirit",   "SPI", "rit"),
+        ("Strength", "STR", "ength"),
+        ("Vigor",    "VIG", "or"),
+    ]
+    attr_rows_html = ""
+    for attr, short, rest in ATTR_DEFS:
+        val = attributes.get(attr, "d4")
+        attr_rows_html += (
+            f'<div class="attr-row">'
+            f'<span class="al"><b>{short}</b><sup>{rest}</sup></span>'
+            f'{die_track(val)}'
+            f'</div>'
+        )
+
+    # ── Skills HTML ───────────────────────────────────────────────────────
+    skill_rows_html = ""
+    for sk in sorted(skills.keys()):
+        val = skills[sk]
+        if val == "Untrained":
+            continue
+        gov  = skill_attr_map.get(sk, "")
+        abbr = gov[:3].upper() if gov else ""
+        skill_rows_html += (
+            f'<div class="sk-row">'
+            f'<span class="sn">{E(sk)}</span>'
+            f'<span class="sa">{abbr}</span>'
+            f'{die_track(val)}'
+            f'</div>'
+        )
+
+    # ── Hindrances HTML ───────────────────────────────────────────────────
+    hind_parts = [f'<div class="hind-line">{E(h)}</div>' for h in hindrances]
+    for _ in range(max(0, 5 - len(hindrances))):
+        hind_parts.append('<div class="hind-line">&nbsp;</div>')
+    hind_html = "".join(hind_parts)
+
+    # ── Edges HTML (by tier) ──────────────────────────────────────────────
+    TIERS = ["Novice", "Seasoned", "Veteran", "Heroic", "Legendary"]
+
+    def edge_rank(ename: str) -> str:
+        reqs = (edges_data.get(ename) or {}).get("requirements", "")
+        for t in TIERS:
+            if t.lower() in reqs.lower():
+                return t
+        return "Novice"
+
+    by_tier: dict = defaultdict(list)
+    starting_edges = [e for e in edges if e in human_free]
+    for e in edges:
+        if e not in human_free:
+            by_tier[edge_rank(e)].append(e)
+
+    edge_parts = ['<div class="edge-tier-lbl">Starting &amp; Racials</div>']
+    for e in starting_edges:
+        edge_parts.append(f'<div class="edge-line">{E(e)}</div>')
+    for _ in range(max(1, 2 - len(starting_edges))):
+        edge_parts.append('<div class="edge-line">&nbsp;</div>')
+    for tier in TIERS:
+        edge_parts.append(f'<div class="edge-tier-lbl">{E(tier)}</div>')
+        tier_list = by_tier.get(tier, [])
+        for e in tier_list:
+            edge_parts.append(f'<div class="edge-line">{E(e)}</div>')
+        for _ in range(max(1, 3 - len(tier_list))):
+            edge_parts.append('<div class="edge-line">&nbsp;</div>')
+    edges_html = "".join(edge_parts)
+
+    # ── Career benefits HTML ──────────────────────────────────────────────
+    career_entry = (careers_data.get(career_name) or {}) if isinstance(careers_data, dict) else {}
+    benefits = career_entry.get("benefits", []) if isinstance(career_entry, dict) else []
+    career_ben_html = ""
+    for b in benefits[:5]:
+        if isinstance(b, dict):
+            t  = b.get("title", "")
+            ef = b.get("effect", "")
+            if t:
+                career_ben_html += f'<div class="ben-line">&#x25CF; {E(t)}: {E(ef)}</div>'
+
+    # ── Weapons HTML ──────────────────────────────────────────────────────
+    def weapon_block(wname: str | None) -> str:
+        if wname:
+            w     = (WEAPONS or {}).get(wname, {})
+            dmg   = E(str(w.get("damage", "")).strip())
+            rng   = E(str(w.get("range",  "")).strip())
+            notes = E(str(w.get("notes",  "")).strip())
+            main = (
+                f'<div class="wc wn">{E(wname)}</div>'
+                f'<div class="wc">{rng}</div>'
+                f'<div class="wc">&#x2014;</div>'
+                f'<div class="wc">{dmg}</div>'
+            )
+            sub = (
+                f'<div class="wcs">AMMO</div>'
+                f'<div class="wcs">LOCATION</div>'
+                f'<div class="wcs">WEIGHT</div>'
+                f'<div class="wcs">TYPE</div>'
+                f'<div class="wcs wcs-notes">{notes}</div>'
+            )
+        else:
+            main = (
+                '<div class="wc wn">&nbsp;</div>'
+                '<div class="wc"></div><div class="wc"></div><div class="wc"></div>'
+            )
+            sub = (
+                '<div class="wcs">AMMO</div>'
+                '<div class="wcs">LOCATION</div>'
+                '<div class="wcs">WEIGHT</div>'
+                '<div class="wcs">TYPE</div>'
+                '<div class="wcs wcs-notes"></div>'
+            )
+        return (
+            f'<div class="w-main">{main}</div>'
+            f'<div class="w-sub">{sub}</div>'
+        )
+
+    n_weapon_slots = max(2, len(weapons_list))
+    weapons_html = "".join(
+        weapon_block(weapons_list[i] if i < len(weapons_list) else None)
+        for i in range(n_weapon_slots)
+    )
+
+    # ── Gear HTML ─────────────────────────────────────────────────────────
+    gear_parts = [
+        f'<div class="gear-row"><div class="gc">{E(g)}</div><div class="gc-wt"></div></div>'
+        for g in gear_list
+    ]
+    for _ in range(max(0, 6 - len(gear_parts))):
+        gear_parts.append('<div class="gear-row"><div class="gc">&nbsp;</div><div class="gc-wt"></div></div>')
+    gear_html = "".join(gear_parts)
+
+    # ── Armor ─────────────────────────────────────────────────────────────
+    armor_tn    = f'+{_armor_toughness_bonus(armor_name)}' if armor_name else ""
+    armor_disp  = E(armor_name) if armor_name else "&#x2014;"
+    armor_notes = E(_equipment_notes_for(armor_name)) if armor_name else ""
+
+    safe_title_str = E(title or char_name)
+    abilities_html = E(species_ab) if species_ab else "&nbsp;"
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{safe_title}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{safe_title_str}</title>
 <style>
-  :root {{
-    --bg: #0f1115;
-    --text: #e8eaed;
-    --muted: #9aa0a6;
-    --accent: #4a9eff;
-    --border: #2d323c;
-  }}
-  * {{ box-sizing: border-box; }}
-  body {{
-    margin: 0;
-    font-family: "Segoe UI", system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.2;
-    font-size: 11px;
-  }}
-  .wrap {{
-    max-width: min(100%, 72rem);
-    margin: 0 auto;
-    padding: 6px 10px 12px;
-  }}
-  .sheet-txt {{
-    font-family: Consolas, "Courier New", monospace;
-    font-size: 0.78rem;
-    line-height: 1.22;
-  }}
-  .txt-block {{
-    margin: 0 0 0.4em;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }}
-  .attr-skills {{
-    display: grid;
-    /* Narrow attributes; skills use the rest so long skill lines stay one line. */
-    grid-template-columns: minmax(0, 10.5rem) minmax(0, 1fr);
-    column-gap: 0.65rem;
-    row-gap: 0;
-    margin: 0.15em 0 0.5em;
-    padding: 0.2em 0 0.35em;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    min-width: 0;
-    overflow-x: auto;
-  }}
-  .attr-skills .hdr {{
-    font-weight: 700;
-    padding-bottom: 0.15em;
-    margin-bottom: 0.1em;
-    border-bottom: 1px solid var(--accent);
-    color: var(--accent);
-  }}
-  .attr-skills .mono.attr-cell {{
-    margin: 0;
-    min-height: 1.22em;
-    white-space: nowrap;
-    overflow-x: auto;
-    max-width: 100%;
-  }}
-  .attr-skills .col-skills,
-  .attr-skills .skills-hdr-right {{
-    border-left: 1px solid var(--border);
-    padding-left: 0.75rem;
-  }}
-  .skills-inline-cols {{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(11rem, 1fr));
-    column-gap: 0.5rem;
-    align-items: start;
-    min-width: 0;
-    overflow-x: auto;
-  }}
-  .skills-inline-cols .chunk-cell {{
-    margin: 0;
-    min-height: 1.22em;
-    min-width: 0;
-    white-space: nowrap;
-    word-break: normal;
-    overflow-wrap: normal;
-    overflow-x: auto;
-  }}
-  .skills-inline-cols .chunk-divider {{
-    border-left: 1px solid var(--border);
-    padding-left: 0.65rem;
-  }}
-  .dual-row {{
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 1.25rem;
-    row-gap: 0;
-    margin: 0.35em 0 0.45em;
-    padding: 0.2em 0 0.35em;
-    border-bottom: 1px solid var(--border);
-  }}
-  .dual-row .mono-col {{
-    margin: 0;
-    white-space: pre-wrap;
-    word-break: break-word;
-    font-family: inherit;
-  }}
-  .dual-row .col-b {{
-    border-left: 1px solid var(--border);
-    padding-left: 0.75rem;
-  }}
-  @media (max-width: 520px) {{
-    .attr-skills {{
-      grid-template-columns: 1fr;
-      column-gap: 0;
-    }}
-    .attr-skills .col-skills,
-    .attr-skills .skills-hdr-right {{
-      border-left: none;
-      padding-left: 0;
-      border-top: 1px solid var(--border);
-      margin-top: 0.35em;
-      padding-top: 0.35em;
-    }}
-    .skills-inline-cols {{
-      overflow-x: auto;
-      max-width: 100%;
-      padding-bottom: 2px;
-    }}
-    .dual-row {{
-      grid-template-columns: 1fr;
-      column-gap: 0;
-    }}
-    .dual-row .col-b {{
-      border-left: none;
-      padding-left: 0;
-      border-top: 1px solid var(--border);
-      margin-top: 0.35em;
-      padding-top: 0.35em;
-    }}
-  }}
+  @page {{ size: letter portrait; margin: 5mm; }}
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{ font-family: Arial, Helvetica, sans-serif; font-size: 7.5pt; background: #fff; color: #000; line-height: 1.25; }}
+  .sheet {{ width: 100%; max-width: 740px; margin: 0 auto; border: 2px solid #000; background: #fff; }}
+
+  /* Header */
+  .hf {{ padding: 2px 5px; border-right: 1px solid #444; min-height: 18px; display: flex; flex-direction: column; justify-content: flex-end; background: #1a3a6b; color: #fff; }}
+  .hf:last-child {{ border-right: none; }}
+  .hl {{ font-size: 5pt; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .hv {{ font-size: 8.5pt; font-weight: bold; min-height: 11px; }}
+
+  /* Section header bars */
+  .sec-hdr {{ background: #1a3a6b; color: #fff; font-size: 7pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; padding: 2px 5px; }}
+
+  /* Main layout */
+  .main-body {{ display: grid; grid-template-columns: 215px 1fr; border-top: 2px solid #000; }}
+  .left-panel {{ border-right: 2px solid #000; }}
+  .right-panel {{ display: grid; grid-template-columns: 1fr 185px; }}
+  .center-panel {{ border-right: 1px solid #000; }}
+
+  /* Die badge */
+  .die-badge {{ display: inline-block; background: #1a3a6b; color: #fff; font-size: 7pt; font-weight: bold; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; letter-spacing: 0.5px; }}
+
+  /* Attributes */
+  .attr-row {{ display: flex; align-items: center; gap: 4px; padding: 3px 5px; border-bottom: 1px solid #ddd; }}
+  .al {{ width: 46px; font-size: 8.5pt; font-weight: bold; flex-shrink: 0; text-transform: uppercase; }}
+  .al sup {{ font-size: 5pt; font-weight: normal; }}
+
+  /* Skills */
+  .sk-row {{ display: flex; align-items: center; gap: 2px; padding: 1.5px 5px; border-bottom: 1px solid #eee; min-height: 13px; }}
+  .sn {{ flex: 1; font-size: 7pt; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+  .sa {{ font-size: 5.5pt; color: #666; width: 22px; text-align: right; flex-shrink: 0; }}
+
+  /* Derived stats */
+  .ds-box {{ display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-bottom: 1px solid #ddd; }}
+  .ds-lbl {{ background: #1a3a6b; color: #fff; font-size: 7pt; font-weight: bold; padding: 2px 4px; text-transform: uppercase; letter-spacing: 0.5px; min-width: 70px; text-align: center; flex-shrink: 0; }}
+  .ds-val {{ font-size: 16pt; font-weight: bold; line-height: 1; min-width: 26px; text-align: center; border-bottom: 2px solid #000; }}
+  .ds-note {{ font-size: 5.5pt; color: #555; line-height: 1.3; }}
+
+  /* Wounds / Fatigue */
+  .wound-row {{ display: flex; gap: 4px; padding: 3px 5px 4px; flex-wrap: wrap; }}
+  .wbub {{ width: 22px; height: 22px; border-radius: 50%; border: 2px solid #000; display: flex; align-items: center; justify-content: center; font-size: 7pt; font-weight: bold; flex-shrink: 0; }}
+
+  /* Hindrances */
+  .hind-line {{ padding: 2px 5px; border-bottom: 1px solid #ccc; min-height: 13px; font-size: 7pt; }}
+
+  /* Edges */
+  .edge-tier-lbl {{ font-size: 5.5pt; color: #888; padding: 1px 5px; border-bottom: 1px solid #eee; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .edge-line {{ font-size: 7pt; padding: 2px 5px; border-bottom: 1px solid #eee; min-height: 13px; }}
+
+  /* Career */
+  .ben-line {{ font-size: 6pt; padding: 1px 5px; border-bottom: 1px solid #eee; }}
+
+  /* Abilities */
+  .ab-box {{ padding: 3px 5px; font-size: 6pt; color: #333; min-height: 24px; border-bottom: 2px solid #000; background: #f8f8f8; }}
+
+  /* Bottom split */
+  .bottom-section {{ display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid #000; }}
+  .weapons-section {{ border-right: 1px solid #000; }}
+
+  /* Weapon rows */
+  .w-hdr {{ display: grid; grid-template-columns: 1fr 65px 38px 70px; background: #1a3a6b; color: #fff; border-bottom: 1px solid #000; }}
+  .w-main {{ display: grid; grid-template-columns: 1fr 65px 38px 70px; border-bottom: 1px solid #aaa; min-height: 16px; }}
+  .w-sub {{ display: grid; grid-template-columns: repeat(4,1fr) 1.5fr; border-bottom: 2px solid #000; background: #f5f5f5; }}
+  .wc {{ padding: 2px 3px; border-right: 1px solid #ccc; font-size: 7pt; }}
+  .wc:last-child {{ border-right: none; }}
+  .wn {{ font-weight: bold; }}
+  .w-hdr .wc {{ border-color: #555; font-size: 6pt; font-weight: bold; }}
+  .wcs {{ padding: 1px 3px; border-right: 1px solid #ccc; font-size: 5.5pt; color: #777; text-transform: uppercase; }}
+  .wcs:last-child {{ border-right: none; }}
+  .wcs-notes {{ font-size: 6pt; color: #333; text-transform: none; }}
+
+  /* Gear */
+  .gear-hdr {{ display: flex; justify-content: space-between; align-items: center; background: #1a3a6b; color: #fff; font-size: 10pt; font-weight: 900; letter-spacing: 2px; padding: 2px 6px; text-transform: uppercase; }}
+  .gear-col-hdr {{ display: grid; grid-template-columns: 1fr 40px; background: #2a4f8a; color: #fff; border-bottom: 1px solid #000; }}
+  .gchl {{ padding: 1px 3px; font-size: 5.5pt; border-right: 1px solid #555; }}
+  .gchw {{ padding: 1px 3px; font-size: 5.5pt; }}
+  .gear-row {{ display: grid; grid-template-columns: 1fr 40px; border-bottom: 1px solid #ddd; min-height: 13px; }}
+  .gc {{ padding: 1px 3px; border-right: 1px solid #ddd; font-size: 7pt; }}
+  .gc-wt {{ padding: 1px 3px; font-size: 7pt; }}
+
+  /* Armor */
+  .armor-hdr {{ display: grid; grid-template-columns: 1fr 44px 28px 52px; background: #1a3a6b; color: #fff; border-bottom: 1px solid #000; border-top: 1px solid #000; }}
+  .armor-row {{ display: grid; grid-template-columns: 1fr 44px 28px 52px; border-bottom: 1px solid #ccc; min-height: 14px; }}
+  .ac {{ padding: 2px 3px; border-right: 1px solid #ccc; font-size: 7pt; }}
+  .ac:last-child {{ border-right: none; }}
+  .armor-hdr .ac {{ font-size: 5.5pt; font-weight: bold; border-color: #555; }}
+
+  /* Credits bar */
+  .cred-bar {{ background: #1a3a6b; color: #fff; padding: 3px 6px; font-size: 8pt; font-weight: bold; display: flex; justify-content: space-between; border-top: 2px solid #000; }}
+
   @media print {{
-    @page {{ margin: 5mm; }}
-    body {{ background: #fff; color: #000; font-size: 10px; }}
-    .wrap {{ max-width: none; padding: 0; }}
-    .attr-skills {{ border-color: #999; }}
-    .attr-skills .hdr {{ color: #000; border-color: #1a5276; }}
-    .attr-skills .col-skills,
-    .attr-skills .skills-hdr-right {{ border-color: #bbb; }}
-    .skills-inline-cols .chunk-divider {{ border-color: #bbb; }}
-    .dual-row {{ border-color: #999; }}
-    .dual-row .col-b {{ border-color: #bbb; }}
+    @page {{ size: letter portrait; margin: 5mm; }}
+    .sheet {{ border: 1.5px solid #000; max-width: none; }}
   }}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    {body}
+<div class="sheet">
+
+  <!-- ── Header ── -->
+  <div style="display:grid;grid-template-columns:1fr 165px;background:#1a3a6b;border-bottom:2px solid #000;">
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #333;">
+        <div class="hf"><div class="hl">Hero</div><div class="hv">{E(char_name)}</div></div>
+        <div class="hf"><div class="hl">Archtype</div><div class="hv">{E(career_name)}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.2fr 1.2fr 0.8fr 0.8fr;border-bottom:1px solid #333;">
+        <div class="hf"><div class="hl">Setting</div><div class="hv" style="font-size:7.5pt;">Star Wars</div></div>
+        <div class="hf"><div class="hl">Species</div><div class="hv" style="font-size:7.5pt;">{E(species_name)}</div></div>
+        <div class="hf"><div class="hl">Rank</div><div class="hv" style="font-size:7.5pt;">Novice</div></div>
+        <div class="hf"><div class="hl">Total XP</div><div class="hv" style="font-size:7.5pt;">0</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);">
+        <div class="hf"><div class="hl">Age</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf"><div class="hl">Gender</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf"><div class="hl">Height</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf"><div class="hl">Weight</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf"><div class="hl">Eyes</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf"><div class="hl">Hair</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+        <div class="hf" style="border-right:none;"><div class="hl">Skin</div><div class="hv" style="font-size:7pt;min-height:12px;"></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;border-left:1px solid #444;padding:4px 8px;background:#1a3a6b;color:#fff;">
+      <div style="font-size:8.5pt;font-weight:900;font-style:italic;letter-spacing:3px;color:#ddd;">SAVAGE!</div>
+      <div style="font-size:19pt;font-weight:900;line-height:1.0;text-align:center;letter-spacing:1px;">STAR<br>WARS</div>
+      <div style="font-size:5pt;margin-top:4px;letter-spacing:1px;text-align:center;color:#aaa;text-transform:uppercase;">Character Record Sheet</div>
+    </div>
   </div>
+
+  <!-- ── Main body ── -->
+  <div class="main-body">
+
+    <!-- Left panel: Attributes + Skills -->
+    <div class="left-panel">
+      <div class="sec-hdr">&#x2013; Attributes &#x2013;</div>
+      {attr_rows_html}
+      <div class="ab-box">
+        <div style="font-size:5.5pt;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:1px;">Species Abilities</div>
+        {abilities_html}
+      </div>
+      <div class="sec-hdr">&#x2013; Skills &#x2013;</div>
+      {skill_rows_html}
+    </div>
+
+    <!-- Right panel -->
+    <div class="right-panel">
+
+      <!-- Center panel: derived stats + wounds + hindrances + career -->
+      <div class="center-panel">
+
+        <div class="ds-box">
+          <span class="ds-lbl">Pace</span>
+          <span class="ds-val">6</span>
+          <span class="ds-note">[ 6&Prime; ]</span>
+        </div>
+        <div class="ds-box">
+          <span class="ds-lbl">Parry</span>
+          <span class="ds-val">{E(str(parry))}</span>
+          <span class="ds-note">2+Half<br>Fighting</span>
+        </div>
+        <div class="ds-box">
+          <span class="ds-lbl">Toughness</span>
+          <span class="ds-val">{E(str(toughness))}</span>
+          <span class="ds-note">2+Half<br>Vigor</span>
+        </div>
+        <div class="ds-box">
+          <span class="ds-lbl">Charisma</span>
+          <span class="ds-val">0</span>
+          <span class="ds-note">[ 0 ]</span>
+        </div>
+
+        <div style="border-top:1px solid #bbb;">
+          <div class="sec-hdr" style="font-size:6pt;">Wounds</div>
+          <div class="wound-row">
+            <div class="wbub">-1</div>
+            <div class="wbub">-2</div>
+            <div class="wbub">-3</div>
+            <div class="wbub" style="font-size:6pt;border-style:dashed;">OUT</div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid #bbb;">
+          <div class="sec-hdr" style="font-size:6pt;">Fatigue</div>
+          <div class="wound-row">
+            <div class="wbub">-1</div>
+            <div class="wbub">-2</div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid #bbb;padding:2px 5px 4px;">
+          <div style="font-size:5.5pt;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">Permanent Injuries</div>
+          <div style="border-bottom:1px solid #ccc;min-height:11px;">&nbsp;</div>
+          <div style="border-bottom:1px solid #ccc;min-height:11px;">&nbsp;</div>
+          <div style="border-bottom:1px solid #ccc;min-height:11px;">&nbsp;</div>
+        </div>
+
+        <div style="border-top:2px solid #000;margin-top:4px;">
+          <div class="sec-hdr">&#x2013; Hindrances &#x2013;</div>
+          {hind_html}
+        </div>
+
+        <div style="border-top:2px solid #000;margin-top:4px;">
+          <div class="sec-hdr">Career</div>
+          <div style="font-size:8pt;font-weight:bold;padding:2px 5px;">{E(career_name)}</div>
+          {career_ben_html}
+        </div>
+
+        <div style="border-top:1px solid #ccc;padding:3px 5px;margin-top:4px;">
+          <div style="font-size:5.5pt;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Credits Remaining</div>
+          <div style="font-size:12pt;font-weight:bold;">{E(str(credits_left))}</div>
+        </div>
+
+      </div><!-- /center-panel -->
+
+      <!-- Edge panel -->
+      <div>
+        <div class="sec-hdr">Edges</div>
+        {edges_html}
+      </div>
+
+    </div><!-- /right-panel -->
+  </div><!-- /main-body -->
+
+  <!-- ── Bottom: Weapons | Gear + Armor ── -->
+  <div class="bottom-section">
+
+    <div class="weapons-section">
+      <div class="w-hdr">
+        <div class="wc">Weapon</div>
+        <div class="wc">Range</div>
+        <div class="wc">ROF</div>
+        <div class="wc">Damage</div>
+      </div>
+      {weapons_html}
+    </div>
+
+    <div>
+      <div class="gear-hdr"><span>Gear</span><span style="font-size:6pt;font-weight:normal;">WT</span></div>
+      <div class="gear-col-hdr"><div class="gchl">Item</div><div class="gchw">WT</div></div>
+      {gear_html}
+      <div class="armor-hdr">
+        <div class="ac">Armor</div><div class="ac">Type</div><div class="ac">TN</div><div class="ac">Area</div>
+      </div>
+      <div class="armor-row">
+        <div class="ac">{armor_disp}</div>
+        <div class="ac"></div>
+        <div class="ac">{armor_tn}</div>
+        <div class="ac">{armor_notes}</div>
+      </div>
+      <div class="armor-row">
+        <div class="ac">&nbsp;</div><div class="ac"></div><div class="ac"></div><div class="ac"></div>
+      </div>
+    </div>
+
+  </div><!-- /bottom-section -->
+
+  <div class="cred-bar">
+    <span>Credits: {E(str(credits_left))}</span>
+    <span style="font-size:5.5pt;font-weight:normal;color:#aaa;">Savage Worlds Star Wars &#x2022; charbuilder</span>
+  </div>
+
+</div><!-- /sheet -->
 </body>
-</html>
-"""
+</html>"""
 
 
 def load_character_json(path: Path) -> dict:

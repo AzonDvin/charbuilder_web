@@ -1,124 +1,143 @@
 # Savage Worlds Star Wars Character Builder
 
-You can use a **desktop wizard** (Tkinter) or a **local web app** (FastAPI) to create **Savage Worlds** Star Wars characters. Game data lives in JSON (species, hindrances, edges, gear, **careers**, and so on); exports are written as `.json` (and optional HTML/text sheets).
+This is a character builder for playing **Star Wars using the Savage Worlds Adventure Edition (SWADE)** ruleset. If your group is running a Star Wars tabletop campaign with SWADE, this tool walks you through making a character and spits out a finished sheet you can bring to the table.
 
-The web UI is a **single top-down page** (no step-by-step wizard). It is intended for **local use** (default bind `127.0.0.1`) with **no authentication**.
+It runs two ways: as a **local web app** you open in your browser, or as a **desktop wizard** on Windows/Mac/Linux. Either way it's self-contained — no account, no internet connection, no server to host.
 
-## Current Project Process
+---
 
-The character builder walks through this process in order:
+## What it does
 
-1. **Concept, species & career** - Set character name, species, and **career** (from `data/careers.json`). Careers are free at creation; **benefits** (not the internal `desc`) appear on exported sheets.
-2. **Hindrances** - Select up to 4 hindrance points (Major = 2, Minor = 1).
-3. **Attributes** - Spend base attribute points plus any converted hindrance points.
-4. **Skills** - Spend base skill points plus any converted hindrance points.
-5. **Edges** - Purchase edges with hindrance points (2 points each). Human gets one free edge.
-6. **Weapons, Armor & Gear** - Buy equipment using starting credits.
-7. **Summary** - Review final sheet and save to JSON.
+You pick a species (Wookiee, Twi'lek, Droid, etc.), a career background (Smuggler, Bounty Hunter, Medic, etc.), and then spend your points on attributes, skills, edges, and gear. The app enforces the rules as you go — edge prerequisites, hindrance point limits, credit costs — so you don't have to keep the rulebook open.
 
-## Features Implemented
+When you're done it saves a character file and can export a **print-ready HTML sheet** styled like the official Savage Worlds record sheet.
 
-- Desktop: guided multi-step UI flow with Previous/Next navigation.
-- Web: one-page builder with live preview and saves into the `output/` folder on the host machine.
-- Species-aware setup (including Human free-edge handling).
-- **Careers** (web and desktop concept step): optional job packages; **benefits only** are shown in the UI and on printed/text/HTML sheets (career `desc` in JSON is optional author notes and is not published anywhere in the app).
-- Hindrance point tracking across attributes, skills, and edges.
-- Edge requirement checks for rank, attributes, and skills.
-- Equipment shop with buy/sell and live credit recalculation.
-- Derived stat calculation (`Toughness` and `Parry`).
-- Final character export to `.json`.
-- Optional **print-friendly** exports: HTML layout or plain text (from the Summary step, or from a saved JSON file via CLI).
+---
 
-## Run the Project
+## Getting started
 
-### Requirements
+You need **Python 3.10 or newer**.
 
-- Python 3.10+ (Tkinter included with standard Python installs for the desktop app)
-- Web UI: install dependencies with `pip install -r requirements.txt`
-
-### Start (desktop wizard)
-
-From the project root:
-
-```bash
-python main.py
-```
-
-### Start (local web UI)
+**Run the web UI** (recommended — works in any browser):
 
 ```bash
 pip install -r requirements.txt
 python main.py --web
 ```
 
-Then open **http://127.0.0.1:8000** in your browser. Use **Save to `output/`** to write JSON / HTML / text exports next to the project (the `output/` directory is created automatically).
+Then open **http://127.0.0.1:8000** in your browser.
 
-## Project Structure
+**Run the desktop app** (no extra dependencies):
 
-- `main.py` - Entry point (`python main.py` = desktop; `python main.py --web` = FastAPI).
-- `web_api.py` - FastAPI app and `/api/meta`, `/api/preview`, `/api/save` routes.
-- `rules.py` - Shared credit and hindrance/edge helpers (used by `gui.py` and `web_api.py`).
-- `templates/builder.html`, `static/builder.js` - Web UI.
-- `gui.py` - Tkinter wizard UI and step logic.
-- `character.py` - Character model and derived stat logic.
-- `character_sheet.py` - Text/HTML character sheet from exported JSON (used by CLI and Summary exports).
-- `data.py` - JSON data loader and data grouping.
-- `data/` - Source game content:
-  - `attributes.json`
-  - `careers.json` — career `desc` (optional, unused by the app) and `benefits` (shown in UI and exports)
-  - `edges.json`
-  - `gear.json`
-  - `hindrances.json`
-  - `species.json`
-- `docs/race_building_rules.md` - Reference notes for custom race/species design.
+```bash
+python main.py
+```
 
-## Data-Driven Content
+Saved characters and exported sheets land in the `output/` folder, which is created automatically the first time you save.
 
-Most rules content is loaded from JSON files in `data/`. To expand options:
+---
 
-- Add or edit edges in `data/edges.json`
-- Add or edit hindrances in `data/hindrances.json`
-- Add or edit species in `data/species.json`
-- Add or edit careers in `data/careers.json` (each entry: optional `desc` for your own notes; `benefits` array of `{ "title", "type", "effect" }` objects is what players see)
-- Add or edit equipment in `data/gear.json`
-- Update skills/attributes in `data/attributes.json`
+## Character creation steps
 
-## Save Output
+The builder walks you through these in order:
 
-When the build is complete, the app saves a character JSON that includes:
+1. **Concept, Species & Career** — Name your character, choose a species and a career background. Careers are free — they give you narrative flavor and a few small mechanical benefits, not power picks.
+2. **Hindrances** — Take up to 4 points of hindrances (Major = 2 pts, Minor = 1 pt) to earn extra points for later steps.
+3. **Attributes** — Spend your attribute points to raise Agility, Smarts, Spirit, Strength, and Vigor. Die steps go d4 → d6 → d8 → d10 → d12.
+4. **Skills** — Spend skill points to buy and raise skills. Skills linked to your attributes are cheaper to raise.
+5. **Edges** — Spend hindrance points on edges (special abilities). Each edge costs 2 hindrance points. Humans get one free edge at creation.
+6. **Gear** — Buy weapons, armor, and equipment from the shop using your starting credits.
+7. **Summary** — Review everything and export your finished sheet.
 
-- Character identity, species data, and **`career`** (career name; text/HTML sheets list **benefits** from `careers.json`, not `desc`)
-- Attributes and skills
-- Hindrances and edges
-- Equipment and credits
-- Derived values (`toughness`, `parry`)
+Starting credits depend on your wealth hindrances: standard 500 cr, Poverty (Minor) 250 cr, Poverty (Major) 125 cr, Rich 1,500 cr, Filthy Rich 2,500 cr.
 
-## Display and print from JSON
+---
 
-After you have a character `.json` file, you can turn it into something easy to read or print in several ways:
+## Exporting your sheet
 
-1. **Summary step in the app** — On the last step, use **Export printable HTML…** or **Export text sheet…** (same layout as the on-screen summary, plus a styled HTML page for printing).
+At the Summary step you can export:
 
-2. **Command-line renderer** — From the project directory (so `data/` can resolve armor names for the armor bonus line):
+- **Printable HTML** — A styled sheet matching the official Savage Worlds record sheet layout. Open it in a browser and use Print → Save as PDF.
+- **Plain text** — A simple text version for pasting into notes or a VTT.
 
-   ```bash
-   python character_sheet.py path/to/character.json --html sheet.html --open
-   ```
+You can also render a sheet from any saved `.json` file on the command line:
 
-   Other flags:
+```bash
+python character_sheet.py output/my_character.json --html sheet.html --open
+python character_sheet.py output/my_character.json --text sheet.txt
+python character_sheet.py output/my_character.json --stdout
+```
 
-   - `--text sheet.txt` — plain text sheet
-   - `--stdout` — print plain text to the terminal
-   - With no `--html` / `--text` / `--stdout`, prints plain text and a short tip on stderr
+---
 
-3. **Browser print to PDF** — Open the generated HTML, use the browser’s **Print** dialog, and choose **Save as PDF** if you want a PDF without extra Python libraries.
+## Adding your own content
 
-4. **Bring your own template** — The JSON is a simple structure (`name`, `species`, `career`, `attributes`, `skills`, `edges`, etc.). You can import it into a word processor, Obsidian, or another tool and format it however you like.
+Everything is data-driven. **You don't need to touch any Python code** to add a new species, edge, weapon, or career — just edit the JSON files in `data/` and restart the app.
 
-The logic for the text/HTML sheet lives in `character_sheet.py` (`character_sheet_text`, `character_sheet_html`).
+| File | What's in it |
+|------|-------------|
+| `data/species.json` | 17 playable species with abilities and lore notes |
+| `data/careers.json` | 8 career backgrounds with narrative benefits |
+| `data/edges.json` | 33 edges with prerequisites and effects |
+| `data/hindrances.json` | Hindrances with Minor/Major classification |
+| `data/attributes.json` | The full skill list and which attribute each skill links to |
+| `data/gear.json` | Weapons (damage, range, notes), armor, and gear items |
 
-## Notes
+After editing any data file, regenerate the reference manual so it stays current:
 
-- Web **preview** and **save** require both **species** and **career** to match entries in `data/species.json` and `data/careers.json`. Older exports without `career` need a career selected before validation passes.
-- Existing docs include race balancing guidance in `docs/race_building_rules.md`.
-- `requirements.txt` lists **FastAPI**, **uvicorn**, and **pydantic** for the web UI; the desktop wizard uses the standard library only (plus the same project modules).
+```bash
+python scripts/generate_character_manual.py
+```
+
+This writes `docs/character_manual.html` — a browsable reference covering all species, careers, edges, hindrances, and gear in one page.
+
+Guidance on designing balanced species from scratch (point-buy system, worked examples) is in `docs/race_building_rules.md`.
+
+---
+
+## Rules accuracy
+
+The skill list, edges, and species abilities have all been audited against **SWADE core rules** and trimmed to fit a Star Wars setting:
+
+- Skills that don't belong in Star Wars (Boating, Riding) have been removed.
+- `Streetwise` (dropped in SWADE AE) is replaced by Persuasion, Notice, and Common Knowledge where appropriate.
+- `Hacking` / `Use Computer` are replaced by `Slicing` — the Star Wars equivalent and the SWADE AE approach.
+- All 33 edges have been checked for correct prerequisites and effect wording against SWADE AE.
+- `Force-Sensitive` is a Novice edge, available to any species — Force ability is not locked to a species trait.
+
+---
+
+## Project layout
+
+```
+charbuilder_web/
+├── main.py               # Start here — runs desktop or web UI
+├── web_api.py            # FastAPI routes and API logic
+├── character.py          # Character model; calculates Toughness and Parry
+├── character_sheet.py    # Generates the text and HTML exports
+├── rules.py              # Credit and hindrance/edge rule helpers
+├── data.py               # Loads and groups JSON data files
+├── gui.py                # Desktop wizard (Tkinter)
+├── templates/builder.html
+├── static/builder.js
+├── data/                 # All game content — edit these to expand the game
+├── docs/                 # Reference manual and design guides
+├── scripts/              # generate_character_manual.py
+└── output/               # Saved characters (created automatically)
+```
+
+---
+
+## Dependencies
+
+The **desktop app** uses only the Python standard library (plus Tkinter, which ships with most Python installs).
+
+The **web UI** requires three packages:
+
+```
+fastapi
+uvicorn
+pydantic
+```
+
+Install them with `pip install -r requirements.txt`.
