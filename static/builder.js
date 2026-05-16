@@ -632,58 +632,53 @@
     previewTimer = setTimeout(runPreview, 380);
   }
 
-  function setSaveStatusLinks(items) {
-    const el = $("status");
-    el.replaceChildren();
-    if (!items || !items.length) return;
-    el.appendChild(document.createTextNode("Saved: "));
-    items.forEach((item, i) => {
-      if (i > 0) el.appendChild(document.createTextNode("; "));
-      const a = document.createElement("a");
-      a.href = item.href || "#";
-      a.textContent = item.path || item.filename || "file";
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      el.appendChild(a);
+  async function fetchSheet() {
+    const res = await fetch("/api/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ character: collectPayload() }),
     });
+    const data = await res.json();
+    if (!res.ok) {
+      const d = data.detail;
+      const msg =
+        d && typeof d === "object" && Array.isArray(d.errors)
+          ? d.errors.join("\n")
+          : typeof d === "string"
+            ? d
+            : JSON.stringify(d || data);
+      updateLiveValidation([msg], false);
+      $("status").textContent = "Validation failed — fix errors before exporting.";
+      return null;
+    }
+    updateLiveValidation([], true);
+    return data;
   }
 
-  async function saveFiles() {
-    $("status").replaceChildren();
-    try {
-      const res = await fetch("/api/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          character: collectPayload(),
-          save_json: $("save-json").checked,
-          save_html: $("save-html").checked,
-          save_txt: $("save-txt").checked,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        const d = data.detail;
-        const msg =
-          d && typeof d === "object" && Array.isArray(d.errors)
-            ? d.errors.join("\n")
-            : typeof d === "string"
-              ? d
-              : JSON.stringify(d || data);
-        updateLiveValidation([msg], false);
-        $("status").textContent = "Save failed.";
-        return;
-      }
-      updateLiveValidation([], true);
-      if (Array.isArray(data.saved_items) && data.saved_items.length) {
-        setSaveStatusLinks(data.saved_items);
-      } else {
-        $("status").textContent = "Saved: " + (data.saved || []).join("; ");
-      }
-    } catch (e) {
-      updateLiveValidation([String(e)], false);
-      $("status").textContent = "Save failed.";
-    }
+  async function openSheet() {
+    $("status").textContent = "";
+    const data = await fetchSheet();
+    if (!data) return;
+    const blob = new Blob([data.sheet_html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    $("status").textContent = "Sheet opened in new tab.";
+  }
+
+  async function downloadJSON() {
+    $("status").textContent = "";
+    const data = await fetchSheet();
+    if (!data) return;
+    const blob = new Blob([JSON.stringify(data.character, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const name = (data.character.name || "character").replace(/[\\/:*?"<>|]/g, "_");
+    a.href = url;
+    a.download = `${name}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    $("status").textContent = "JSON downloaded.";
   }
 
   /**
@@ -782,7 +777,8 @@
     buildWeaponsGear();
 
     $("btn-suggest-skills").addEventListener("click", () => applyCareerSkills(false));
-    $("btn-save").addEventListener("click", saveFiles);
+    $("btn-open-sheet").addEventListener("click", openSheet);
+    $("btn-download-json").addEventListener("click", downloadJSON);
 
     await runPreview();
   }

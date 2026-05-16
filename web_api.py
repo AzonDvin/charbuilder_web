@@ -8,10 +8,9 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from urllib.parse import quote, unquote
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -247,9 +246,6 @@ class SuggestSkillsRequest(BaseModel):
 
 class SaveRequest(BaseModel):
     character: dict
-    save_json: bool = True
-    save_html: bool = True
-    save_txt: bool = True
 
 
 def create_app() -> FastAPI:
@@ -382,50 +378,11 @@ def create_app() -> FastAPI:
                 detail={"message": "Fix validation errors before saving.", "errors": errors},
             )
         data = char.to_dict()
-        base = _safe_filename_base(char.name)
-        written: list[str] = []
-
-        if req.save_json:
-            p = OUTPUT_DIR / f"{base}.json"
-            p.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            written.append(str(p))
-
-        if req.save_html:
-            p = OUTPUT_DIR / f"{base}.html"
-            p.write_text(character_sheet_html(data), encoding="utf-8")
-            written.append(str(p))
-
-        if req.save_txt:
-            p = OUTPUT_DIR / f"{base}-sheet.txt"
-            p.write_text(character_sheet_text(data), encoding="utf-8")
-            written.append(str(p))
-
-        if not written:
-            raise HTTPException(status_code=400, detail="No export formats selected.")
-
-        saved_items = [
-            {
-                "path": p,
-                "filename": Path(p).name,
-                "href": f"/api/download/{quote(Path(p).name)}",
-            }
-            for p in written
-        ]
-        return JSONResponse({"saved": written, "saved_items": saved_items, "character": data})
-
-    @app.get("/api/download/{filename}")
-    async def download(filename: str) -> FileResponse:
-        """Serve a file from output/ by basename (URL-encoded names allowed, e.g. spaces)."""
-        name = Path(unquote(filename)).name
-        if not name:
-            raise HTTPException(status_code=400, detail="Invalid filename")
-        path = (OUTPUT_DIR / name).resolve()
-        out = OUTPUT_DIR.resolve()
-        if path.parent != out:
-            raise HTTPException(status_code=400, detail="Invalid path")
-        if not path.is_file():
-            raise HTTPException(status_code=404, detail="Not found")
-        return FileResponse(path)
+        return JSONResponse({
+            "character": data,
+            "sheet_html": character_sheet_html(data),
+            "sheet_text": character_sheet_text(data),
+        })
 
     return app
 
